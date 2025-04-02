@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,4 +101,20 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  pre, code {
+    @apply font-code;
+  }
+}
+
+.code-block {
+  @apply bg-docs-code text-white p-4 rounded-md my-4 overflow-x-auto font-code text-sm;
+}
+
+.playground-editor {
+  @apply bg-docs-code text-white font-code rounded-md p-4 h-72 overflow-auto resize-y;
+}
+
+.docs-section {
+  @apply pb-8 mb-8 border-b border-docs-border;
 }
