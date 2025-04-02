@@ -1,8 +1,7 @@
-
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, GitHub, Package, Download } from 'lucide-react';
+import { ArrowRight, Github, Package, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const SDKs = () => {
@@ -39,7 +38,7 @@ const SDKs = () => {
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
-                  <GitHub size={16} />
+                  <Github size={16} />
                   GitHub
                 </Button>
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
@@ -70,7 +69,7 @@ const SDKs = () => {
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
-                  <GitHub size={16} />
+                  <Github size={16} />
                   GitHub
                 </Button>
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
@@ -101,7 +100,7 @@ const SDKs = () => {
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
-                  <GitHub size={16} />
+                  <Github size={16} />
                   GitHub
                 </Button>
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
@@ -132,7 +131,7 @@ const SDKs = () => {
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
-                  <GitHub size={16} />
+                  <Github size={16} />
                   GitHub
                 </Button>
                 <Button variant="outline" size="sm" className="flex items-center gap-1">
