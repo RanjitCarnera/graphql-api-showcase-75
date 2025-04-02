@@ -66,8 +66,8 @@ export default {
 				docs: {
 					bg: '#ffffff',
 					sidebar: '#f5f5f7',
-					primary: '#5046e5',
-					secondary: '#6b21a8',
+					primary: '#0066cc',  // Changed from purple (#5046e5) to blue
+					secondary: '#0047AB', // Changed from purple (#6b21a8) to darker blue
 					code: '#1e1e3f',
 					border: '#e2e8f0'
 				}

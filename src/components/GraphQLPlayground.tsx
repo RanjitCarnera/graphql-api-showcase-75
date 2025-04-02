@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Download } from 'lucide-react';
@@ -98,7 +99,7 @@ type Mutation {
             <Download size={16} />
             Schema
           </Button>
-          <Button onClick={handleRunQuery} className="flex items-center gap-1 bg-docs-primary hover:bg-indigo-700">
+          <Button onClick={handleRunQuery} className="flex items-center gap-1 bg-docs-primary hover:bg-blue-700">
             <Play size={16} />
             Run
           </Button>
