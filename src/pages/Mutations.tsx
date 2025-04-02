@@ -1,4 +1,3 @@
-
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
@@ -27,7 +26,7 @@ const variables = {
   }
 };
 
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -63,7 +62,7 @@ variables = {
 }
 
 response = requests.post(
-    'https://your-api.example/graphql',
+    'https://api.constructionintelligence.com/graphql',
     json={
         'query': mutation,
         'variables': variables
@@ -73,7 +72,255 @@ response = requests.post(
     }
 )
 
-print(response.json())`
+print(response.json())`,
+    ruby: `require 'net/http'
+require 'uri'
+require 'json'
+
+uri = URI.parse('https://api.constructionintelligence.com/graphql')
+request = Net::HTTP::Post.new(uri)
+request['Content-Type'] = 'application/json'
+
+mutation = '
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    user {
+      id
+      name
+      email
+    }
+    token
+  }
+}'
+
+variables = {
+  'input' => {
+    'name' => 'John Smith',
+    'email' => 'john@example.com',
+    'password' => 'securepassword123'
+  }
+}
+
+request.body = JSON.generate({
+  query: mutation,
+  variables: variables
+})
+
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+  http.request(request)
+end
+
+puts JSON.parse(response.body)`,
+    go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.constructionintelligence.com/graphql"
+	
+	type UserInput struct {
+		Name     string \`json:"name"\`
+		Email    string \`json:"email"\`
+		Password string \`json:"password"\`
+	}
+	
+	type Variables struct {
+		Input UserInput \`json:"input"\`
+	}
+	
+	type RequestBody struct {
+		Query     string    \`json:"query"\`
+		Variables Variables \`json:"variables"\`
+	}
+	
+	mutation := \`
+	mutation CreateUser($input: CreateUserInput!) {
+	  createUser(input: $input) {
+		user {
+		  id
+		  name
+		  email
+		}
+		token
+	  }
+	}
+	\`
+	
+	variables := Variables{
+		Input: UserInput{
+			Name:     "John Smith",
+			Email:    "john@example.com",
+			Password: "securepassword123",
+		},
+	}
+	
+	reqBody := RequestBody{
+		Query:     mutation,
+		Variables: variables,
+	}
+	
+	requestJSON, _ := json.Marshal(reqBody)
+	
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(requestJSON))
+	req.Header.Set("Content-Type", "application/json")
+	
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
+    csharp: `using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+class Program
+{
+    static async Task Main()
+    {
+        using var client = new HttpClient();
+        
+        var mutation = @"
+        mutation CreateUser($input: CreateUserInput!) {
+          createUser(input: $input) {
+            user {
+              id
+              name
+              email
+            }
+            token
+          }
+        }";
+        
+        var variables = new {
+            input = new {
+                name = "John Smith",
+                email = "john@example.com",
+                password = "securepassword123"
+            }
+        };
+        
+        var requestBody = new {
+            query = mutation,
+            variables = variables
+        };
+        
+        var content = new StringContent(
+            JsonConvert.SerializeObject(requestBody), 
+            Encoding.UTF8, 
+            "application/json");
+            
+        var response = await client.PostAsync("https://api.constructionintelligence.com/graphql", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine(responseContent);
+    }
+}`,
+    java: `import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CreateUserMutation {
+    public static void main(String[] args) throws Exception {
+        String url = "https://api.constructionintelligence.com/graphql";
+        String mutation = """
+            mutation CreateUser($input: CreateUserInput!) {
+              createUser(input: $input) {
+                user {
+                  id
+                  name
+                  email
+                }
+                token
+              }
+            }
+            """;
+        
+        // Create input map
+        Map<String, Object> inputMap = new HashMap<>();
+        inputMap.put("name", "John Smith");
+        inputMap.put("email", "john@example.com");
+        inputMap.put("password", "securepassword123");
+        
+        // Create variables map
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("input", inputMap);
+        
+        // Create request body with query and variables
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("query", mutation);
+        requestBody.put("variables", variables);
+        
+        // Convert to JSON
+        String jsonBody = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(requestBody);
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+            .build();
+            
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
+}`,
+    perl: `use LWP::UserAgent;
+use JSON;
+use Data::Dumper;
+
+my $ua = LWP::UserAgent->new;
+
+my $mutation = '
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    user {
+      id
+      name
+      email
+    }
+    token
+  }
+}';
+
+my $variables = {
+    input => {
+        name => 'John Smith',
+        email => 'john@example.com',
+        password => 'securepassword123'
+    }
+};
+
+my $req = HTTP::Request->new(POST => 'https://api.constructionintelligence.com/graphql');
+$req->header('Content-Type' => 'application/json');
+$req->content(encode_json({
+    query => $mutation,
+    variables => $variables
+}));
+
+my $resp = $ua->request($req);
+
+if ($resp->is_success) {
+    my $data = decode_json($resp->decoded_content);
+    print Dumper($data);
+} else {
+    print "HTTP POST error: ", $resp->status_line, "\n";
+}`
   };
 
   const updatePostExample = {

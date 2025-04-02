@@ -1,4 +1,3 @@
-
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
@@ -25,7 +24,7 @@ const variables = {
   id: "123"
 };
 
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -59,7 +58,7 @@ variables = {
 }
 
 response = requests.post(
-    'https://your-api.example/graphql',
+    'https://api.constructionintelligence.com/graphql',
     json={
         'query': query,
         'variables': variables
@@ -70,7 +69,238 @@ response = requests.post(
     }
 )
 
-print(response.json())`
+print(response.json())`,
+    ruby: `require 'net/http'
+require 'uri'
+require 'json'
+
+uri = URI.parse('https://api.constructionintelligence.com/graphql')
+request = Net::HTTP::Post.new(uri)
+request['Content-Type'] = 'application/json'
+request['Authorization'] = 'Bearer YOUR_API_KEY'
+
+query = '
+query GetUser($id: ID!) {
+  user(id: $id) {
+    id
+    name
+    email
+    posts {
+      id
+      title
+    }
+  }
+}'
+
+variables = {
+  'id' => '123'
+}
+
+request.body = JSON.generate({
+  query: query,
+  variables: variables
+})
+
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+  http.request(request)
+end
+
+puts JSON.parse(response.body)`,
+    go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.constructionintelligence.com/graphql"
+	
+	type Variables struct {
+		ID string \`json:"id"\`
+	}
+	
+	type RequestBody struct {
+		Query     string    \`json:"query"\`
+		Variables Variables \`json:"variables"\`
+	}
+	
+	query := \`
+	query GetUser($id: ID!) {
+	  user(id: $id) {
+		id
+		name
+		email
+		posts {
+		  id
+		  title
+		}
+	  }
+	}
+	\`
+	
+	variables := Variables{
+		ID: "123",
+	}
+	
+	reqBody := RequestBody{
+		Query:     query,
+		Variables: variables,
+	}
+	
+	requestJSON, _ := json.Marshal(reqBody)
+	
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(requestJSON))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
+    csharp: `using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+class Program
+{
+    static async Task Main()
+    {
+        using var client = new HttpClient();
+        
+        var query = @"
+        query GetUser($id: ID!) {
+          user(id: $id) {
+            id
+            name
+            email
+            posts {
+              id
+              title
+            }
+          }
+        }";
+        
+        var variables = new {
+            id = "123"
+        };
+        
+        var requestBody = new {
+            query = query,
+            variables = variables
+        };
+        
+        var content = new StringContent(
+            JsonConvert.SerializeObject(requestBody), 
+            Encoding.UTF8, 
+            "application/json");
+            
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_API_KEY");
+        
+        var response = await client.PostAsync("https://api.constructionintelligence.com/graphql", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine(responseContent);
+    }
+}`,
+    java: `import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+public class GraphQLQuery {
+    public static void main(String[] args) throws Exception {
+        String url = "https://api.constructionintelligence.com/graphql";
+        String query = """
+            query GetUser($id: ID!) {
+              user(id: $id) {
+                id
+                name
+                email
+                posts {
+                  id
+                  title
+                }
+              }
+            }
+            """;
+        
+        // Create variables map
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("id", "123");
+        
+        // Create request body with query and variables
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("query", query);
+        requestBody.put("variables", variables);
+        
+        // Convert to JSON
+        String jsonBody = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(requestBody);
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer YOUR_API_KEY")
+            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+            .build();
+            
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
+}`,
+    perl: `use LWP::UserAgent;
+use JSON;
+use Data::Dumper;
+
+my $ua = LWP::UserAgent->new;
+
+my $query = '
+query GetUser($id: ID!) {
+  user(id: $id) {
+    id
+    name
+    email
+    posts {
+      id
+      title
+    }
+  }
+}';
+
+my $variables = {
+    id => '123'
+};
+
+my $req = HTTP::Request->new(POST => 'https://api.constructionintelligence.com/graphql');
+$req->header('Content-Type' => 'application/json');
+$req->header('Authorization' => 'Bearer YOUR_API_KEY');
+$req->content(encode_json({
+    query => $query,
+    variables => $variables
+}));
+
+my $resp = $ua->request($req);
+
+if ($resp->is_success) {
+    my $data = decode_json($resp->decoded_content);
+    print Dumper($data);
+} else {
+    print "HTTP POST error: ", $resp->status_line, "\n";
+}`
   };
   
   const paginationExamples = {
@@ -99,7 +329,7 @@ const variables = {
   limit: 10
 };
 
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -139,7 +369,7 @@ const variables = {
   tags: ["api", "beginner"]
 };
 
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',

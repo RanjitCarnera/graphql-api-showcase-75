@@ -78,6 +78,134 @@ curl_close($curl);
 
 $result = json_decode($response, true);
 print_r($result);`,
+    ruby: `require 'net/http'
+require 'uri'
+require 'json'
+
+uri = URI.parse('https://api.constructionintelligence.com/graphql')
+request = Net::HTTP::Post.new(uri)
+request['Content-Type'] = 'application/json'
+request['Authorization'] = 'Bearer YOUR_API_KEY'
+
+query = '
+query {
+  me {
+    id
+    name
+  }
+}'
+
+request.body = JSON.generate({
+  query: query
+})
+
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+  http.request(request)
+end
+
+puts JSON.parse(response.body)`,
+    go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.constructionintelligence.com/graphql"
+	query := \`
+	query {
+	  me {
+		id
+		name
+	  }
+	}
+	\`
+	
+	requestBody, _ := json.Marshal(map[string]string{
+		"query": query,
+	})
+	
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(requestBody))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
+    csharp: `using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+class Program
+{
+    static async Task Main()
+    {
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_API_KEY");
+        
+        var query = @"
+        query {
+          me {
+            id
+            name
+          }
+        }";
+        
+        var content = new StringContent(
+            JsonConvert.SerializeObject(new { query }), 
+            Encoding.UTF8, 
+            "application/json");
+            
+        var response = await client.PostAsync("https://api.constructionintelligence.com/graphql", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine(responseContent);
+    }
+}`,
+    java: `import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class GraphQLExample {
+    public static void main(String[] args) throws Exception {
+        String url = "https://api.constructionintelligence.com/graphql";
+        String query = """
+            query {
+              me {
+                id
+                name
+              }
+            }
+            """;
+        
+        String requestBody = String.format("{\"query\":\"%s\"}", query.replace("\n", "\\n"));
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer YOUR_API_KEY")
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+            .build();
+            
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
+}`,
     perl: `use LWP::UserAgent;
 use JSON;
 use Data::Dumper;
@@ -166,7 +294,265 @@ response = requests.post(
     }
 )
 
-print(response.json())`
+print(response.json())`,
+    php: `<?php
+$variables = [
+    'id' => '123',
+    'limit' => 10
+];
+
+$query = '
+query GetUserPosts($id: ID!, $limit: Int) {
+  user(id: $id) {
+    posts(limit: $limit) {
+      id
+      title
+    }
+  }
+}';
+
+$data = [
+    'query' => $query,
+    'variables' => $variables
+];
+
+$curl = curl_init('https://api.constructionintelligence.com/graphql');
+curl_setopt_array($curl, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        'Authorization: Bearer YOUR_API_KEY'
+    ],
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($data)
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+$result = json_decode($response, true);
+print_r($result);`,
+    ruby: `require 'net/http'
+require 'uri'
+require 'json'
+
+uri = URI.parse('https://api.constructionintelligence.com/graphql')
+request = Net::HTTP::Post.new(uri)
+request['Content-Type'] = 'application/json'
+request['Authorization'] = 'Bearer YOUR_API_KEY'
+
+variables = {
+  'id' => '123',
+  'limit' => 10
+}
+
+query = '
+query GetUserPosts($id: ID!, $limit: Int) {
+  user(id: $id) {
+    posts(limit: $limit) {
+      id
+      title
+    }
+  }
+}'
+
+request.body = JSON.generate({
+  query: query,
+  variables: variables
+})
+
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+  http.request(request)
+end
+
+puts JSON.parse(response.body)`,
+    go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.constructionintelligence.com/graphql"
+	
+	type Variables struct {
+		ID    string \`json:"id"\`
+		Limit int    \`json:"limit"\`
+	}
+	
+	type RequestBody struct {
+		Query     string    \`json:"query"\`
+		Variables Variables \`json:"variables"\`
+	}
+	
+	query := \`
+	query GetUserPosts($id: ID!, $limit: Int) {
+	  user(id: $id) {
+		posts(limit: $limit) {
+		  id
+		  title
+		}
+	  }
+	}
+	\`
+	
+	variables := Variables{
+		ID:    "123",
+		Limit: 10,
+	}
+	
+	reqBody := RequestBody{
+		Query:     query,
+		Variables: variables,
+	}
+	
+	requestJSON, _ := json.Marshal(reqBody)
+	
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(requestJSON))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
+    csharp: `using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+class Program
+{
+    static async Task Main()
+    {
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_API_KEY");
+        
+        var query = @"
+        query GetUserPosts($id: ID!, $limit: Int) {
+          user(id: $id) {
+            posts(limit: $limit) {
+              id
+              title
+            }
+          }
+        }";
+        
+        var variables = new {
+            id = "123",
+            limit = 10
+        };
+        
+        var requestBody = new {
+            query = query,
+            variables = variables
+        };
+        
+        var content = new StringContent(
+            JsonConvert.SerializeObject(requestBody), 
+            Encoding.UTF8, 
+            "application/json");
+            
+        var response = await client.PostAsync("https://api.constructionintelligence.com/graphql", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine(responseContent);
+    }
+}`,
+    java: `import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+public class GraphQLVariables {
+    public static void main(String[] args) throws Exception {
+        String url = "https://api.constructionintelligence.com/graphql";
+        String query = """
+            query GetUserPosts($id: ID!, $limit: Int) {
+              user(id: $id) {
+                posts(limit: $limit) {
+                  id
+                  title
+                }
+              }
+            }
+            """;
+        
+        // Create variables map
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("id", "123");
+        variables.put("limit", 10);
+        
+        // Create request body with query and variables
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("query", query);
+        requestBody.put("variables", variables);
+        
+        // Convert to JSON
+        String jsonBody = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(requestBody);
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer YOUR_API_KEY")
+            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+            .build();
+            
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
+}`,
+    perl: `use LWP::UserAgent;
+use JSON;
+use Data::Dumper;
+
+my $ua = LWP::UserAgent->new;
+
+my $query = '
+query GetUserPosts($id: ID!, $limit: Int) {
+  user(id: $id) {
+    posts(limit: $limit) {
+      id
+      title
+    }
+  }
+}';
+
+my $variables = {
+    id => '123',
+    limit => 10
+};
+
+my $req = HTTP::Request->new(POST => 'https://api.constructionintelligence.com/graphql');
+$req->header('Content-Type' => 'application/json');
+$req->header('Authorization' => 'Bearer YOUR_API_KEY');
+$req->content(encode_json({
+    query => $query,
+    variables => $variables
+}));
+
+my $resp = $ua->request($req);
+
+if ($resp->is_success) {
+    my $data = decode_json($resp->decoded_content);
+    print Dumper($data);
+} else {
+    print "HTTP POST error: ", $resp->status_line, "\n";
+}`
   };
 
   return (
