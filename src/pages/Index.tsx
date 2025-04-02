@@ -1,4 +1,3 @@
-
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
@@ -12,7 +11,7 @@ const Index = () => {
   // Simple example query for our documentation
   const exampleQuery = {
     javascript: `// Using fetch
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -35,7 +34,7 @@ fetch('https://your-api.example/graphql', {
     python: `# Using the requests library
 import requests
 
-url = 'https://your-api.example/graphql'
+url = 'https://api.constructionintelligence.com/graphql'
 headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer YOUR_TOKEN'
@@ -54,7 +53,7 @@ response = requests.post(url, json={'query': query}, headers=headers)
 print(response.json())`,
     php: `<?php
 // Using cURL
-$url = 'https://your-api.example/graphql';
+$url = 'https://api.constructionintelligence.com/graphql';
 $query = '
 query {
   users {
@@ -85,7 +84,7 @@ print_r($result);`,
     ruby: `# Using the HTTParty gem
 require 'httparty'
 
-url = 'https://your-api.example/graphql'
+url = 'https://api.constructionintelligence.com/graphql'
 query = '
 query {
   users {
@@ -116,7 +115,7 @@ import (
 )
 
 func main() {
-	url := "https://your-api.example/graphql"
+	url := "https://api.constructionintelligence.com/graphql"
 	query := \`
 	query {
 		users {
@@ -174,7 +173,7 @@ class Program
             
         client.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_TOKEN");
         
-        var response = await client.PostAsync("https://your-api.example/graphql", content);
+        var response = await client.PostAsync("https://api.constructionintelligence.com/graphql", content);
         var responseContent = await response.Content.ReadAsStringAsync();
         
         Console.WriteLine(responseContent);
@@ -188,7 +187,7 @@ import java.net.http.HttpResponse;
 
 public class GraphQLDemo {
     public static void main(String[] args) throws Exception {
-        String url = "https://your-api.example/graphql";
+        String url = "https://api.constructionintelligence.com/graphql";
         String query = """
             query {
               users {
@@ -231,7 +230,7 @@ query {
   }
 }';
 
-my $req = HTTP::Request->new(POST => 'https://your-api.example/graphql');
+my $req = HTTP::Request->new(POST => 'https://api.constructionintelligence.com/graphql');
 $req->header('Content-Type' => 'application/json');
 $req->header('Authorization' => 'Bearer YOUR_TOKEN');
 $req->content(encode_json({query => $query}));
@@ -269,7 +268,7 @@ int main(void) {
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, "Authorization: Bearer YOUR_TOKEN");
 
-        curl_easy_setopt(curl, CURLOPT_URL, "https://your-api.example/graphql");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.constructionintelligence.com/graphql");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
@@ -318,7 +317,7 @@ int main(void) {
             <CardContent>
               <p>Our GraphQL API is accessible through a single endpoint that handles all requests:</p>
               <code className="mt-2 block bg-gray-100 p-3 rounded-md font-code">
-                https://api.example.com/graphql
+                https://api.constructionintelligence.com/graphql
               </code>
             </CardContent>
           </Card>

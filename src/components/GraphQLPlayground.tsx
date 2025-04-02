@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Download } from 'lucide-react';
@@ -52,7 +51,7 @@ query {
   };
 
   const handleDownloadSchema = () => {
-    // In a real app, this would download the actual schema
+    // In a real app, this would download the actual schema from https://api.constructionintelligence.com/graphql
     const schema = `type User {
   id: ID!
   name: String!

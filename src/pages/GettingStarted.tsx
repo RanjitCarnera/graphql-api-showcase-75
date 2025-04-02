@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 const GettingStarted = () => {
   const authExamples = {
     javascript: `// Using fetch with authorization header
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ query {
 '''
 
 response = requests.post(
-    'https://your-api.example/graphql',
+    'https://api.constructionintelligence.com/graphql',
     json={'query': query},
     headers=headers
 )
@@ -65,7 +65,7 @@ query {
 
 $data = ['query' => $query];
 
-$curl = curl_init('https://your-api.example/graphql');
+$curl = curl_init('https://api.constructionintelligence.com/graphql');
 curl_setopt_array($curl, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => $headers,
@@ -92,7 +92,7 @@ query {
   }
 }';
 
-my $req = HTTP::Request->new(POST => 'https://your-api.example/graphql');
+my $req = HTTP::Request->new(POST => 'https://api.constructionintelligence.com/graphql');
 $req->header('Content-Type' => 'application/json');
 $req->header('Authorization' => 'Bearer YOUR_API_KEY');
 $req->content(encode_json({query => $query}));
@@ -114,7 +114,7 @@ const variables = {
   limit: 10
 };
 
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ query GetUserPosts($id: ID!, $limit: Int) {
 '''
 
 response = requests.post(
-    'https://your-api.example/graphql',
+    'https://api.constructionintelligence.com/graphql',
     json={
         'query': query,
         'variables': variables
@@ -189,7 +189,7 @@ print(response.json())`
               <CardContent>
                 <p className="mb-2">All GraphQL requests are sent to a single endpoint:</p>
                 <code className="block bg-gray-100 p-3 rounded-md font-code">
-                  https://api.example.com/graphql
+                  https://api.constructionintelligence.com/graphql
                 </code>
               </CardContent>
             </Card>
