@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
-import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash } from "lucide-react";
+import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase } from "lucide-react";
 
 interface DocsLayoutProps {
   children: React.ReactNode;
@@ -91,6 +91,22 @@ function DocsSidebar() {
                   <a href="/types">
                     <Hash size={18} />
                     <span>Types</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        
+        <SidebarGroup>
+          <SidebarGroupLabel>Resources</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href="/projects">
+                    <Briefcase size={18} />
+                    <span>Projects</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
