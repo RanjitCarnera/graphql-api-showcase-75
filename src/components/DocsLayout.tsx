@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
 import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 interface DocsLayoutProps {
   children: React.ReactNode;
@@ -40,26 +41,26 @@ function DocsSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/">
+                  <Link to="/">
                     <BookOpen size={18} />
                     <span>Introduction</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/getting-started">
+                  <Link to="/getting-started">
                     <Play size={18} />
                     <span>Getting Started</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/playground">
+                  <Link to="/playground">
                     <Code size={18} />
                     <span>Playground</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -72,26 +73,26 @@ function DocsSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/queries">
+                  <Link to="/queries">
                     <Database size={18} />
                     <span>Queries</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/mutations">
+                  <Link to="/mutations">
                     <FileText size={18} />
                     <span>Mutations</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/types">
+                  <Link to="/types">
                     <Hash size={18} />
                     <span>Types</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -104,10 +105,10 @@ function DocsSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/projects">
+                  <Link to="/projects">
                     <Briefcase size={18} />
                     <span>Projects</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -120,34 +121,34 @@ function DocsSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/auth">
+                  <Link to="/auth">
                     <Lock size={18} />
                     <span>Authentication</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/examples">
+                  <Link to="/examples">
                     <Server size={18} />
                     <span>Code Examples</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/sdks">
+                  <Link to="/sdks">
                     <Cpu size={18} />
                     <span>SDKs & Libraries</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/cors">
+                  <Link to="/cors">
                     <Globe size={18} />
                     <span>CORS & Security</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
