@@ -15,6 +15,7 @@ import Auth from "./pages/Auth";
 import Examples from "./pages/Examples";
 import SDKs from "./pages/SDKs";
 import CORS from "./pages/CORS";
+import Projects from "./pages/Projects";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/examples" element={<Examples />} />
           <Route path="/sdks" element={<SDKs />} />
           <Route path="/cors" element={<CORS />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
