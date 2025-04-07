@@ -1,3 +1,4 @@
+
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
@@ -8,7 +9,7 @@ import { Play, FileText, Book } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Index = () => {
-  // Simple example query for our documentation
+  // Project-focused example query
   const exampleQuery = {
     javascript: `// Using fetch
 fetch('https://api.constructionintelligence.com/graphql', {
@@ -20,10 +21,15 @@ fetch('https://api.constructionintelligence.com/graphql', {
   body: JSON.stringify({
     query: \`
       query {
-        users {
-          id
-          name
-          email
+        Project {
+          Projects(first: 20) {
+            edges {
+              node {
+                id
+                name
+              }
+            }
+          }
         }
       }
     \`
@@ -41,10 +47,15 @@ headers = {
 }
 query = '''
 query {
-  users {
-    id
-    name
-    email
+  Project {
+    Projects(first: 20) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
   }
 }
 '''
@@ -56,10 +67,15 @@ print(response.json())`,
 $url = 'https://api.constructionintelligence.com/graphql';
 $query = '
 query {
-  users {
-    id
-    name
-    email
+  Project {
+    Projects(first: 20) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
   }
 }';
 
@@ -87,10 +103,15 @@ require 'httparty'
 url = 'https://api.constructionintelligence.com/graphql'
 query = '
 query {
-  users {
-    id
-    name
-    email
+  Project {
+    Projects(first: 20) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
   }
 }'
 
@@ -118,10 +139,15 @@ func main() {
 	url := "https://api.constructionintelligence.com/graphql"
 	query := \`
 	query {
-		users {
-			id
-			name
-			email
+		Project {
+			Projects(first: 20) {
+				edges {
+					node {
+						id
+						name
+					}
+				}
+			}
 		}
 	}
 	\`
@@ -159,10 +185,15 @@ class Program
         
         var query = @"
         query {
-          users {
-            id
-            name
-            email
+          Project {
+            Projects(first: 20) {
+              edges {
+                node {
+                  id
+                  name
+                }
+              }
+            }
           }
         }";
         
@@ -190,10 +221,15 @@ public class GraphQLDemo {
         String url = "https://api.constructionintelligence.com/graphql";
         String query = """
             query {
-              users {
-                id
-                name
-                email
+              Project {
+                Projects(first: 20) {
+                  edges {
+                    node {
+                      id
+                      name
+                    }
+                  }
+                }
               }
             }
             """;
@@ -223,10 +259,15 @@ my $ua = LWP::UserAgent->new;
 
 my $query = '
 query {
-  users {
-    id
-    name
-    email
+  Project {
+    Projects(first: 20) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
   }
 }';
 
@@ -259,7 +300,7 @@ int main(void) {
     CURLcode res;
     struct curl_slist *headers = NULL;
     
-    const char *query = "query { users { id name email } }";
+    const char *query = "query { Project { Projects(first: 20) { edges { node { id name } } } } }";
     char data[1024];
     sprintf(data, "{\"query\":\"%s\"}", query);
 
@@ -289,12 +330,12 @@ int main(void) {
     <DocsLayout>
       <div className="max-w-4xl mx-auto">
         <section className="mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-docs-primary">GraphQL API Documentation</h1>
+          <h1 className="text-4xl font-bold mb-4 text-blue-600">GraphQL API Documentation</h1>
           <p className="text-xl text-gray-600 mb-6">
             Welcome to the documentation for our GraphQL API. This guide will help you understand how to integrate with our API using any programming language or framework.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button asChild className="bg-docs-primary hover:bg-indigo-700">
+            <Button asChild className="bg-blue-600 hover:bg-blue-700">
               <Link to="/getting-started">
                 <Play className="mr-2 h-4 w-4" />
                 Get Started
@@ -338,8 +379,8 @@ int main(void) {
           </p>
           
           <CodeExample
-            title="Fetching Users"
-            description="This example shows how to fetch a list of users from our API."
+            title="Fetching Projects"
+            description="This example shows how to fetch a list of projects from our API."
             codeExamples={exampleQuery}
           />
         </section>

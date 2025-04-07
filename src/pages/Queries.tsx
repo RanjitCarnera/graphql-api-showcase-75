@@ -1,27 +1,37 @@
+
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Queries = () => {
-  const userQueryExamples = {
-    javascript: `// Fetching a specific user
+  const projectQueryExamples = {
+    javascript: `// Fetching a specific project
 const query = \`
-  query GetUser($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      email
-      posts {
+  query GetProject($id: ID!) {
+    Scenario {
+      ProjectInScenario(projectId: $id, scenarioId: "scenario-123") {
         id
-        title
+        project {
+          id
+          name
+          startDate
+          endDate
+          skills {
+            name
+          }
+          address {
+            city
+            country
+          }
+        }
       }
     }
   }
 \`;
 
 const variables = {
-  id: "123"
+  id: "project-123"
 };
 
 fetch('https://api.constructionintelligence.com/graphql', {
@@ -40,21 +50,30 @@ fetch('https://api.constructionintelligence.com/graphql', {
     python: `import requests
 
 query = '''
-query GetUser($id: ID!) {
-  user(id: $id) {
-    id
-    name
-    email
-    posts {
+query GetProject($id: ID!) {
+  Scenario {
+    ProjectInScenario(projectId: $id, scenarioId: "scenario-123") {
       id
-      title
+      project {
+        id
+        name
+        startDate
+        endDate
+        skills {
+          name
+        }
+        address {
+          city
+          country
+        }
+      }
     }
   }
 }
 '''
 
 variables = {
-  'id': '123'
+  'id': 'project-123'
 }
 
 response = requests.post(
@@ -80,20 +99,29 @@ request['Content-Type'] = 'application/json'
 request['Authorization'] = 'Bearer YOUR_API_KEY'
 
 query = '
-query GetUser($id: ID!) {
-  user(id: $id) {
-    id
-    name
-    email
-    posts {
+query GetProject($id: ID!) {
+  Scenario {
+    ProjectInScenario(projectId: $id, scenarioId: "scenario-123") {
       id
-      title
+      project {
+        id
+        name
+        startDate
+        endDate
+        skills {
+          name
+        }
+        address {
+          city
+          country
+        }
+      }
     }
   }
 }'
 
 variables = {
-  'id' => '123'
+  'id' => 'project-123'
 }
 
 request.body = JSON.generate({
@@ -129,21 +157,30 @@ func main() {
 	}
 	
 	query := \`
-	query GetUser($id: ID!) {
-	  user(id: $id) {
-		id
-		name
-		email
-		posts {
+	query GetProject($id: ID!) {
+	  Scenario {
+		ProjectInScenario(projectId: $id, scenarioId: "scenario-123") {
 		  id
-		  title
+		  project {
+			id
+			name
+			startDate
+			endDate
+			skills {
+			  name
+			}
+			address {
+			  city
+			  country
+			}
+		  }
 		}
 	  }
 	}
 	\`
 	
 	variables := Variables{
-		ID: "123",
+		ID: "project-123",
 	}
 	
 	reqBody := RequestBody{
@@ -180,20 +217,29 @@ class Program
         using var client = new HttpClient();
         
         var query = @"
-        query GetUser($id: ID!) {
-          user(id: $id) {
-            id
-            name
-            email
-            posts {
+        query GetProject($id: ID!) {
+          Scenario {
+            ProjectInScenario(projectId: $id, scenarioId: ""scenario-123"") {
               id
-              title
+              project {
+                id
+                name
+                startDate
+                endDate
+                skills {
+                  name
+                }
+                address {
+                  city
+                  country
+                }
+              }
             }
           }
         }";
         
         var variables = new {
-            id = "123"
+            id = "project-123"
         };
         
         var requestBody = new {
@@ -225,14 +271,23 @@ public class GraphQLQuery {
     public static void main(String[] args) throws Exception {
         String url = "https://api.constructionintelligence.com/graphql";
         String query = """
-            query GetUser($id: ID!) {
-              user(id: $id) {
-                id
-                name
-                email
-                posts {
+            query GetProject($id: ID!) {
+              Scenario {
+                ProjectInScenario(projectId: $id, scenarioId: "scenario-123") {
                   id
-                  title
+                  project {
+                    id
+                    name
+                    startDate
+                    endDate
+                    skills {
+                      name
+                    }
+                    address {
+                      city
+                      country
+                    }
+                  }
                 }
               }
             }
@@ -240,7 +295,7 @@ public class GraphQLQuery {
         
         // Create variables map
         Map<String, Object> variables = new HashMap<>();
-        variables.put("id", "123");
+        variables.put("id", "project-123");
         
         // Create request body with query and variables
         Map<String, Object> requestBody = new HashMap<>();
@@ -269,20 +324,29 @@ use Data::Dumper;
 my $ua = LWP::UserAgent->new;
 
 my $query = '
-query GetUser($id: ID!) {
-  user(id: $id) {
-    id
-    name
-    email
-    posts {
+query GetProject($id: ID!) {
+  Scenario {
+    ProjectInScenario(projectId: $id, scenarioId: "scenario-123") {
       id
-      title
+      project {
+        id
+        name
+        startDate
+        endDate
+        skills {
+          name
+        }
+        address {
+          city
+          country
+        }
+      }
     }
   }
 }';
 
 my $variables = {
-    id => '123'
+    id => 'project-123'
 };
 
 my $req = HTTP::Request->new(POST => 'https://api.constructionintelligence.com/graphql');
@@ -306,27 +370,24 @@ if ($resp->is_success) {
   const paginationExamples = {
     javascript: `// Pagination example
 const query = \`
-  query GetUsers($page: Int!, $limit: Int!) {
-    users(page: $page, limit: $limit) {
-      data {
-        id
-        name
-        email
-      }
-      pagination {
-        total
-        pages
-        currentPage
-        hasNext
-        hasPrevious
+  query GetProjects($first: Int!) {
+    Project {
+      Projects(first: $first) {
+        edges {
+          node {
+            id
+            name
+            startDate
+            endDate
+          }
+        }
       }
     }
   }
 \`;
 
 const variables = {
-  page: 1,
-  limit: 10
+  first: 10
 };
 
 fetch('https://api.constructionintelligence.com/graphql', {
@@ -347,26 +408,25 @@ fetch('https://api.constructionintelligence.com/graphql', {
   const filteringExamples = {
     javascript: `// Filtering example
 const query = \`
-  query SearchPosts($searchTerm: String!, $category: String, $tags: [String!]) {
-    posts(filter: { 
-      searchTerm: $searchTerm,
-      category: $category,
-      tags: $tags
-    }) {
-      id
-      title
-      summary
-      category
-      tags
-      publishedAt
+  query SearchProjects($filterByName: String, $alwaysIncludeIds: [ID!]) {
+    Project {
+      Projects(filterByName: $filterByName, alwaysIncludeIds: $alwaysIncludeIds) {
+        edges {
+          node {
+            id
+            name
+            startDate
+            endDate
+          }
+        }
+      }
     }
   }
 \`;
 
 const variables = {
-  searchTerm: "graphql",
-  category: "tutorial",
-  tags: ["api", "beginner"]
+  filterByName: "Construction",
+  alwaysIncludeIds: ["project-1", "project-2"]
 };
 
 fetch('https://api.constructionintelligence.com/graphql', {
@@ -398,52 +458,61 @@ fetch('https://api.constructionintelligence.com/graphql', {
           <div className="space-y-4 mb-8">
             <Card>
               <CardHeader>
-                <CardTitle>user(id: ID!): User</CardTitle>
+                <CardTitle>Project.Projects(first: Int, filterByName: String, alwaysIncludeIds: [ID!]): ProjectConnection</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Fetch a single user by their ID.</p>
+                <p>Fetch a paginated list of projects with optional filtering.</p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader>
-                <CardTitle>users(page: Int, limit: Int): UserConnection</CardTitle>
+                <CardTitle>Project.ProjectStages(first: Int, excludeIds: [ID!], filterByName: String, alwaysIncludeIds: [ID!]): ProjectStageConnection</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Fetch a paginated list of users.</p>
+                <p>Fetch a filtered list of project stages.</p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader>
-                <CardTitle>post(id: ID!): Post</CardTitle>
+                <CardTitle>Scenario.ProjectInScenario(projectId: ID!, scenarioId: ID!): ProjectInScenario</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Fetch a single post by its ID.</p>
+                <p>Fetch details about a project in a specific scenario.</p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader>
-                <CardTitle>posts(filter: PostFilter): [Post!]!</CardTitle>
+                <CardTitle>Dynamics.NotYetImportedProjectsFromDynamics: [DynamicsProject!]!</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Fetch a filtered list of posts.</p>
+                <p>Fetch projects that have not yet been imported from Dynamics.</p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Rand.NotYetImportedProjectsFromRand: [RandProject!]!</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>Fetch projects that have not yet been imported from Rand.</p>
               </CardContent>
             </Card>
           </div>
         </section>
         
         <section className="docs-section">
-          <h2 className="text-2xl font-bold mb-4">Fetching a Specific User</h2>
+          <h2 className="text-2xl font-bold mb-4">Fetching a Specific Project</h2>
           <p className="mb-4">
-            This example shows how to fetch a specific user by their ID, including their profile information and posts.
+            This example shows how to fetch a specific project by its ID, including details such as start and end dates, skills, and address information.
           </p>
           
           <CodeExample
-            title="User Query"
-            description="Fetch a user by ID with related posts:"
-            codeExamples={userQueryExamples}
+            title="Project Query"
+            description="Fetch a project by ID with detailed information:"
+            codeExamples={projectQueryExamples}
           />
           
           <div className="mt-6 p-4 bg-gray-100 rounded-md">
@@ -451,20 +520,28 @@ fetch('https://api.constructionintelligence.com/graphql', {
             <pre className="font-code text-sm overflow-auto">
 {`{
   "data": {
-    "user": {
-      "id": "123",
-      "name": "Jane Doe",
-      "email": "jane@example.com",
-      "posts": [
-        {
-          "id": "1",
-          "title": "Introduction to GraphQL"
-        },
-        {
-          "id": "2",
-          "title": "Advanced API Design"
+    "Scenario": {
+      "ProjectInScenario": {
+        "id": "project-in-scenario-123",
+        "project": {
+          "id": "project-123",
+          "name": "Construction Intelligence Platform",
+          "startDate": "2023-01-15",
+          "endDate": "2023-12-31",
+          "skills": [
+            {
+              "name": "Project Management"
+            },
+            {
+              "name": "Construction Engineering"
+            }
+          ],
+          "address": {
+            "city": "San Francisco",
+            "country": "USA"
+          }
         }
-      ]
+      }
     }
   }
 }`}
@@ -475,12 +552,12 @@ fetch('https://api.constructionintelligence.com/graphql', {
         <section className="docs-section">
           <h2 className="text-2xl font-bold mb-4">Pagination</h2>
           <p className="mb-4">
-            Our API supports pagination for collections of items, allowing you to request specific pages of data.
+            Our API supports pagination for collections of projects, allowing you to request specific numbers of projects.
           </p>
           
           <CodeExample
-            title="Paginated Users Query"
-            description="Fetch users with pagination information:"
+            title="Paginated Projects Query"
+            description="Fetch a limited number of projects:"
             codeExamples={paginationExamples}
           />
         </section>
@@ -488,12 +565,12 @@ fetch('https://api.constructionintelligence.com/graphql', {
         <section className="docs-section">
           <h2 className="text-2xl font-bold mb-4">Filtering</h2>
           <p className="mb-4">
-            You can filter collections using filter input objects that are specific to each resource type.
+            You can filter projects by name and explicitly include specific projects by ID.
           </p>
           
           <CodeExample
-            title="Filtered Posts Query"
-            description="Search for posts with specific criteria:"
+            title="Filtered Projects Query"
+            description="Search for projects with specific criteria:"
             codeExamples={filteringExamples}
           />
         </section>
@@ -501,9 +578,9 @@ fetch('https://api.constructionintelligence.com/graphql', {
         <section>
           <h2 className="text-2xl font-bold mb-4">Related Resources</h2>
           <ul className="list-disc list-inside space-y-2">
-            <li>Learn about data <a href="/mutations" className="text-docs-primary hover:underline">Mutations</a></li>
-            <li>Explore the available <a href="/types" className="text-docs-primary hover:underline">Types</a></li>
-            <li>Try queries in the <a href="/playground" className="text-docs-primary hover:underline">Playground</a></li>
+            <li>Learn about data <a href="/mutations" className="text-blue-600 hover:underline">Mutations</a></li>
+            <li>Explore the available <a href="/types" className="text-blue-600 hover:underline">Types</a></li>
+            <li>Try queries in the <a href="/playground" className="text-blue-600 hover:underline">Playground</a></li>
           </ul>
         </section>
       </div>

@@ -6,15 +6,16 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function GraphQLPlayground() {
-  const [query, setQuery] = useState(`# Try running a query!
-query {
-  users {
-    id
-    name
-    email
-    posts {
-      id
-      title
+  const [query, setQuery] = useState(`# Try running a project query!
+query GetProjects {
+  Project {
+    Projects(first: 20) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
     }
   }
 }`);
@@ -26,25 +27,30 @@ query {
     // In a real application, this would send the query to your GraphQL endpoint
     const mockResponse = {
       data: {
-        users: [
-          {
-            id: "1",
-            name: "John Doe",
-            email: "john@example.com",
-            posts: [
-              { id: "101", title: "Introduction to GraphQL" },
-              { id: "102", title: "API Best Practices" }
-            ]
-          },
-          {
-            id: "2",
-            name: "Jane Smith",
-            email: "jane@example.com",
-            posts: [
-              { id: "201", title: "Advanced GraphQL Techniques" }
+        Project: {
+          Projects: {
+            edges: [
+              {
+                node: {
+                  id: "project-1",
+                  name: "Construction Intelligence Platform"
+                }
+              },
+              {
+                node: {
+                  id: "project-2",
+                  name: "Smart Building Integration"
+                }
+              },
+              {
+                node: {
+                  id: "project-3",
+                  name: "Infrastructure Modernization"
+                }
+              }
             ]
           }
-        ]
+        }
       }
     };
     
@@ -52,31 +58,103 @@ query {
   };
 
   const handleDownloadSchema = () => {
-    // In a real app, this would download the actual schema from https://api.constructionintelligence.com/graphql
-    const schema = `type User {
+    // In a real app, this would download the actual schema
+    const schema = `type Project {
   id: ID!
   name: String!
-  email: String!
-  posts: [Post!]
+  startDate: String
+  endDate: String
+  durationInMonths: Int
+  skills: [Skill!]
+  address: Address
+  avatar: Image
 }
 
-type Post {
+type Skill {
   id: ID!
-  title: String!
-  content: String
-  author: User!
+  name: String!
+  category: SkillCategory
+}
+
+type SkillCategory {
+  id: ID!
+  name: String!
+}
+
+type Address {
+  lineOne: String
+  postalCode: String
+  city: String
+  country: String
+  state: String
+  latitude: Float
+  longitude: Float
+}
+
+type Image {
+  url: String!
+}
+
+type ProjectStage {
+  id: ID!
+  name: String!
 }
 
 type Query {
-  users: [User!]!
-  user(id: ID!): User
-  posts: [Post!]!
-  post(id: ID!): Post
+  Project: ProjectQueries!
+  Scenario: ScenarioQueries!
+  Dynamics: DynamicsQueries!
+  Rand: RandQueries!
 }
 
-type Mutation {
-  createUser(name: String!, email: String!): User!
-  createPost(title: String!, content: String, authorId: ID!): Post!
+type ProjectQueries {
+  Projects(first: Int, filterByName: String, alwaysIncludeIds: [ID!]): ProjectConnection!
+  ProjectStages(first: Int, excludeIds: [ID!], filterByName: String, alwaysIncludeIds: [ID!]): ProjectStageConnection!
+}
+
+type ScenarioQueries {
+  ProjectInScenario(projectId: ID!, scenarioId: ID!): ProjectInScenario
+}
+
+type DynamicsQueries {
+  NotYetImportedProjectsFromDynamics: [DynamicsProject!]!
+}
+
+type RandQueries {
+  NotYetImportedProjectsFromRand: [RandProject!]!
+}
+
+type DynamicsProject {
+  id: ID!
+  name: String!
+  projectIdentifier: String!
+}
+
+type RandProject {
+  id: ID!
+  name: String!
+  projectIdentifier: String!
+}
+
+type ProjectConnection {
+  edges: [ProjectEdge!]!
+}
+
+type ProjectEdge {
+  node: Project!
+}
+
+type ProjectStageConnection {
+  edges: [ProjectStageEdge!]!
+}
+
+type ProjectStageEdge {
+  node: ProjectStage!
+}
+
+type ProjectInScenario {
+  id: ID!
+  project: Project!
 }`;
 
     const blob = new Blob([schema], { type: 'text/plain' });
@@ -99,7 +177,7 @@ type Mutation {
             <Download size={16} />
             Schema
           </Button>
-          <Button onClick={handleRunQuery} className="flex items-center gap-1 bg-docs-primary hover:bg-blue-700">
+          <Button onClick={handleRunQuery} className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700">
             <Play size={16} />
             Run
           </Button>

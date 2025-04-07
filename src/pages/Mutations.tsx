@@ -1,35 +1,44 @@
+
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
 
 const Mutations = () => {
-  const createUserExample = {
-    javascript: `// Creating a user
+  const createProjectExample = {
+    javascript: `// Creating a project
 const mutation = \`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      user {
+  mutation CreateProject($input: CreateProjectInput!) {
+    createProject(input: $input) {
+      project {
         id
         name
-        email
+        startDate
+        endDate
       }
-      token
     }
   }
 \`;
 
 const variables = {
   input: {
-    name: "John Smith",
-    email: "john@example.com",
-    password: "securepassword123"
+    name: "New Construction Project",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    address: {
+      lineOne: "123 Main St",
+      city: "San Francisco",
+      state: "CA",
+      country: "USA",
+      postalCode: "94105"
+    }
   }
 };
 
 fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
   },
   body: JSON.stringify({
     query: mutation,
@@ -41,23 +50,30 @@ fetch('https://api.constructionintelligence.com/graphql', {
     python: `import requests
 
 mutation = '''
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      user {
+  mutation CreateProject($input: CreateProjectInput!) {
+    createProject(input: $input) {
+      project {
         id
         name
-        email
+        startDate
+        endDate
       }
-      token
     }
   }
 '''
 
 variables = {
   'input': {
-    'name': 'John Smith',
-    'email': 'john@example.com',
-    'password': 'securepassword123'
+    'name': 'New Construction Project',
+    'startDate': '2025-01-01',
+    'endDate': '2025-12-31',
+    'address': {
+      'lineOne': '123 Main St',
+      'city': 'San Francisco',
+      'state': 'CA',
+      'country': 'USA',
+      'postalCode': '94105'
+    }
   }
 }
 
@@ -68,7 +84,8 @@ response = requests.post(
         'variables': variables
     },
     headers={
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer YOUR_API_KEY'
     }
 )
 
@@ -80,24 +97,32 @@ require 'json'
 uri = URI.parse('https://api.constructionintelligence.com/graphql')
 request = Net::HTTP::Post.new(uri)
 request['Content-Type'] = 'application/json'
+request['Authorization'] = 'Bearer YOUR_API_KEY'
 
 mutation = '
-mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    user {
+mutation CreateProject($input: CreateProjectInput!) {
+  createProject(input: $input) {
+    project {
       id
       name
-      email
+      startDate
+      endDate
     }
-    token
   }
 }'
 
 variables = {
   'input' => {
-    'name' => 'John Smith',
-    'email' => 'john@example.com',
-    'password' => 'securepassword123'
+    'name' => 'New Construction Project',
+    'startDate' => '2025-01-01',
+    'endDate' => '2025-12-31',
+    'address' => {
+      'lineOne' => '123 Main St',
+      'city' => 'San Francisco',
+      'state' => 'CA',
+      'country' => 'USA',
+      'postalCode' => '94105'
+    }
   }
 }
 
@@ -124,14 +149,23 @@ import (
 func main() {
 	url := "https://api.constructionintelligence.com/graphql"
 	
-	type UserInput struct {
-		Name     string \`json:"name"\`
-		Email    string \`json:"email"\`
-		Password string \`json:"password"\`
+	type Address struct {
+		LineOne    string \`json:"lineOne"\`
+		City       string \`json:"city"\`
+		State      string \`json:"state"\`
+		Country    string \`json:"country"\`
+		PostalCode string \`json:"postalCode"\`
+	}
+	
+	type ProjectInput struct {
+		Name      string  \`json:"name"\`
+		StartDate string  \`json:"startDate"\`
+		EndDate   string  \`json:"endDate"\`
+		Address   Address \`json:"address"\`
 	}
 	
 	type Variables struct {
-		Input UserInput \`json:"input"\`
+		Input ProjectInput \`json:"input"\`
 	}
 	
 	type RequestBody struct {
@@ -140,23 +174,30 @@ func main() {
 	}
 	
 	mutation := \`
-	mutation CreateUser($input: CreateUserInput!) {
-	  createUser(input: $input) {
-		user {
+	mutation CreateProject($input: CreateProjectInput!) {
+	  createProject(input: $input) {
+		project {
 		  id
 		  name
-		  email
+		  startDate
+		  endDate
 		}
-		token
 	  }
 	}
 	\`
 	
 	variables := Variables{
-		Input: UserInput{
-			Name:     "John Smith",
-			Email:    "john@example.com",
-			Password: "securepassword123",
+		Input: ProjectInput{
+			Name:      "New Construction Project",
+			StartDate: "2025-01-01",
+			EndDate:   "2025-12-31",
+			Address: Address{
+				LineOne:    "123 Main St",
+				City:       "San Francisco",
+				State:      "CA",
+				Country:    "USA",
+				PostalCode: "94105",
+			},
 		},
 	}
 	
@@ -169,6 +210,7 @@ func main() {
 	
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(requestJSON))
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
 	
 	client := &http.Client{}
 	resp, err := client.Do(req)
@@ -193,22 +235,29 @@ class Program
         using var client = new HttpClient();
         
         var mutation = @"
-        mutation CreateUser($input: CreateUserInput!) {
-          createUser(input: $input) {
-            user {
+        mutation CreateProject($input: CreateProjectInput!) {
+          createProject(input: $input) {
+            project {
               id
               name
-              email
+              startDate
+              endDate
             }
-            token
           }
         }";
         
         var variables = new {
             input = new {
-                name = "John Smith",
-                email = "john@example.com",
-                password = "securepassword123"
+                name = "New Construction Project",
+                startDate = "2025-01-01",
+                endDate = "2025-12-31",
+                address = new {
+                    lineOne = "123 Main St",
+                    city = "San Francisco",
+                    state = "CA",
+                    country = "USA",
+                    postalCode = "94105"
+                }
             }
         };
         
@@ -222,6 +271,8 @@ class Program
             Encoding.UTF8, 
             "application/json");
             
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_API_KEY");
+        
         var response = await client.PostAsync("https://api.constructionintelligence.com/graphql", content);
         var responseContent = await response.Content.ReadAsStringAsync();
         
@@ -235,27 +286,36 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateUserMutation {
+public class CreateProjectMutation {
     public static void main(String[] args) throws Exception {
         String url = "https://api.constructionintelligence.com/graphql";
         String mutation = """
-            mutation CreateUser($input: CreateUserInput!) {
-              createUser(input: $input) {
-                user {
+            mutation CreateProject($input: CreateProjectInput!) {
+              createProject(input: $input) {
+                project {
                   id
                   name
-                  email
+                  startDate
+                  endDate
                 }
-                token
               }
             }
             """;
         
+        // Create address map
+        Map<String, Object> addressMap = new HashMap<>();
+        addressMap.put("lineOne", "123 Main St");
+        addressMap.put("city", "San Francisco");
+        addressMap.put("state", "CA");
+        addressMap.put("country", "USA");
+        addressMap.put("postalCode", "94105");
+        
         // Create input map
         Map<String, Object> inputMap = new HashMap<>();
-        inputMap.put("name", "John Smith");
-        inputMap.put("email", "john@example.com");
-        inputMap.put("password", "securepassword123");
+        inputMap.put("name", "New Construction Project");
+        inputMap.put("startDate", "2025-01-01");
+        inputMap.put("endDate", "2025-12-31");
+        inputMap.put("address", addressMap);
         
         // Create variables map
         Map<String, Object> variables = new HashMap<>();
@@ -273,6 +333,7 @@ public class CreateUserMutation {
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(url))
             .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer YOUR_API_KEY")
             .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
             .build();
             
@@ -287,27 +348,35 @@ use Data::Dumper;
 my $ua = LWP::UserAgent->new;
 
 my $mutation = '
-mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    user {
+mutation CreateProject($input: CreateProjectInput!) {
+  createProject(input: $input) {
+    project {
       id
       name
-      email
+      startDate
+      endDate
     }
-    token
   }
 }';
 
 my $variables = {
     input => {
-        name => 'John Smith',
-        email => 'john@example.com',
-        password => 'securepassword123'
+        name => 'New Construction Project',
+        startDate => '2025-01-01',
+        endDate => '2025-12-31',
+        address => {
+            lineOne => '123 Main St',
+            city => 'San Francisco',
+            state => 'CA',
+            country => 'USA',
+            postalCode => '94105'
+        }
     }
 };
 
 my $req = HTTP::Request->new(POST => 'https://api.constructionintelligence.com/graphql');
 $req->header('Content-Type' => 'application/json');
+$req->header('Authorization' => 'Bearer YOUR_API_KEY');
 $req->content(encode_json({
     query => $mutation,
     variables => $variables
@@ -323,29 +392,36 @@ if ($resp->is_success) {
 }`
   };
 
-  const updatePostExample = {
-    javascript: `// Updating a post
+  const updateProjectExample = {
+    javascript: `// Updating a project
 const mutation = \`
-  mutation UpdatePost($id: ID!, $input: UpdatePostInput!) {
-    updatePost(id: $id, input: $input) {
+  mutation UpdateProject($id: ID!, $input: UpdateProjectInput!) {
+    updateProject(id: $id, input: $input) {
       id
-      title
-      content
-      updatedAt
+      name
+      startDate
+      endDate
+      address {
+        city
+        country
+      }
     }
   }
 \`;
 
 const variables = {
-  id: "123",
+  id: "project-123",
   input: {
-    title: "Updated Post Title",
-    content: "This is the updated content of the post.",
-    published: true
+    name: "Updated Project Name",
+    endDate: "2026-06-30",
+    address: {
+      city: "Los Angeles",
+      country: "USA"
+    }
   }
 };
 
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -360,22 +436,29 @@ fetch('https://your-api.example/graphql', {
 .then(data => console.log(data));`
   };
 
-  const deletePostExample = {
-    javascript: `// Deleting a post
+  const importProjectExample = {
+    javascript: `// Importing a project from external source
 const mutation = \`
-  mutation DeletePost($id: ID!) {
-    deletePost(id: $id) {
-      success
-      message
+  mutation ImportProjectFromDynamics($input: ImportProjectInput!) {
+    importProjectFromDynamics(input: $input) {
+      project {
+        id
+        name
+        startDate
+        endDate
+      }
     }
   }
 \`;
 
 const variables = {
-  id: "123"
+  input: {
+    dynamicsProjectId: "dynamics-123",
+    scenarioId: "scenario-456"
+  }
 };
 
-fetch('https://your-api.example/graphql', {
+fetch('https://api.constructionintelligence.com/graphql', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -398,8 +481,8 @@ fetch('https://your-api.example/graphql', {
         <section className="docs-section">
           <h2 className="text-2xl font-bold mb-4">Introduction to Mutations</h2>
           <p className="mb-6">
-            In GraphQL, mutations are used to modify server-side data. They allow you to create, update, and delete data. 
-            Our API provides various mutations for working with users, posts, and other resources.
+            In GraphQL, mutations are used to modify server-side data. They allow you to create, update, and import projects and other resources. 
+            Our API provides various mutations for working with projects and related data.
           </p>
           
           <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
@@ -414,15 +497,15 @@ fetch('https://your-api.example/graphql', {
         </section>
         
         <section className="docs-section">
-          <h2 className="text-2xl font-bold mb-4">Creating a User</h2>
+          <h2 className="text-2xl font-bold mb-4">Creating a Project</h2>
           <p className="mb-4">
-            This mutation creates a new user account and returns the user data along with an authentication token.
+            This mutation creates a new project with the specified details.
           </p>
           
           <CodeExample
-            title="Create User Mutation"
-            description="Register a new user:"
-            codeExamples={createUserExample}
+            title="Create Project Mutation"
+            description="Register a new project:"
+            codeExamples={createProjectExample}
           />
           
           <div className="mt-6 p-4 bg-gray-100 rounded-md">
@@ -430,13 +513,13 @@ fetch('https://your-api.example/graphql', {
             <pre className="font-code text-sm overflow-auto">
 {`{
   "data": {
-    "createUser": {
-      "user": {
-        "id": "456",
-        "name": "John Smith",
-        "email": "john@example.com"
-      },
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    "createProject": {
+      "project": {
+        "id": "project-789",
+        "name": "New Construction Project",
+        "startDate": "2025-01-01",
+        "endDate": "2025-12-31"
+      }
     }
   }
 }`}
@@ -445,35 +528,35 @@ fetch('https://your-api.example/graphql', {
         </section>
         
         <section className="docs-section">
-          <h2 className="text-2xl font-bold mb-4">Updating a Post</h2>
+          <h2 className="text-2xl font-bold mb-4">Updating a Project</h2>
           <p className="mb-4">
-            This mutation updates an existing post with new data.
+            This mutation updates an existing project with new data.
           </p>
           
           <CodeExample
-            title="Update Post Mutation"
-            description="Update an existing post:"
-            codeExamples={updatePostExample}
+            title="Update Project Mutation"
+            description="Update an existing project:"
+            codeExamples={updateProjectExample}
           />
         </section>
         
         <section className="docs-section">
-          <h2 className="text-2xl font-bold mb-4">Deleting a Post</h2>
+          <h2 className="text-2xl font-bold mb-4">Importing a Project</h2>
           <p className="mb-4">
-            This mutation deletes a post by its ID.
+            This mutation imports a project from an external system like Dynamics.
           </p>
           
           <CodeExample
-            title="Delete Post Mutation"
-            description="Remove a post from the system:"
-            codeExamples={deletePostExample}
+            title="Import Project Mutation"
+            description="Import a project from Dynamics:"
+            codeExamples={importProjectExample}
           />
           
           <div className="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500">
             <div className="flex">
               <div className="ml-3">
                 <p className="text-sm text-yellow-700">
-                  <strong>Warning:</strong> Deletion operations are permanent and cannot be undone. Make sure you want to delete the resource before executing this mutation.
+                  <strong>Note:</strong> Project import operations may take some time to complete as they synchronize data between systems.
                 </p>
               </div>
             </div>
@@ -492,12 +575,12 @@ fetch('https://your-api.example/graphql', {
 {`{
   "errors": [
     {
-      "message": "Email is already in use",
+      "message": "End date must be after start date",
       "locations": [{ "line": 2, "column": 3 }],
-      "path": ["createUser"],
+      "path": ["createProject"],
       "extensions": {
         "code": "VALIDATION_ERROR",
-        "field": "email"
+        "field": "endDate"
       }
     }
   ],
@@ -510,9 +593,9 @@ fetch('https://your-api.example/graphql', {
         <section>
           <h2 className="text-2xl font-bold mb-4">Related Resources</h2>
           <ul className="list-disc list-inside space-y-2">
-            <li>Learn about <a href="/queries" className="text-docs-primary hover:underline">Queries</a></li>
-            <li>Explore the available <a href="/types" className="text-docs-primary hover:underline">Types</a></li>
-            <li>Understand <a href="/auth" className="text-docs-primary hover:underline">Authentication</a></li>
+            <li>Learn about <a href="/queries" className="text-blue-600 hover:underline">Queries</a></li>
+            <li>Explore the available <a href="/types" className="text-blue-600 hover:underline">Types</a></li>
+            <li>Understand <a href="/auth" className="text-blue-600 hover:underline">Authentication</a></li>
           </ul>
         </section>
       </div>
