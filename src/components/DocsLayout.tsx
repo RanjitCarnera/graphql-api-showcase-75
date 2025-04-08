@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
-import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase } from "lucide-react";
+import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 interface DocsLayoutProps {
@@ -108,6 +108,14 @@ function DocsSidebar() {
                   <Link to="/projects">
                     <Briefcase size={18} />
                     <span>Projects</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/people">
+                    <Users size={18} />
+                    <span>People</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

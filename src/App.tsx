@@ -16,6 +16,7 @@ import Examples from "./pages/Examples";
 import SDKs from "./pages/SDKs";
 import CORS from "./pages/CORS";
 import Projects from "./pages/Projects";
+import People from "./pages/People";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/sdks" element={<SDKs />} />
           <Route path="/cors" element={<CORS />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/people" element={<People />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
