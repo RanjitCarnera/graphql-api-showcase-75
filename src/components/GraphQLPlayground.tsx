@@ -6,21 +6,43 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function GraphQLPlayground() {
-  const [query, setQuery] = useState(`# Try running a project query!
-query GetProjects {
+  const [query, setQuery] = useState(`# Try running a project stage query!
+query ProjectStagesTable_Query($first: Int, $filterByName: String) {
+  ...ProjectStagesTable_ProjectStageListFragment
+    @arguments(first: $first, filterByName: $filterByName)
+}
+
+fragment ProjectStagesTable_ProjectStageListFragment on Query
+@refetchable(queryName: "ProjectStagesTable_Refetch")
+@argumentDefinitions(
+  first: { type: "Int", defaultValue: 20 }
+  after: { type: "String" }
+  filterByName: { type: "String" }
+) {
   Project {
-    Projects(first: 20) {
+    ProjectStages(first: $first, after: $after, filterByName: $filterByName)
+      @connection(key: "ProjectStagesTable_ProjectStages") {
+      __id
+      pageInfo {
+        endCursor
+        hasPreviousPage
+        hasNextPage
+        startCursor
+      }
       edges {
         node {
           id
           name
+          sortOrder
+          reverseProjectOrderInReports
+          color
         }
       }
     }
   }
 }`);
   const [response, setResponse] = useState('# Response will appear here');
-  const [variables, setVariables] = useState('{\n  \n}');
+  const [variables, setVariables] = useState('{\n  "first": 10,\n  "filterByName": "Planning"\n}');
   const [headers, setHeaders] = useState('{\n  "Authorization": "Bearer YOUR_TOKEN"\n}');
 
   const handleRunQuery = () => {
@@ -28,24 +50,40 @@ query GetProjects {
     const mockResponse = {
       data: {
         Project: {
-          Projects: {
+          ProjectStages: {
+            __id: "client:ProjectStagesTable_ProjectStages",
+            pageInfo: {
+              endCursor: "YXJyYXljb25uZWN0aW9uOjk=",
+              hasPreviousPage: false,
+              hasNextPage: false,
+              startCursor: "YXJyYXljb25uZWN0aW9uOjA="
+            },
             edges: [
               {
                 node: {
-                  id: "project-1",
-                  name: "Construction Intelligence Platform"
+                  id: "stage-1",
+                  name: "Planning",
+                  sortOrder: 1,
+                  reverseProjectOrderInReports: false,
+                  color: "#4299E1"
                 }
               },
               {
                 node: {
-                  id: "project-2",
-                  name: "Smart Building Integration"
+                  id: "stage-2",
+                  name: "Design",
+                  sortOrder: 2,
+                  reverseProjectOrderInReports: false,
+                  color: "#ED8936"
                 }
               },
               {
                 node: {
-                  id: "project-3",
-                  name: "Infrastructure Modernization"
+                  id: "stage-3",
+                  name: "Construction",
+                  sortOrder: 3,
+                  reverseProjectOrderInReports: true,
+                  color: "#48BB78"
                 }
               }
             ]
@@ -70,34 +108,12 @@ query GetProjects {
   avatar: Image
 }
 
-type Skill {
-  id: ID!
-  name: String!
-  category: SkillCategory
-}
-
-type SkillCategory {
-  id: ID!
-  name: String!
-}
-
-type Address {
-  lineOne: String
-  postalCode: String
-  city: String
-  country: String
-  state: String
-  latitude: Float
-  longitude: Float
-}
-
-type Image {
-  url: String!
-}
-
 type ProjectStage {
   id: ID!
   name: String!
+  sortOrder: Int
+  reverseProjectOrderInReports: Boolean
+  color: String
 }
 
 type Query {
@@ -112,30 +128,6 @@ type ProjectQueries {
   ProjectStages(first: Int, excludeIds: [ID!], filterByName: String, alwaysIncludeIds: [ID!]): ProjectStageConnection!
 }
 
-type ScenarioQueries {
-  ProjectInScenario(projectId: ID!, scenarioId: ID!): ProjectInScenario
-}
-
-type DynamicsQueries {
-  NotYetImportedProjectsFromDynamics: [DynamicsProject!]!
-}
-
-type RandQueries {
-  NotYetImportedProjectsFromRand: [RandProject!]!
-}
-
-type DynamicsProject {
-  id: ID!
-  name: String!
-  projectIdentifier: String!
-}
-
-type RandProject {
-  id: ID!
-  name: String!
-  projectIdentifier: String!
-}
-
 type ProjectConnection {
   edges: [ProjectEdge!]!
 }
@@ -145,6 +137,8 @@ type ProjectEdge {
 }
 
 type ProjectStageConnection {
+  pageInfo: PageInfo!
+  __id: ID!
   edges: [ProjectStageEdge!]!
 }
 
@@ -152,9 +146,11 @@ type ProjectStageEdge {
   node: ProjectStage!
 }
 
-type ProjectInScenario {
-  id: ID!
-  project: Project!
+type PageInfo {
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  startCursor: String
 }`;
 
     const blob = new Blob([schema], { type: 'text/plain' });

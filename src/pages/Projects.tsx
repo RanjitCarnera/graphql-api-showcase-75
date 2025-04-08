@@ -1,8 +1,8 @@
-
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 
 const Projects = () => {
   const projectQueriesExample = {
@@ -398,6 +398,112 @@ fetch('https://api.constructionintelligence.com/graphql', {
 .then(data => console.log(data));`
   };
 
+  const projectStagesExample = {
+    javascript: `// Fetching project stages
+const query = \`
+  query ProjectStageSelect_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {
+    Project {
+      ProjectStages(
+        first: 20, 
+        excludeIds: $excludeIds, 
+        filterByName: $filterByName, 
+        alwaysIncludeIds: $alwaysIncludeIds
+      ) {
+        edges {
+          node {
+            ...ProjectStageSelect_ProjectStageFragment
+          }
+        }
+      }
+    }
+  }
+  
+  fragment ProjectStageSelect_ProjectStageFragment on ProjectStage @inline {
+    id
+    name
+  }
+\`;
+
+const variables = {
+  filterByName: "Planning",
+  excludeIds: ["stage-999"],
+  alwaysIncludeIds: ["stage-123"]
+};
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
+
+  const projectStagesTableExample = {
+    javascript: `// Fetching project stages with pagination and more details
+const query = \`
+  query ProjectStagesTable_Query($first: Int, $filterByName: String) {
+    ...ProjectStagesTable_ProjectStageListFragment
+      @arguments(first: $first, filterByName: $filterByName)
+  }
+  
+  fragment ProjectStagesTable_ProjectStageListFragment on Query
+  @refetchable(queryName: "ProjectStagesTable_Refetch")
+  @argumentDefinitions(
+    first: { type: "Int", defaultValue: 20 }
+    after: { type: "String" }
+    filterByName: { type: "String" }
+  ) {
+    Project {
+      ProjectStages(first: $first, after: $after, filterByName: $filterByName)
+        @connection(key: "ProjectStagesTable_ProjectStages") {
+        __id
+        pageInfo {
+          endCursor
+          hasPreviousPage
+          hasNextPage
+          startCursor
+        }
+        edges {
+          node {
+            id
+            name
+            sortOrder
+            reverseProjectOrderInReports
+            color
+          }
+        }
+      }
+    }
+  }
+\`;
+
+const variables = {
+  first: 10,
+  filterByName: "Planning"
+};
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
+
   const projectImportExamples = {
     javascript: `// Import projects from external systems
 const query = \`
@@ -419,49 +525,6 @@ fetch('https://api.constructionintelligence.com/graphql', {
     'Authorization': 'Bearer YOUR_API_KEY'
   },
   body: JSON.stringify({ query })
-})
-.then(res => res.json())
-.then(data => console.log(data));`
-  };
-
-  const projectStagesExample = {
-    javascript: `// Fetching project stages
-const query = \`
-  query ProjectStageSelect_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {
-    Project {
-      ProjectStages(
-        first: 20, 
-        excludeIds: $excludeIds, 
-        filterByName: $filterByName, 
-        alwaysIncludeIds: $alwaysIncludeIds
-      ) {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-\`;
-
-const variables = {
-  filterByName: "Planning",
-  excludeIds: ["stage-999"],
-  alwaysIncludeIds: ["stage-123"]
-};
-
-fetch('https://api.constructionintelligence.com/graphql', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer YOUR_API_KEY'
-  },
-  body: JSON.stringify({
-    query,
-    variables
-  })
 })
 .then(res => res.json())
 .then(data => console.log(data));`
@@ -529,22 +592,38 @@ fetch('https://api.constructionintelligence.com/graphql', {
             
             <Card>
               <CardHeader>
-                <CardTitle>Project Stages Query</CardTitle>
+                <CardTitle>Project Stages Queries</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="mb-4">Fetch project stages with filtering options.</p>
+                <p className="mb-4">Multiple queries available for fetching project stages with different filtering options.</p>
+                
+                <Table className="mb-4">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Query Name</TableHead>
+                      <TableHead>Description</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-mono">ProjectStageSelect_Query</TableCell>
+                      <TableCell>Basic query for fetching project stages with filtering</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-mono">ProjectStagesSelect_Query</TableCell>
+                      <TableCell>Similar to ProjectStageSelect_Query but using a different fragment</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-mono">ProjectStagesTable_Query</TableCell>
+                      <TableCell>Comprehensive query for fetching project stages with refetchable pagination and additional fields</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                
                 <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
-{`query ProjectStageSelect_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {
-  Project {
-    ProjectStages(first: 20, excludeIds: $excludeIds, filterByName: $filterByName, alwaysIncludeIds: $alwaysIncludeIds) {
-      edges {
-        node {
-          id
-          name
-        }
-      }
-    }
-  }
+{`query ProjectStagesTable_Query($first: Int, $filterByName: String) {
+  ...ProjectStagesTable_ProjectStageListFragment
+    @arguments(first: $first, filterByName: $filterByName)
 }`}
                 </pre>
               </CardContent>
@@ -573,56 +652,56 @@ fetch('https://api.constructionintelligence.com/graphql', {
         </section>
         
         <section className="docs-section mb-8">
-          <h2 className="text-2xl font-bold mb-4">Project Fragments</h2>
+          <h2 className="text-2xl font-bold mb-4">Project Stage Fragments</h2>
           <p className="mb-6">
-            These fragments are used with the project queries to specify which fields you want to retrieve.
+            These fragments are used with the project stage queries to specify which fields you want to retrieve.
           </p>
           
           <Card className="mb-4">
             <CardHeader>
-              <CardTitle>Project Details Fragment</CardTitle>
+              <CardTitle>Basic Project Stage Fragment</CardTitle>
             </CardHeader>
             <CardContent>
               <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
-{`fragment projectDetailsControl_ProjectInScenarioFragment on ProjectInScenario {
+{`fragment ProjectStageSelect_ProjectStageFragment on ProjectStage @inline {
   id
-  project {
-    id
-    name
-    startDate
-    endDate
-    skills {
-      name
-    }
-    address {
-      lineOne
-      postalCode
-      city
-      country
-      state
-      latitude
-      longitude
-    }
-    avatar {
-      url
-    }
-    # Additional fields available in the full fragment
-  }
+  name
 }`}
               </pre>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="mb-4">
             <CardHeader>
-              <CardTitle>Project DateTime Fragment</CardTitle>
+              <CardTitle>Comprehensive Project Stage Fragment</CardTitle>
             </CardHeader>
             <CardContent>
               <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
-{`fragment ProjectDateTimeDisplay_ProjectFragment on Project {
-  startDate
-  endDate
-  durationInMonths
+{`fragment ProjectStagesTable_ProjectStageFragment on ProjectStage @inline {
+  id
+  name
+  sortOrder
+  reverseProjectOrderInReports
+  color
+  ...ProjectStageSortOrderButtons_ProjectStageFragment
+  ...editProjectStageButton_ProjectStageFragment
+}
+
+fragment ProjectStageSortOrderButtons_ProjectStageFragment on ProjectStage {
+  id
+  sortOrder
+}
+
+fragment editProjectStageButton_ProjectStageFragment on ProjectStage {
+  ...editProjectStageModal_ProjectStageFragment
+}
+
+fragment editProjectStageModal_ProjectStageFragment on ProjectStage {
+  id
+  name
+  reverseProjectOrderInReports
+  sortOrder
+  color
 }`}
               </pre>
             </CardContent>
@@ -650,17 +729,47 @@ fetch('https://api.constructionintelligence.com/graphql', {
           
           <div className="mb-8">
             <CodeExample
-              title="Importing Projects"
-              description="Get a list of projects from external systems that can be imported:"
-              codeExamples={projectImportExamples}
+              title="Basic Project Stages"
+              description="Fetch project stages with basic filtering options:"
+              codeExamples={projectStagesExample}
+            />
+          </div>
+          
+          <div className="mb-8">
+            <CodeExample
+              title="Project Stages Table Data"
+              description="Fetch comprehensive project stage data with pagination support:"
+              codeExamples={projectStagesTableExample}
             />
           </div>
           
           <div>
             <CodeExample
-              title="Project Stages"
-              description="Fetch project stages with filtering options:"
-              codeExamples={projectStagesExample}
+              title="Importing Projects"
+              description="Get a list of projects from external systems that can be imported:"
+              codeExamples={{javascript: `// Import projects from external systems
+const query = \`
+  query ProjectFromDynamicsSelect_Query {
+    Dynamics {
+      NotYetImportedProjectsFromDynamics {
+        id
+        name
+        projectIdentifier
+      }
+    }
+  }
+\`;
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({ query })
+})
+.then(res => res.json())
+.then(data => console.log(data));`}}
             />
           </div>
         </section>
