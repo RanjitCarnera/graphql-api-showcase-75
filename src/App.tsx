@@ -17,6 +17,7 @@ import SDKs from "./pages/SDKs";
 import CORS from "./pages/CORS";
 import Projects from "./pages/Projects";
 import People from "./pages/People";
+import Fragments from "./pages/Fragments";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/queries" element={<Queries />} />
           <Route path="/mutations" element={<Mutations />} />
           <Route path="/types" element={<Types />} />
+          <Route path="/fragments" element={<Fragments />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/examples" element={<Examples />} />
           <Route path="/sdks" element={<SDKs />} />
