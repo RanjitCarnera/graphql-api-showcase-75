@@ -222,6 +222,184 @@ const Fragments = () => {
               </CardContent>
             </Card>
           </section>
+
+          {/* PeopleTable_PeopleListFragment */}
+          <section id="peopleTableList" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>PeopleTable_PeopleListFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('peopleTableList', 'People Table List Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment PeopleTable_PeopleListFragment on Query
+@refetchable(queryName: "PeopleTable_Refetch")
+@argumentDefinitions(
+    first: { type: "Int", defaultValue: 250 }
+    after: { type: "String" }
+    filterByName: { type: "String" }
+) {
+    Staff {
+        People(
+            first: $first
+            after: $after
+            filterByName: $filterByName
+            showDeactivated: true
+        ) @connection(key: "PeopleTable_People") {
+            __id
+            pageInfo {
+                endCursor
+                hasPreviousPage
+                hasNextPage
+                startCursor
+            }
+            edges {
+                node {
+                    id
+                    ...PeopleTable_PersonFragment
+                }
+            }
+        }
+    }
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> Query</p>
+                  <p><strong>Description:</strong> Complex fragment for fetching paginated lists of people with filtering options.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/people#people-table-query" className="text-blue-600 hover:underline">PeopleTable_Query</a> to fetch paginated lists of people.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* PersonSelect_PersonFragment */}
+          <section id="personSelect" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>PersonSelect_PersonFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('personSelect', 'Person Select Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment PersonSelect_PersonFragment on Person @inline {
+  id
+  name
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> Person</p>
+                  <p><strong>Description:</strong> Basic person fragment with inline directive for selection components.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/people#person-select-query" className="text-blue-600 hover:underline">PersonSelect_Query</a> for selecting people.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* selectUserInAccountField_PersonFragment */}
+          <section id="selectUserInAccountField" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>selectUserInAccountField_PersonFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('selectUserInAccountField', 'Select User In Account Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment selectUserInAccountField_PersonFragment on Person @inline {
+  id
+  name
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> Person</p>
+                  <p><strong>Description:</strong> Person fragment for account-specific user selection.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/people#select-user-in-account-query" className="text-blue-600 hover:underline">selectUserInAccountField_PeopleQuery</a> for selecting people within an account.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* peopleSelect_PersonFragment */}
+          <section id="peopleSelect" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>peopleSelect_PersonFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('peopleSelect', 'People Select Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment peopleSelect_PersonFragment on Person @inline {
+  id
+  name
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> Person</p>
+                  <p><strong>Description:</strong> Person fragment for general people selection components.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/people#people-select-query" className="text-blue-600 hover:underline">peopleSelect_Query</a> for selecting multiple people.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
         </div>
         
         <section className="mt-12">
