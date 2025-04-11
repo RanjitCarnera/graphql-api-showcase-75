@@ -2,6 +2,9 @@
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 const Mutations = () => {
   const createProjectExample = {
@@ -473,6 +476,46 @@ fetch('https://api.constructionintelligence.com/graphql', {
 .then(data => console.log(data));`
   };
 
+  const assignPersonToAssignmentExample = {
+    javascript: `// Assign a person to an assignment
+const mutation = \`
+  mutation AssignmentCard_AssignMutation($input: FillAssignmentInput!) {
+    Scenario {
+      fillAssignment(input: $input) {
+        update {
+          project {
+            id
+            ...projectCard_ProjectFragment
+          }
+        }
+      }
+    }
+  }
+\`;
+
+const variables = {
+  input: {
+    assignmentId: "assignment-123",
+    personId: "person-456",
+    clientMutationId: "client-mutation-1"
+  }
+};
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    query: mutation,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
+
   return (
     <DocsLayout>
       <div className="max-w-4xl mx-auto">
@@ -510,7 +553,7 @@ fetch('https://api.constructionintelligence.com/graphql', {
           
           <div className="mt-6 p-4 bg-gray-100 rounded-md">
             <h4 className="font-semibold mb-2">Example Response:</h4>
-            <pre className="font-code text-sm overflow-auto">
+            <pre className="font-code text-sm overflow-auto text-left">
 {`{
   "data": {
     "createProject": {
@@ -562,6 +605,57 @@ fetch('https://api.constructionintelligence.com/graphql', {
             </div>
           </div>
         </section>
+
+        <section className="docs-section">
+          <h2 className="text-2xl font-bold mb-4">Assignment Mutations</h2>
+          <p className="mb-4">
+            These mutations allow you to manage assignments within scenarios.
+          </p>
+          
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Assign Person to Assignment</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4">Assign a person to an assignment in a scenario.</p>
+              <pre className="code-block text-left">
+{`mutation AssignmentCard_AssignMutation($input: FillAssignmentInput!) {
+  Scenario {
+    fillAssignment(input: $input) {
+      update {
+        project {
+          id
+          ...projectCard_ProjectFragment
+        }
+      }
+    }
+  }
+}`}
+              </pre>
+              <div className="mt-4 flex justify-end">
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    window.location.href = '/fragments#projectCard';
+                  }}
+                  className="flex items-center gap-1"
+                >
+                  <span>View Fragment Definition</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="mt-4">
+                <CodeExample
+                  title="Example Usage"
+                  description="Assign a person to an existing assignment:"
+                  codeExamples={assignPersonToAssignmentExample}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </section>
         
         <section className="docs-section">
           <h2 className="text-2xl font-bold mb-4">Input Validation</h2>
@@ -571,7 +665,7 @@ fetch('https://api.constructionintelligence.com/graphql', {
           
           <div className="p-4 bg-gray-100 rounded-md">
             <h4 className="font-semibold mb-2">Example Error Response:</h4>
-            <pre className="font-code text-sm overflow-auto">
+            <pre className="font-code text-sm overflow-auto text-left">
 {`{
   "errors": [
     {

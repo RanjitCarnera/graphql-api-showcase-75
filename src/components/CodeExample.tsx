@@ -49,7 +49,7 @@ export default function CodeExample({ title, description, codeExamples }: CodeEx
         </Button>
       </div>
       
-      <pre className="code-block">
+      <pre className="code-block text-left">
         <code>{codeExamples[selectedLanguage] || 'Example not available for this language'}</code>
       </pre>
     </div>
