@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -395,6 +394,236 @@ const Fragments = () => {
                 <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
                   <p className="text-sm text-blue-700">
                     <strong>Used In:</strong> This fragment is used in the <a href="/people#people-select-query" className="text-blue-600 hover:underline">peopleSelect_Query</a> for selecting multiple people.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* ProjectsSelectField_ProjectFragment */}
+          <section id="projectsSelectField" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>ProjectsSelectField_ProjectFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('projectsSelectField', 'Projects Select Field Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment ProjectsSelectField_ProjectFragment on Project @inline{
+  id
+  name
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> Project</p>
+                  <p><strong>Description:</strong> Basic project selection fields with inline directive.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">ProjectsSelectField_Query</a> for selecting projects with filtering options.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* projectDetailsControl fragments */}
+          <section id="projectDetailsControl" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>projectDetailsControl_ProjectInScenarioFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('projectDetailsControl', 'Project Details Control Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment projectDetailsControl_ProjectInScenarioFragment on ProjectInScenario {
+  id
+  project {
+    id
+    name
+    startDate
+    endDate
+    skills {
+      name
+    }
+    address {
+      lineOne
+      postalCode
+      city
+      country
+      state
+      latitude
+      longitude
+    }
+    avatar {
+      url
+    }
+    skillMatrixByCategories {
+      ...projectDetailsControl_CategoryWithMatrixTypeInlineFragment
+    }
+    ...ProjectDateTimeDisplay_ProjectFragment
+  }
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> ProjectInScenario</p>
+                  <p><strong>Description:</strong> Detailed project information including address, skills, and matrix data.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">ProjectDetailsModalContent_Query</a> to fetch detailed project information.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* ProjectDateTimeDisplay_ProjectFragment */}
+          <section id="projectDateTimeDisplay" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>ProjectDateTimeDisplay_ProjectFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('projectDateTimeDisplay', 'Project Date Time Display Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment ProjectDateTimeDisplay_ProjectFragment on Project {
+  startDate
+  endDate
+  durationInMonths
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> Project</p>
+                  <p><strong>Description:</strong> Project date and duration information.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">projectDetailsControl_ProjectInScenarioFragment</a> fragment.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* projectDetailsControl_CategoryWithMatrixTypeInlineFragment */}
+          <section id="categoryWithMatrixTypeInline" className="scroll-mt-16">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Hash className="h-5 w-5 text-blue-500" />
+                  <span>projectDetailsControl_CategoryWithMatrixTypeInlineFragment</span>
+                </CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleCopyToClipboard('categoryWithMatrixTypeInline', 'Category With Matrix Type Fragment')}
+                  className="flex items-center gap-1"
+                >
+                  <Copy className="h-4 w-4" />
+                  Copy Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment projectDetailsControl_CategoryWithMatrixTypeInlineFragment on CategoryWithMatrixType @inline {
+  matrix {
+    columns {
+      key
+    }
+    headerRow {
+      key
+      entries {
+        id
+        name
+        skillCategory {
+          id
+          name
+        }
+      }
+    }
+    bodyRows {
+      key
+      entries {
+        value {
+          id
+          data {
+            value {
+              kind
+              ... on BinaryAssessmentValue {
+                hasSkill
+                kind
+              }
+              ... on NumericalAssessmentValue {
+                kind
+                number
+              }
+            }
+            skill {
+              id
+              name
+              dimension {
+                kind
+                ... on NumericalDimension {
+                  dimensionCount
+                  kind
+                }
+                ... on BinaryDimension {
+                  kind
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  category {
+    id
+    name
+  }
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> CategoryWithMatrixType</p>
+                  <p><strong>Description:</strong> Complex matrix data structure for project skill categories.</p>
+                </div>
+                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                  <p className="text-sm text-blue-700">
+                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">projectDetailsControl_ProjectInScenarioFragment</a> fragment.
                   </p>
                 </div>
               </CardContent>

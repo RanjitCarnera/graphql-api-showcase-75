@@ -1,8 +1,11 @@
+
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const Projects = () => {
   const projectQueriesExample = {
@@ -356,23 +359,7 @@ const query = \`
   query ProjectDetailsModalContent_Query($projectId: ID!, $scenarioId: ID!) {
     Scenario {
       ProjectInScenario(projectId: $projectId, scenarioId: $scenarioId) {
-        id
-        project {
-          id
-          name
-          startDate
-          endDate
-          skills {
-            name
-          }
-          address {
-            lineOne
-            postalCode
-            city
-            country
-            state
-          }
-        }
+        ...projectDetailsControl_ProjectInScenarioFragment
       }
     }
   }
@@ -530,6 +517,69 @@ fetch('https://api.constructionintelligence.com/graphql', {
 .then(data => console.log(data));`
   };
 
+  const projectFromRandExample = {
+    javascript: `// Import projects from RAND system
+const query = \`
+  query projectFromRandSelect_Query {
+    Rand {
+      NotYetImportedProjectsFromRand {
+        id
+        name
+        projectIdentifier
+      }
+    }
+  }
+\`;
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({ query })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
+  
+  const projectsSelectFieldExample = {
+    javascript: `// Select projects with filtering options
+const query = \`
+  query ProjectsSelectField_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {
+    Project {
+      Projects(first: 250, excludeIds: $excludeIds, filterByName: $filterByName, alwaysIncludeIds: $alwaysIncludeIds) {
+        edges {
+          node {
+            ...ProjectsSelectField_ProjectFragment
+          }
+        }
+      }
+    }
+  }
+\`;
+
+const variables = {
+  filterByName: "Office",
+  excludeIds: ["project-888"],
+  alwaysIncludeIds: ["project-123", "project-456"]
+};
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
+
   return (
     <DocsLayout>
       <div className="max-w-4xl mx-auto">
@@ -575,18 +625,59 @@ fetch('https://api.constructionintelligence.com/graphql', {
 {`query ProjectDetailsModalContent_Query($projectId: ID!, $scenarioId: ID!) {
   Scenario {
     ProjectInScenario(projectId: $projectId, scenarioId: $scenarioId) {
-      id
-      project {
-        id
-        name
-        startDate
-        endDate
-        # Additional fields available in the full query
+      ...projectDetailsControl_ProjectInScenarioFragment
+    }
+  }
+}`}
+                </pre>
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      window.location.href = '/fragments#projectDetailsControl';
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <span>View Fragment Definition</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Projects Select Field Query</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Select projects with filtering options and exclusions.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`query ProjectsSelectField_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {
+  Project {
+    Projects(first: 250, excludeIds: $excludeIds, filterByName: $filterByName, alwaysIncludeIds: $alwaysIncludeIds) {
+      edges {
+        node {
+          ...ProjectsSelectField_ProjectFragment
+        }
       }
     }
   }
 }`}
                 </pre>
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      window.location.href = '/fragments#projectsSelectField';
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <span>View Fragment Definition</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
             
@@ -631,14 +722,29 @@ fetch('https://api.constructionintelligence.com/graphql', {
             
             <Card>
               <CardHeader>
-                <CardTitle>Import Projects Query</CardTitle>
+                <CardTitle>Import Projects Queries</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="mb-4">Fetch projects from external systems that haven't been imported yet.</p>
-                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+                
+                <h4 className="text-lg font-semibold mb-2">Dynamics Import</h4>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto mb-4">
 {`query ProjectFromDynamicsSelect_Query {
   Dynamics {
     NotYetImportedProjectsFromDynamics {
+      id
+      name
+      projectIdentifier
+    }
+  }
+}`}
+                </pre>
+                
+                <h4 className="text-lg font-semibold mb-2">RAND Import</h4>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`query projectFromRandSelect_Query {
+  Rand {
+    NotYetImportedProjectsFromRand {
       id
       name
       projectIdentifier
@@ -652,56 +758,47 @@ fetch('https://api.constructionintelligence.com/graphql', {
         </section>
         
         <section className="docs-section mb-8">
-          <h2 className="text-2xl font-bold mb-4">Project Stage Fragments</h2>
+          <h2 className="text-2xl font-bold mb-4">Project Fragments</h2>
           <p className="mb-6">
-            These fragments are used with the project stage queries to specify which fields you want to retrieve.
+            These fragments are used with the project queries to specify which fields you want to retrieve.
           </p>
           
           <Card className="mb-4">
             <CardHeader>
-              <CardTitle>Basic Project Stage Fragment</CardTitle>
+              <CardTitle>Project Detail Fragments</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-2">The following fragments provide detailed project information:</p>
+              <ul className="list-disc list-inside space-y-1 mb-4">
+                <li><code className="bg-gray-100 px-1">projectDetailsControl_ProjectInScenarioFragment</code> - Detailed project information</li>
+                <li><code className="bg-gray-100 px-1">ProjectDateTimeDisplay_ProjectFragment</code> - Project date and duration information</li>
+                <li><code className="bg-gray-100 px-1">ProjectsSelectField_ProjectFragment</code> - Basic project selection information</li>
+              </ul>
+              <div className="mt-2">
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    window.location.href = '/fragments#projectDetailsControl';
+                  }}
+                  className="flex items-center gap-1"
+                >
+                  <span>View Fragment Definitions</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="mb-4">
+            <CardHeader>
+              <CardTitle>Project Stage Fragments</CardTitle>
             </CardHeader>
             <CardContent>
               <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
 {`fragment ProjectStageSelect_ProjectStageFragment on ProjectStage @inline {
   id
   name
-}`}
-              </pre>
-            </CardContent>
-          </Card>
-          
-          <Card className="mb-4">
-            <CardHeader>
-              <CardTitle>Comprehensive Project Stage Fragment</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
-{`fragment ProjectStagesTable_ProjectStageFragment on ProjectStage @inline {
-  id
-  name
-  sortOrder
-  reverseProjectOrderInReports
-  color
-  ...ProjectStageSortOrderButtons_ProjectStageFragment
-  ...editProjectStageButton_ProjectStageFragment
-}
-
-fragment ProjectStageSortOrderButtons_ProjectStageFragment on ProjectStage {
-  id
-  sortOrder
-}
-
-fragment editProjectStageButton_ProjectStageFragment on ProjectStage {
-  ...editProjectStageModal_ProjectStageFragment
-}
-
-fragment editProjectStageModal_ProjectStageFragment on ProjectStage {
-  id
-  name
-  reverseProjectOrderInReports
-  sortOrder
-  color
 }`}
               </pre>
             </CardContent>
@@ -729,6 +826,14 @@ fragment editProjectStageModal_ProjectStageFragment on ProjectStage {
           
           <div className="mb-8">
             <CodeExample
+              title="Select Projects with Filtering"
+              description="Select projects with various filtering options:"
+              codeExamples={projectsSelectFieldExample}
+            />
+          </div>
+          
+          <div className="mb-8">
+            <CodeExample
               title="Basic Project Stages"
               description="Fetch project stages with basic filtering options:"
               codeExamples={projectStagesExample}
@@ -743,42 +848,29 @@ fragment editProjectStageModal_ProjectStageFragment on ProjectStage {
             />
           </div>
           
+          <div className="mb-8">
+            <CodeExample
+              title="Importing Projects from Dynamics"
+              description="Get a list of projects from Dynamics that can be imported:"
+              codeExamples={projectImportExamples}
+            />
+          </div>
+          
           <div>
             <CodeExample
-              title="Importing Projects"
-              description="Get a list of projects from external systems that can be imported:"
-              codeExamples={{javascript: `// Import projects from external systems
-const query = \`
-  query ProjectFromDynamicsSelect_Query {
-    Dynamics {
-      NotYetImportedProjectsFromDynamics {
-        id
-        name
-        projectIdentifier
-      }
-    }
-  }
-\`;
-
-fetch('https://api.constructionintelligence.com/graphql', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer YOUR_API_KEY'
-  },
-  body: JSON.stringify({ query })
-})
-.then(res => res.json())
-.then(data => console.log(data));`}}
+              title="Importing Projects from RAND"
+              description="Get a list of projects from RAND system that can be imported:"
+              codeExamples={projectFromRandExample}
             />
           </div>
         </section>
         
-        <section>
+        <section className="mt-12">
           <h2 className="text-2xl font-bold mb-4">Related Resources</h2>
           <ul className="list-disc list-inside space-y-2">
             <li>Learn about <a href="/mutations" className="text-docs-primary hover:underline">Mutations</a> for creating and updating projects</li>
             <li>Explore the available project <a href="/types" className="text-docs-primary hover:underline">Types</a></li>
+            <li>View related <a href="/fragments#projectDetailsControl" className="text-docs-primary hover:underline">Fragments</a> for projects</li>
             <li>Try project queries in the <a href="/playground" className="text-docs-primary hover:underline">Playground</a></li>
           </ul>
         </section>
