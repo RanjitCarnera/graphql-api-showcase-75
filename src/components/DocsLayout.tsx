@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
-import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack } from "lucide-react";
+import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 interface DocsLayoutProps {
@@ -130,7 +130,7 @@ function DocsSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/scenarios">
-                    <FileStack size={18} />
+                    <MapPin size={18} />
                     <span>Scenarios</span>
                   </Link>
                 </SidebarMenuButton>

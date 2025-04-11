@@ -1,4 +1,3 @@
-
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import CodeExample from '@/components/CodeExample';
