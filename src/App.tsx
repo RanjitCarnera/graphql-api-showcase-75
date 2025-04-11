@@ -1,51 +1,90 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import GettingStarted from "./pages/GettingStarted";
-import Playground from "./pages/Playground";
-import Queries from "./pages/Queries";
-import Mutations from "./pages/Mutations";
-import Types from "./pages/Types";
-import Auth from "./pages/Auth";
-import Examples from "./pages/Examples";
-import SDKs from "./pages/SDKs";
-import CORS from "./pages/CORS";
-import Projects from "./pages/Projects";
-import People from "./pages/People";
-import Fragments from "./pages/Fragments";
+import React from 'react';
+import './App.css';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const queryClient = new QueryClient();
+// Import pages
+import Index from './pages/Index';
+import GettingStarted from './pages/GettingStarted';
+import Queries from './pages/Queries';
+import Mutations from './pages/Mutations';
+import Fragments from './pages/Fragments';
+import Types from './pages/Types';
+import Auth from './pages/Auth';
+import CORS from './pages/CORS';
+import Examples from './pages/Examples';
+import SDKs from './pages/SDKs';
+import NotFound from './pages/NotFound';
+import Playground from './pages/Playground';
+import People from './pages/People';
+import Projects from './pages/Projects';
+import Scenarios from './pages/Scenarios';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/getting-started" element={<GettingStarted />} />
-          <Route path="/playground" element={<Playground />} />
-          <Route path="/queries" element={<Queries />} />
-          <Route path="/mutations" element={<Mutations />} />
-          <Route path="/types" element={<Types />} />
-          <Route path="/fragments" element={<Fragments />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/examples" element={<Examples />} />
-          <Route path="/sdks" element={<SDKs />} />
-          <Route path="/cors" element={<CORS />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/people" element={<People />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+// Define routes
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Index />,
+    errorElement: <NotFound />
+  },
+  {
+    path: "/getting-started",
+    element: <GettingStarted />
+  },
+  {
+    path: "/queries",
+    element: <Queries />
+  },
+  {
+    path: "/mutations",
+    element: <Mutations />
+  },
+  {
+    path: "/fragments",
+    element: <Fragments />
+  },
+  {
+    path: "/types",
+    element: <Types />
+  },
+  {
+    path: "/auth",
+    element: <Auth />
+  },
+  {
+    path: "/cors",
+    element: <CORS />
+  },
+  {
+    path: "/examples",
+    element: <Examples />
+  },
+  {
+    path: "/sdks",
+    element: <SDKs />
+  },
+  {
+    path: "/playground",
+    element: <Playground />
+  },
+  {
+    path: "/people",
+    element: <People />
+  },
+  {
+    path: "/projects",
+    element: <Projects />
+  },
+  {
+    path: "/scenarios",
+    element: <Scenarios />
+  }
+]);
+
+function App() {
+  return (
+    <RouterProvider router={router} />
+  );
+}
 
 export default App;

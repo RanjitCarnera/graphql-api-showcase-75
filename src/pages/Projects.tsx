@@ -579,6 +579,127 @@ fetch('https://api.constructionintelligence.com/graphql', {
 .then(res => res.json())
 .then(data => console.log(data));`
   };
+  
+  const projectsTableExample = {
+    javascript: `// Fetch projects with pagination and filtering
+const query = \`
+  query ProjectsTable_Query(
+    $first: Int
+    $filterByName: String
+    $filterByRegions: [ID!]
+    $filterByDivisions: [ID!]
+    $filterByStages: [ID!]
+  ) {
+    ...ProjectsTable_ProjectsListFragment
+      @arguments(
+        first: $first
+        filterByName: $filterByName
+        filterByRegions: $filterByRegions
+        filterByDivisions: $filterByDivisions
+        filterByStages: $filterByStages
+      )
+  }
+\`;
+
+const variables = {
+  first: 20,
+  filterByName: "Commercial",
+  filterByRegions: ["region-123"],
+  filterByDivisions: ["division-456"],
+  filterByStages: ["stage-789"]
+};
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
+  
+  const importFromRandExample = {
+    javascript: `// Import a project from RAND
+const mutation = \`
+  mutation importFromRandButton_ImportFromRandMutation(
+    $input: ImportProjectFromRandInput!,
+    $connectionIds: [ID!]!
+  ) {
+    Rand {
+      importProjectFromRand(input: $input) {
+        edge @appendEdge(connections: $connectionIds) {
+          node {
+            ...ProjectsTable_ProjectFragment
+          }
+        }
+      }
+    }
+  }
+\`;
+
+const variables = {
+  input: {
+    randProjectId: "rand-project-123",
+    clientMutationId: "client-mutation-1"
+  },
+  connectionIds: ["connection-id-1"]
+};
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    query: mutation,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
+  
+  const deleteProjectExample = {
+    javascript: `// Delete a project
+const mutation = \`
+  mutation DeleteProjectsButton_DeleteMutation($input: DeleteProjectInput!, $connections: [ID!]!) {
+    Project {
+      deleteProject(input: $input) {
+        deletedIds @deleteEdge(connections: $connections)
+      }
+    }
+  }
+\`;
+
+const variables = {
+  input: {
+    id: "project-123",
+    clientMutationId: "client-mutation-1"
+  },
+  connections: ["ProjectsTable_Projects"]
+};
+
+fetch('https://api.constructionintelligence.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    query: mutation,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));`
+  };
 
   return (
     <DocsLayout>
@@ -636,6 +757,46 @@ fetch('https://api.constructionintelligence.com/graphql', {
                     size="sm"
                     onClick={() => {
                       window.location.href = '/fragments#projectDetailsControl';
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <span>View Fragment Definition</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Projects Table Query</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Fetch a paginated table of projects with rich filtering options.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`query ProjectsTable_Query(
+  $first: Int
+  $filterByName: String
+  $filterByRegions: [ID!]
+  $filterByDivisions: [ID!]
+  $filterByStages: [ID!]
+) {
+  ...ProjectsTable_ProjectsListFragment
+    @arguments(
+      first: $first
+      filterByName: $filterByName
+      filterByRegions: $filterByRegions
+      filterByDivisions: $filterByDivisions
+      filterByStages: $filterByStages
+    )
+}`}
+                </pre>
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      window.location.href = '/fragments#projectsTableList';
                     }}
                     className="flex items-center gap-1"
                   >
@@ -754,6 +915,213 @@ fetch('https://api.constructionintelligence.com/graphql', {
                 </pre>
               </CardContent>
             </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Load Drive Times Query</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Fetch a project's location for drive time calculations.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`query LoadDriveTimesButton_ProjectQuery($projectId: ID!) {
+  node(id: $projectId) {
+    ... on Project {
+      id
+      address {
+        latitude
+        longitude
+      }
+    }
+  }
+}`}
+                </pre>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+        
+        <section className="docs-section mb-8">
+          <h2 className="text-2xl font-bold mb-4">Project Mutations</h2>
+          <p className="mb-6">
+            The following mutations allow you to create, update, and manage projects:
+          </p>
+          
+          <div className="space-y-4 mb-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Add Projects to Scenario</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Add existing projects to a scenario.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`mutation addSelectedProjectsToScenarioButton_AddExistingProjectsToScenarioMutation(
+  $input: AddExistingProjectsToScenarioInput!
+) {
+  Scenario {
+    addExistingProjectsToScenario(input: $input) {
+      edge {
+        node {
+          id
+          ...ProjectsGridPart_ScenarioFragment
+        }
+      }
+    }
+  }
+}`}
+                </pre>
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      window.location.href = '/fragments#projectsGridPart';
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <span>View Fragment Definition</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Import From RAND</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Import a project from the RAND system.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`mutation importFromRandButton_ImportFromRandMutation(
+  $input: ImportProjectFromRandInput!,
+  $connectionIds: [ID!]!
+) {
+  Rand {
+    importProjectFromRand(input: $input) {
+      edge @appendEdge(connections: $connectionIds) {
+        node {
+          ...ProjectsTable_ProjectFragment
+        }
+      }
+    }
+  }
+}`}
+                </pre>
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      window.location.href = '/fragments#projectsTableFragment';
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <span>View Fragment Definition</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Change Project Activation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Activate or deactivate a project.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`mutation ChangeProjectActivationButton_Mutation($input: SetProjectActivationInput!) {
+  Project {
+    setProjectActivation(input: $input) {
+      edge {
+        node {
+          id
+          isDeactivated
+        }
+      }
+    }
+  }
+}`}
+                </pre>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Delete Project</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Delete a project from the system.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`mutation DeleteProjectsButton_DeleteMutation($input: DeleteProjectInput!, $connections: [ID!]!) {
+  Project {
+    deleteProject(input: $input) {
+      deletedIds @deleteEdge(connections: $connections)
+    }
+  }
+}`}
+                </pre>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Delete Project Stage</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Delete a project stage.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`mutation DeleteProjectStagesButton_DeleteMutation($input: DeleteProjectStageInput!, $connections: [ID!]!) {
+  Project {
+    deleteProjectStage(input: $input) {
+      deletedIds @deleteEdge(connections: $connections)
+    }
+  }
+}`}
+                </pre>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Generate Report</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Generate a PDF report for project management.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`mutation GenerateReportButton_GenerateReportMutation($input: GenerateProjectManagerReportInput!) {
+  Pdf {
+    generateProjectManagerReport(input: $input) {
+      file {
+        name
+        url
+      }
+    }
+  }
+}`}
+                </pre>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Export Projects</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">Export projects data to a file.</p>
+                <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+{`mutation ExportProjectsButton_ExportMutation {
+  Project {
+    exportProjects(input: {}) {
+      file {
+        url
+      }
+    }
+  }
+}`}
+                </pre>
+              </CardContent>
+            </Card>
           </div>
         </section>
         
@@ -773,6 +1141,7 @@ fetch('https://api.constructionintelligence.com/graphql', {
                 <li><code className="bg-gray-100 px-1">projectDetailsControl_ProjectInScenarioFragment</code> - Detailed project information</li>
                 <li><code className="bg-gray-100 px-1">ProjectDateTimeDisplay_ProjectFragment</code> - Project date and duration information</li>
                 <li><code className="bg-gray-100 px-1">ProjectsSelectField_ProjectFragment</code> - Basic project selection information</li>
+                <li><code className="bg-gray-100 px-1">ProjectsTable_ProjectFragment</code> - Project information for table display</li>
               </ul>
               <div className="mt-2">
                 <Button 
@@ -803,6 +1172,34 @@ fetch('https://api.constructionintelligence.com/graphql', {
               </pre>
             </CardContent>
           </Card>
+          
+          <Card className="mb-4">
+            <CardHeader>
+              <CardTitle>Project Component Fragments</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-2">Fragments used in various project components:</p>
+              <ul className="list-disc list-inside space-y-1 mb-4">
+                <li><code className="bg-gray-100 px-1">editProjectButton_ProjectFragment</code> - Fields for editing a project</li>
+                <li><code className="bg-gray-100 px-1">ChangeProjectActivationButton_ProjectFragment</code> - For activating/deactivating projects</li>
+                <li><code className="bg-gray-100 px-1">syncProjectFromDynamicsButton_ProjectFragment</code> - For syncing with Dynamics</li>
+                <li><code className="bg-gray-100 px-1">syncProjectFromRandButton_ProjectFragment</code> - For syncing with RAND</li>
+              </ul>
+              <div className="mt-2">
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    window.location.href = '/fragments#editProjectButton';
+                  }}
+                  className="flex items-center gap-1"
+                >
+                  <span>View Fragment Definitions</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </section>
         
         <section className="docs-section">
@@ -821,6 +1218,14 @@ fetch('https://api.constructionintelligence.com/graphql', {
               title="Project Details"
               description="Get comprehensive information about a specific project:"
               codeExamples={projectDetailsExample}
+            />
+          </div>
+          
+          <div className="mb-8">
+            <CodeExample
+              title="Projects Table Query"
+              description="Fetch projects with pagination and filtering for table display:"
+              codeExamples={projectsTableExample}
             />
           </div>
           
@@ -856,11 +1261,27 @@ fetch('https://api.constructionintelligence.com/graphql', {
             />
           </div>
           
-          <div>
+          <div className="mb-8">
             <CodeExample
               title="Importing Projects from RAND"
               description="Get a list of projects from RAND system that can be imported:"
               codeExamples={projectFromRandExample}
+            />
+          </div>
+          
+          <div className="mb-8">
+            <CodeExample
+              title="Import From RAND Mutation"
+              description="Import a project from the RAND system:"
+              codeExamples={importFromRandExample}
+            />
+          </div>
+          
+          <div>
+            <CodeExample
+              title="Delete a Project"
+              description="Remove a project from the system:"
+              codeExamples={deleteProjectExample}
             />
           </div>
         </section>
@@ -871,6 +1292,7 @@ fetch('https://api.constructionintelligence.com/graphql', {
             <li>Learn about <a href="/mutations" className="text-docs-primary hover:underline">Mutations</a> for creating and updating projects</li>
             <li>Explore the available project <a href="/types" className="text-docs-primary hover:underline">Types</a></li>
             <li>View related <a href="/fragments#projectDetailsControl" className="text-docs-primary hover:underline">Fragments</a> for projects</li>
+            <li>Learn about <a href="/scenarios" className="text-docs-primary hover:underline">Scenarios</a> for resource planning</li>
             <li>Try project queries in the <a href="/playground" className="text-docs-primary hover:underline">Playground</a></li>
           </ul>
         </section>
