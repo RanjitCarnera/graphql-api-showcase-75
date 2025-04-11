@@ -129,3 +129,16 @@ pre code {
   display: block;
   text-align: left;
 }
+
+/* Ensure all headings, text, and subheaders are left-aligned in schema and resource sections */
+.docs-section h1,
+.docs-section h2,
+.docs-section h3,
+.docs-section h4,
+.docs-section h5,
+.docs-section h6,
+.docs-section p,
+.docs-section div {
+  text-align: left;
+}
+
