@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import CodeExample from '@/components/CodeExample';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface PeopleQuerySectionProps {
@@ -35,7 +35,10 @@ const PeopleQuerySection: React.FC<PeopleQuerySectionProps> = ({
       
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Query Structure</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            <span>Query Structure</span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <pre className="code-block overflow-x-auto">
