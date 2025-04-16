@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
-import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin } from "lucide-react";
+import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin, Award, Tag, UserCheck, Settings, Shield, Building, Layout } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 interface DocsLayoutProps {
@@ -132,6 +132,110 @@ function DocsSidebar() {
                   <Link to="/scenarios">
                     <MapPin size={18} />
                     <span>Scenarios</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/assignment-roles">
+                    <Layout size={18} />
+                    <span>Assignment Roles</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/skill-categories">
+                    <FileStack size={18} />
+                    <span>Skill Categories</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/skills">
+                    <Award size={18} />
+                    <span>Skills</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/divisions">
+                    <Building size={18} />
+                    <span>Divisions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/regions">
+                    <Globe size={18} />
+                    <span>Regions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/assessments">
+                    <FileText size={18} />
+                    <span>Assessments</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/assessment-templates">
+                    <FileText size={18} />
+                    <span>Assessment Templates</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/staffing-templates">
+                    <FileText size={18} />
+                    <span>Staffing Templates</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/tags">
+                    <Tag size={18} />
+                    <span>Tags</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/assignments">
+                    <Briefcase size={18} />
+                    <span>Assignments</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/account-users">
+                    <UserCheck size={18} />
+                    <span>Account Users</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/account-permissions-groups">
+                    <Shield size={18} />
+                    <span>Account Permissions Groups</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/account-settings">
+                    <Settings size={18} />
+                    <span>Account Settings</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

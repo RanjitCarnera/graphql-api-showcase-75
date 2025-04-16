@@ -19,6 +19,19 @@ import Playground from './pages/Playground';
 import People from './pages/People';
 import Projects from './pages/Projects';
 import Scenarios from './pages/Scenarios';
+import AssignmentRoles from './pages/AssignmentRoles';
+import SkillCategories from './pages/SkillCategories';
+import Skills from './pages/Skills';
+import Divisions from './pages/Divisions';
+import Regions from './pages/Regions';
+import Assessments from './pages/Assessments';
+import AssessmentTemplates from './pages/AssessmentTemplates';
+import StaffingTemplates from './pages/StaffingTemplates';
+import Tags from './pages/Tags';
+import Assignments from './pages/Assignments';
+import AccountUsers from './pages/AccountUsers';
+import AccountPermissionsGroups from './pages/AccountPermissionsGroups';
+import AccountSettings from './pages/AccountSettings';
 
 // Define routes
 const router = createBrowserRouter([
@@ -78,6 +91,58 @@ const router = createBrowserRouter([
   {
     path: "/scenarios",
     element: <Scenarios />
+  },
+  {
+    path: "/assignment-roles",
+    element: <AssignmentRoles />
+  },
+  {
+    path: "/skill-categories",
+    element: <SkillCategories />
+  },
+  {
+    path: "/skills",
+    element: <Skills />
+  },
+  {
+    path: "/divisions",
+    element: <Divisions />
+  },
+  {
+    path: "/regions",
+    element: <Regions />
+  },
+  {
+    path: "/assessments",
+    element: <Assessments />
+  },
+  {
+    path: "/assessment-templates",
+    element: <AssessmentTemplates />
+  },
+  {
+    path: "/staffing-templates",
+    element: <StaffingTemplates />
+  },
+  {
+    path: "/tags",
+    element: <Tags />
+  },
+  {
+    path: "/assignments",
+    element: <Assignments />
+  },
+  {
+    path: "/account-users",
+    element: <AccountUsers />
+  },
+  {
+    path: "/account-permissions-groups",
+    element: <AccountPermissionsGroups />
+  },
+  {
+    path: "/account-settings",
+    element: <AccountSettings />
   }
 ]);
 
