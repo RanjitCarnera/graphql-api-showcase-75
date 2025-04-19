@@ -955,3 +955,99 @@ const Fragments = () => {
 
               <section id="personDetailsButtonPerson" className="scroll-mt-16">
                 <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personDetailsButton_PersonFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personDetailsButtonPerson', 'Person Details Button Person Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personDetailsButton_PersonFragment on Person {
+  id
+  name
+  comment
+  assignmentRole {
+    name
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Person</p>
+                      <p><strong>Description:</strong> Fragment for person details button.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="projects">
+            <div className="space-y-8">
+              <section id="projectsRelatedFragments" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>Projects Related Fragments</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Project fragments will be listed here.</p>
+                  </CardContent>
+                </Card>
+              </section>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="scenarios">
+            <div className="space-y-8">
+              <section id="scenariosRelatedFragments" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>Scenarios Related Fragments</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Scenario fragments will be listed here.</p>
+                  </CardContent>
+                </Card>
+              </section>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="admin">
+            <div className="space-y-8">
+              <section id="adminRelatedFragments" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>Admin Related Fragments</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Admin fragments will be listed here.</p>
+                  </CardContent>
+                </Card>
+              </section>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DocsLayout>
+  );
+};
+
+export default Fragments;
