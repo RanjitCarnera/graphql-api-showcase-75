@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Hash, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Fragments = () => {
   const { toast } = useToast();
   
-  // Handle copying to clipboard
   const handleCopyToClipboard = (fragmentId: string, fragmentName: string) => {
     const fragmentUrl = `${window.location.origin}/fragments#${fragmentId}`;
     navigator.clipboard.writeText(fragmentUrl);
@@ -19,7 +19,6 @@ const Fragments = () => {
     });
   };
 
-  // Smooth scroll to the fragment if the URL has a hash
   useEffect(() => {
     if (window.location.hash) {
       const id = window.location.hash.substring(1);
@@ -37,31 +36,427 @@ const Fragments = () => {
         
         <p className="mb-8 text-gray-600">
           Fragments are reusable units in GraphQL that let you build sets of fields, and then include them in queries where you need to. 
-          Below are the fragments available in our API, each with a direct link for easy reference.
+          Below are the fragments available in our API, organized by domain.
         </p>
-        
-        <div className="space-y-8">
-          {/* editAssignmentRoleButton_AssignmentRoleFragment */}
-          <section id="editAssignmentRoleButton" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>editAssignmentRoleButton_AssignmentRoleFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('editAssignmentRoleButton', 'Assignment Role Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment editAssignmentRoleButton_AssignmentRoleFragment on AssignmentRole {
+
+        <Tabs defaultValue="assignments" className="w-full">
+          <TabsList className="mb-4">
+            <TabsTrigger value="assignments">Assignments</TabsTrigger>
+            <TabsTrigger value="people">People</TabsTrigger>
+            <TabsTrigger value="projects">Projects</TabsTrigger>
+            <TabsTrigger value="scenarios">Scenarios</TabsTrigger>
+            <TabsTrigger value="admin">Admin</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="assignments">
+            <div className="space-y-8">
+              {/* Add assignment-related fragments */}
+              <section id="assignmentCard" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>AssignmentCard_AssignmentFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('assignmentCard', 'Assignment Card Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AssignmentCard_AssignmentFragment on Assignment {
+  id
+  comment
+  person {
+    name
+    assignmentRole {
+      id
+    }
+    ...personDetailsButton_PersonFragment
+  }
+  project {
+    id
+    ...EditAssignmentButton_ProjectFragment
+  }
+  startDate
+  endDate
+  validAssignmentRoles {
+    id
+    name
+  }
+  isExecutive
+  ...EditAssignmentButton_AssignmentFragment
+  ...EmptyAssignmentButton_AssignmentFragment
+  ...DeleteAssignmentButton_AssignmentFragment
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Assignment</p>
+                      <p><strong>Description:</strong> Comprehensive fragment for assignment details including person and project information.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="assignmentProjectCard" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>AssignmentProjectCard_AssignmentFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('assignmentProjectCard', 'Assignment Project Card Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AssignmentProjectCard_AssignmentFragment on Assignment {
+  id
+  project {
+    name
+    id
+    isDeactivated
+  }
+  person {
+    name
+  }
+  startDate
+  endDate
+  validAssignmentRoles {
+    id
+    name
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Assignment</p>
+                      <p><strong>Description:</strong> Fragment for assignment project card details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="assignmentRoleSelect" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>AssignmentRoleSelect_AssignmentRoleFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('assignmentRoleSelect', 'Assignment Role Select Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AssignmentRoleSelect_AssignmentRoleFragment on AssignmentRole @inline {
+  id
+  name
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> AssignmentRole</p>
+                      <p><strong>Description:</strong> Fragment for assignment role selection components.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="assignmentRoleSortOrderButtons" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>AssignmentRoleSortOrderButtons_AssignmentRoleFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('assignmentRoleSortOrderButtons', 'Assignment Role Sort Order Buttons Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AssignmentRoleSortOrderButtons_AssignmentRoleFragment on AssignmentRole {
+  id
+  sortOrder
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> AssignmentRole</p>
+                      <p><strong>Description:</strong> Fragment for assignment role sort order buttons.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="assignmentRolesSelect" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>AssignmentRolesSelect_AssignmentRoleFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('assignmentRolesSelect', 'Assignment Roles Select Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AssignmentRolesSelect_AssignmentRoleFragment on AssignmentRole @inline {
+  id
+  name
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> AssignmentRole</p>
+                      <p><strong>Description:</strong> Fragment for assignment roles selection components.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="assignmentsInProjectListScenario" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>AssignmentsInProjectList_ScenarioFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('assignmentsInProjectListScenario', 'Assignments In Project List Scenario Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AssignmentsInProjectList_ScenarioFragment on Scenario {
+  id
+  ...AssignmentCard_ScenarioFragment
+  ...CheckScenarioPermissions_ScenarioFragment
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Scenario</p>
+                      <p><strong>Description:</strong> Fragment for assignments in project list within a scenario.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="assignmentsInProjectListProject" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>AssignmentsInProjectList_ProjectFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('assignmentsInProjectListProject', 'Assignments In Project List Project Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AssignmentsInProjectList_ProjectFragment on ProjectInScenario {
+  id
+  project {
+    ...CreateAssignmentButton_ProjectFragment
+    ...CreateAssignmentsFromTemplateButton_ProjectFragment
+  }
+  assignments {
+    __id
+    edges {
+      node {
+        id
+        endDate
+        ...AssignmentCard_AssignmentFragment
+        validAssignmentRoles {
+          sortOrder
+        }
+      }
+    }
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> ProjectInScenario</p>
+                      <p><strong>Description:</strong> Fragment for assignments in project list details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="editAssignmentButtonAssignment" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>EditAssignmentButton_AssignmentFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('editAssignmentButtonAssignment', 'Edit Assignment Button Assignment Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment EditAssignmentButton_AssignmentFragment on Assignment {
+  id
+  startDate
+  endDate
+  person {
+    id
+  }
+  validAssignmentRoles {
+    id
+  }
+  importId
+  isExecutive
+  comment
+  weight
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Assignment</p>
+                      <p><strong>Description:</strong> Fragment for editing assignment details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="emptyAssignmentButtonAssignment" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>EmptyAssignmentButton_AssignmentFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('emptyAssignmentButtonAssignment', 'Empty Assignment Button Assignment Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment EmptyAssignmentButton_AssignmentFragment on Assignment {
+  id
+  validAssignmentRoles {
+    name
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Assignment</p>
+                      <p><strong>Description:</strong> Fragment for emptying assignment details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="deleteAssignmentButtonAssignment" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>DeleteAssignmentButton_AssignmentFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('deleteAssignmentButtonAssignment', 'Delete Assignment Button Assignment Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment DeleteAssignmentButton_AssignmentFragment on Assignment {
+  id
+  validAssignmentRoles {
+    name
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Assignment</p>
+                      <p><strong>Description:</strong> Fragment for deleting assignment details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="editAssignmentRoleButtonAssignmentRole" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>editAssignmentRoleButton_AssignmentRoleFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('editAssignmentRoleButtonAssignmentRole', 'Edit Assignment Role Button Assignment Role Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment editAssignmentRoleButton_AssignmentRoleFragment on AssignmentRole {
   id
   name
   sortOrder
@@ -71,140 +466,476 @@ const Fragments = () => {
   countAsOverallocatedAtPercentage
   useEndDateOfLastAssignmentOverProjectionCap
 }`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> AssignmentRole</p>
-                  <p><strong>Description:</strong> Contains fields for assignment role details including allocation percentages and utilization settings.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-          
-          {/* editSkillCategoryButton_SkillCategoryFragment */}
-          <section id="editSkillCategoryButton" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>editSkillCategoryButton_SkillCategoryFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('editSkillCategoryButton', 'Skill Category Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment editSkillCategoryButton_SkillCategoryFragment on SkillCategory {
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> AssignmentRole</p>
+                      <p><strong>Description:</strong> Contains fields for assignment role details including allocation percentages and utilization settings.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="people">
+            <div className="space-y-8">
+              <section id="executivesSelectPerson" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>executivesSelect_PersonFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('executivesSelectPerson', 'Executives Select Person Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment executivesSelect_PersonFragment on Person @inline {
   id
   name
 }`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> SkillCategory</p>
-                  <p><strong>Description:</strong> Contains fields for skill category identification and name.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-          
-          {/* executivesSelect_PersonFragment */}
-          <section id="executivesSelect" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>executivesSelect_PersonFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('executivesSelect', 'Executives Select Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment executivesSelect_PersonFragment on Person @inline {
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Person</p>
+                      <p><strong>Description:</strong> Contains basic person identification fields with the inline directive.</p>
+                    </div>
+                    <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
+                      <p className="text-sm text-blue-700">
+                        <strong>Used In:</strong> This fragment is used in the <a href="/queries#executives-query-example" className="text-blue-600 hover:underline">executivesSelect_Query</a> to fetch executive persons with their basic info.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personCardDraggableScenario" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personCardDraggable_ScenarioFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personCardDraggableScenario', 'Person Card Draggable Scenario Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personCardDraggable_ScenarioFragment on Scenario {
+  id
+  utilization {
+    personUtilizations {
+      personRef
+      status
+    }
+    ...personCard_ScenarioUtilizationFragment
+  }
+  ...personCard_ScenarioFragment
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Scenario</p>
+                      <p><strong>Description:</strong> Fragment for draggable person card within a scenario.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personCardDraggablePerson" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personCardDraggable_PersonFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personCardDraggablePerson', 'Person Card Draggable Person Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personCardDraggable_PersonFragment on Person
+@argumentDefinitions(scenarioId: { type: "ID!" }) {
   id
   name
+  assignmentRole {
+    id
+    name
+  }
+  ...personCard_PersonFragment @arguments(scenarioId: $scenarioId)
 }`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Person</p>
-                  <p><strong>Description:</strong> Contains basic person identification fields with the inline directive.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/queries#executives-query-example" className="text-blue-600 hover:underline">executivesSelect_Query</a> to fetch executive persons with their basic info.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-          
-          {/* loadPursuitProjectsFromRandDwhButton_ScenarioFragment */}
-          <section id="loadPursuitProjectsFromRandDwh" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>loadPursuitProjectsFromRandDwhButton_ScenarioFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('loadPursuitProjectsFromRandDwh', 'Load Pursuit Projects Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment loadPursuitProjectsFromRandDwhButton_ScenarioFragment on Scenario {
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Person</p>
+                      <p><strong>Description:</strong> Fragment for draggable person card details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personCardScenario" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personCard_ScenarioFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personCardScenario', 'Person Card Scenario Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personCard_ScenarioFragment on Scenario {
   id
-  isMasterPlan
+  ...personDetailsButton_ScenarioFragment
 }`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Scenario</p>
-                  <p><strong>Description:</strong> Contains fields to verify if a scenario is a master plan for loading pursuit projects.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-          
-          {/* personDetailsButton_ScenarioFragment */}
-          <section id="personDetailsButton" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>personDetailsButton_ScenarioFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('personDetailsButton', 'Person Details Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment personDetailsButton_ScenarioFragment on Scenario {
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Scenario</p>
+                      <p><strong>Description:</strong> Fragment for person card within a scenario.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personCardPerson" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personCard_PersonFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personCardPerson', 'Person Card Person Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personCard_PersonFragment on Person @argumentDefinitions(scenarioId: { type: "ID!" }) {
+  id
+  name
+  assignmentRole {
+    id
+    name
+  }
+  sumOfProjectVolume(scenarioRef: $scenarioId)
+  comment
+  ...personDetailsButton_PersonFragment
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Person</p>
+                      <p><strong>Description:</strong> Fragment for person card details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personCardScenarioUtilization" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personCard_ScenarioUtilizationFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personCardScenarioUtilization', 'Person Card Scenario Utilization Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personCard_ScenarioUtilizationFragment on ScenarioUtilization {
+  personUtilizations {
+    personRef
+    utilizationPercentage
+    status
+  }
+  ...personDetailsButton_ScenarioUtilizationFragment
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> ScenarioUtilization</p>
+                      <p><strong>Description:</strong> Fragment for person card scenario utilization details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="skillsDisplayPerson" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>skillsDisplay_PersonFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('skillsDisplayPerson', 'Skills Display Person Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment skillsDisplay_PersonFragment on Person {
+  id
+  skills(first: 100) {
+    edges {
+      node {
+        ...skillsDisplay_SkillAssociationInlineFragment
+      }
+    }
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Person</p>
+                      <p><strong>Description:</strong> Fragment for displaying skills of a person.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="skillsDisplaySkillAssociationInline" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>skillsDisplay_SkillAssociationInlineFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('skillsDisplaySkillAssociationInline', 'Skills Display Skill Association Inline Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment skillsDisplay_SkillAssociationInlineFragment on SkillAssociation @inline {
+  id
+  data {
+    value {
+      ... on NumericalAssessmentValue {
+        kind
+        number
+      }
+      ... on BinaryAssessmentValue {
+        hasSkill
+        kind
+      }
+    }
+    skill {
+      id
+      name
+      dimension {
+        kind
+        ... on NumericalDimension {
+          kind
+          dimensionCount
+        }
+      }
+      skillCategory {
+        id
+        name
+      }
+    }
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> SkillAssociation</p>
+                      <p><strong>Description:</strong> Fragment for displaying skill association details.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personDetailsControlPerson" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personDetailsControl_PersonFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personDetailsControlPerson', 'Person Details Control Person Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personDetailsControl_PersonFragment on Person
+@argumentDefinitions(scenarioId: { type: "ID!" }) {
+  id
+  name
+  assignmentRole {
+    name
+  }
+  phone
+  email
+  address {
+    lineOne
+    postalCode
+    city
+    country
+    state
+    latitude
+    longitude
+  }
+  comment
+  avatar {
+    url
+  }
+  associatedWithRegions {
+    id
+    name
+  }
+  associatedWithDivisions {
+    id
+    name
+  }
+  ...skillsDisplay_PersonFragment
+  ...UtilizationOverTimeGraph_PersonFragment @arguments(scenarioId: $scenarioId)
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Person</p>
+                      <p><strong>Description:</strong> Fragment for person details control.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personDetailsControlAssignmentList" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personDetailsControl_AssignmentListFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personDetailsControlAssignmentList', 'Person Details Control Assignment List Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personDetailsControl_AssignmentListFragment on Query
+@refetchable(queryName: "PersonDetailsControl_Refetch")
+@argumentDefinitions(
+  first: { type: "Int", defaultValue: 50 }
+  after: { type: "String" }
+  filterByPerson: { type: "ID" }
+  filterByScenario: { type: "ID" }
+) {
+  Assignments {
+    Assignments(
+      first: $first
+      after: $after
+      filterByPerson: $filterByPerson
+      filterByScenario: $filterByScenario
+    ) @connection(key: "PersonDetailsControl_Assignments") {
+      pageInfo {
+        endCursor
+        hasPreviousPage
+        hasNextPage
+        startCursor
+      }
+      edges {
+        node {
+          id
+          time
+          ...AssignmentProjectCard_AssignmentFragment
+        }
+      }
+    }
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Query</p>
+                      <p><strong>Description:</strong> Fragment for person details control assignment list.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="personDetailsButtonScenario" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>personDetailsButton_ScenarioFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('personDetailsButtonScenario', 'Person Details Button Scenario Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment personDetailsButton_ScenarioFragment on Scenario {
   id
   gapDays {
     personGapDays {
@@ -213,972 +944,14 @@ const Fragments = () => {
     }
   }
 }`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Scenario</p>
-                  <p><strong>Description:</strong> Contains fields for person gap days within a scenario.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Scenario</p>
+                      <p><strong>Description:</strong> Fragment for person details button within a scenario.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
 
-          {/* PeopleTable_PeopleListFragment */}
-          <section id="peopleTableList" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>PeopleTable_PeopleListFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('peopleTableList', 'People Table List Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment PeopleTable_PeopleListFragment on Query
-@refetchable(queryName: "PeopleTable_Refetch")
-@argumentDefinitions(
-    first: { type: "Int", defaultValue: 250 }
-    after: { type: "String" }
-    filterByName: { type: "String" }
-) {
-    Staff {
-        People(
-            first: $first
-            after: $after
-            filterByName: $filterByName
-            showDeactivated: true
-        ) @connection(key: "PeopleTable_People") {
-            __id
-            pageInfo {
-                endCursor
-                hasPreviousPage
-                hasNextPage
-                startCursor
-            }
-            edges {
-                node {
-                    id
-                    ...PeopleTable_PersonFragment
-                }
-            }
-        }
-    }
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Query</p>
-                  <p><strong>Description:</strong> Complex fragment for fetching paginated lists of people with filtering options.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/people#people-table-query" className="text-blue-600 hover:underline">PeopleTable_Query</a> to fetch paginated lists of people.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* PersonSelect_PersonFragment */}
-          <section id="personSelect" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>PersonSelect_PersonFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('personSelect', 'Person Select Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment PersonSelect_PersonFragment on Person @inline {
-  id
-  name
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Person</p>
-                  <p><strong>Description:</strong> Basic person fragment with inline directive for selection components.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/people#person-select-query" className="text-blue-600 hover:underline">PersonSelect_Query</a> for selecting people.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* selectUserInAccountField_PersonFragment */}
-          <section id="selectUserInAccountField" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>selectUserInAccountField_PersonFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('selectUserInAccountField', 'Select User In Account Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment selectUserInAccountField_PersonFragment on Person @inline {
-  id
-  name
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Person</p>
-                  <p><strong>Description:</strong> Person fragment for account-specific user selection.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/people#select-user-in-account-query" className="text-blue-600 hover:underline">selectUserInAccountField_PeopleQuery</a> for selecting people within an account.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* peopleSelect_PersonFragment */}
-          <section id="peopleSelect" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>peopleSelect_PersonFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('peopleSelect', 'People Select Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment peopleSelect_PersonFragment on Person @inline {
-  id
-  name
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Person</p>
-                  <p><strong>Description:</strong> Person fragment for general people selection components.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/people#people-select-query" className="text-blue-600 hover:underline">peopleSelect_Query</a> for selecting multiple people.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ProjectsSelectField_ProjectFragment */}
-          <section id="projectsSelectField" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ProjectsSelectField_ProjectFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectsSelectField', 'Projects Select Field Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ProjectsSelectField_ProjectFragment on Project @inline{
-  id
-  name
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Project</p>
-                  <p><strong>Description:</strong> Basic project selection fields with inline directive.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">ProjectsSelectField_Query</a> for selecting projects with filtering options.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ProjectsTable_ProjectsListFragment */}
-          <section id="projectsTableList" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ProjectsTable_ProjectsListFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectsTableList', 'Projects Table List Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ProjectsTable_ProjectsListFragment on Query
-@refetchable(queryName: "ProjectsTable_Refetch")
-@argumentDefinitions(
-    first: { type: "Int", defaultValue: 200 }
-    after: { type: "String" }
-    filterByName: { type: "String" }
-    filterByRegions: { type: "[ID!]" }
-    filterByDivisions: { type: "[ID!]" }
-    filterByStages: { type: "[ID!]" }
-) {
-    Project {
-        Projects(
-            first: $first
-            after: $after
-            filterByName: $filterByName
-            filterByRegions: $filterByRegions
-            filterByDivisions: $filterByDivisions
-            filterByStages: $filterByStages
-            showDeactivated: true
-        ) @connection(key: "ProjectsTable_Projects") {
-            __id
-            pageInfo {
-                endCursor
-                hasPreviousPage
-                hasNextPage
-                startCursor
-            }
-            edges {
-                node {
-                    id
-                    ...ProjectsTable_ProjectFragment
-                }
-            }
-        }
-    }
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Query</p>
-                  <p><strong>Description:</strong> Complex fragment for fetching paginated lists of projects with filtering options.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">ProjectsTable_Query</a> to fetch paginated lists of projects.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ProjectsTable_ProjectFragment */}
-          <section id="projectsTableFragment" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ProjectsTable_ProjectFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectsTableFragment', 'Projects Table Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ProjectsTable_ProjectFragment on Project @inline {
-  id
-  name
-  isDeactivated
-  source
-
-  division {
-    id
-    name
-  }
-  region {
-    id
-    name
-  }
-  startDate
-  endDate
-
-  stage {
-    id
-    name
-  }
-
-  address {
-    latitude
-    longitude
-    ...GoogleMapsClickout_AddressFragment
-  }
-
-  avatar {
-    id
-    url
-  }
-
-  ...editProjectButton_ProjectFragment
-  ...ChangeProjectActivationButton_ProjectFragment
-  ...syncProjectFromDynamicsButton_ProjectFragment
-  ...syncProjectFromRandButton_ProjectFragment
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Project</p>
-                  <p><strong>Description:</strong> Project information for table display with various UI component fragments.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">ProjectsTable_Query</a> for table display of projects.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* GoogleMapsClickout_AddressFragment */}
-          <section id="googleMapsClickout" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>GoogleMapsClickout_AddressFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('googleMapsClickout', 'Google Maps Clickout Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment GoogleMapsClickout_AddressFragment on Address {
-  latitude
-  longitude
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Address</p>
-                  <p><strong>Description:</strong> Address coordinates for Google Maps integration.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* editProjectButton_ProjectFragment */}
-          <section id="editProjectButton" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>editProjectButton_ProjectFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('editProjectButton', 'Edit Project Button Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment editProjectButton_ProjectFragment on Project {
-  id
-  name
-  startDate
-  endDate
-  address {
-    lineOne
-    city
-    postalCode
-    state
-    country
-    latitude
-    longitude
-  }
-  source
-  architectName
-  clientName
-  stage {
-    id
-    name
-  }
-  skills {
-    id
-  }
-  volume
-  generalConditionsPercentage
-  budgetedLaborCosts
-  division {
-    id
-  }
-  region {
-    id
-  }
-  projectIdentifier
-  durationInMonths
-  avatar {
-    id
-    url
-  }
-  milestones {
-    name
-    date
-  }
-  comments
-  source
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Project</p>
-                  <p><strong>Description:</strong> Comprehensive project details for editing functionality.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ChangeProjectActivationButton_ProjectFragment */}
-          <section id="changeProjectActivation" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ChangeProjectActivationButton_ProjectFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('changeProjectActivation', 'Change Project Activation Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ChangeProjectActivationButton_ProjectFragment on Project {
-  id
-  isDeactivated
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Project</p>
-                  <p><strong>Description:</strong> Project activation state information.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* projectDetailsControl fragments */}
-          <section id="projectDetailsControl" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>projectDetailsControl_ProjectInScenarioFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectDetailsControl', 'Project Details Control Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment projectDetailsControl_ProjectInScenarioFragment on ProjectInScenario {
-  id
-  project {
-    id
-    name
-    startDate
-    endDate
-    skills {
-      name
-    }
-    address {
-      lineOne
-      postalCode
-      city
-      country
-      state
-      latitude
-      longitude
-    }
-    avatar {
-      url
-    }
-    skillMatrixByCategories {
-      ...projectDetailsControl_CategoryWithMatrixTypeInlineFragment
-    }
-    ...ProjectDateTimeDisplay_ProjectFragment
-  }
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> ProjectInScenario</p>
-                  <p><strong>Description:</strong> Detailed project information including address, skills, and matrix data.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">ProjectDetailsModalContent_Query</a> to fetch detailed project information.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ProjectDateTimeDisplay_ProjectFragment */}
-          <section id="projectDateTimeDisplay" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ProjectDateTimeDisplay_ProjectFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectDateTimeDisplay', 'Project Date Time Display Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ProjectDateTimeDisplay_ProjectFragment on Project {
-  startDate
-  endDate
-  durationInMonths
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Project</p>
-                  <p><strong>Description:</strong> Project date and duration information.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">projectDetailsControl_ProjectInScenarioFragment</a> fragment.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* projectDetailsControl_CategoryWithMatrixTypeInlineFragment */}
-          <section id="categoryWithMatrixTypeInline" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>projectDetailsControl_CategoryWithMatrixTypeInlineFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('categoryWithMatrixTypeInline', 'Category With Matrix Type Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment projectDetailsControl_CategoryWithMatrixTypeInlineFragment on CategoryWithMatrixType @inline {
-  matrix {
-    columns {
-      key
-    }
-    headerRow {
-      key
-      entries {
-        id
-        name
-        skillCategory {
-          id
-          name
-        }
-      }
-    }
-    bodyRows {
-      key
-      entries {
-        value {
-          id
-          data {
-            value {
-              kind
-              ... on BinaryAssessmentValue {
-                hasSkill
-                kind
-              }
-              ... on NumericalAssessmentValue {
-                kind
-                number
-              }
-            }
-            skill {
-              id
-              name
-              dimension {
-                kind
-                ... on NumericalDimension {
-                  dimensionCount
-                  kind
-                }
-                ... on BinaryDimension {
-                  kind
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  category {
-    id
-    name
-  }
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> CategoryWithMatrixType</p>
-                  <p><strong>Description:</strong> Complex matrix data structure for project skill categories.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/projects#" className="text-blue-600 hover:underline">projectDetailsControl_ProjectInScenarioFragment</a> fragment.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ScenarioMapViewScreen_ScenarioFragment */}
-          <section id="scenarioMapViewScreen" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ScenarioMapViewScreen_ScenarioFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('scenarioMapViewScreen', 'Scenario Map View Screen Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ScenarioMapViewScreen_ScenarioFragment on Scenario {
-  id
-  ...ProjectMapPart_ScenarioFragment
-  ...rosterPart_ScenarioFragment
-  ...DashboardHeader_ScenarioFragment
-  projects {
-    edges {
-      node {
-        id
-        project {
-          id
-        }
-        ...ProjectMapPart_ProjectInScenarioFragment
-      }
-    }
-  }
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Scenario</p>
-                  <p><strong>Description:</strong> Composite fragment for scenario map view with nested fragments for project and roster data.</p>
-                </div>
-                <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4">
-                  <p className="text-sm text-blue-700">
-                    <strong>Used In:</strong> This fragment is used in the <a href="/scenarios#map-view" className="text-blue-600 hover:underline">ScenarioMapViewScreen_Query</a> for the map view interface.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ProjectMapPart_ScenarioFragment */}
-          <section id="projectMapPart" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ProjectMapPart_ScenarioFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectMapPart', 'Project Map Part Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ProjectMapPart_ScenarioFragment on Scenario {
-  id
-  ...AssignmentsInProjectList_ScenarioFragment
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Scenario</p>
-                  <p><strong>Description:</strong> Fragment for project map component with assignments list.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* DashboardHeader_ScenarioFragment */}
-          <section id="dashboardHeader" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>DashboardHeader_ScenarioFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('dashboardHeader', 'Dashboard Header Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment DashboardHeader_ScenarioFragment on Scenario {
-  id
-  ...CurrentScenarioControl_ScenarioFragment
-  ...ScenarioStatistics_ScenarioFragment
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Scenario</p>
-                  <p><strong>Description:</strong> Fragment for scenario dashboard header with controls and statistics.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* ProjectsGridPart_ScenarioFragment */}
-          <section id="projectsGridPart" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>ProjectsGridPart_ScenarioFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectsGridPart', 'Projects Grid Part Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment ProjectsGridPart_ScenarioFragment on Scenario
-@argumentDefinitions(
-  projectFilters: { type: "ProjectWithAssignmentsFiltersInput" }
-  personOnAssignmentFilters: { type: "PersonOnAssignmentFiltersInput" }
-) {
-  id
-  ...projectsGridPartContent_ScenarioFragment
-    @arguments(
-      projectFilters: $projectFilters
-      personOnAssignmentFilters: $personOnAssignmentFilters
-    )
-  ...updateAssignmentsFromDynamicsButton_ScenarioFragment
-  ...projectViewFiltersPart_ScenarioFragment
-  ...syncWithRandPreconDwhButton_ScenarioFragment
-  ...loadPursuitProjectsFromRandDwhButton_ScenarioFragment
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> Scenario</p>
-                  <p><strong>Description:</strong> Complex fragment for scenario projects grid with filtering options.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-          
-          {/* ProjectCard_ProjectFragment */}
-          <section id="projectCard" className="scroll-mt-16">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="h-5 w-5 text-blue-500" />
-                  <span>projectCard_ProjectFragment</span>
-                </CardTitle>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => handleCopyToClipboard('projectCard', 'Project Card Fragment')}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy Link
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <pre className="code-block overflow-x-auto">
-                  <code>{`fragment projectCard_ProjectFragment on ProjectInScenario {
-  id
-  project {
-    id
-    name
-    startDate
-    endDate
-    address {
-      lineOne
-      city
-      country
-      postalCode
-      state
-      latitude
-      longitude
-    }
-    stage {
-      color
-    }
-    ...editProjectButton_ProjectFragment
-    ...ProjectDateTimeDisplay_ProjectFragment
-  }
-  assignments {
-    edges {
-      node {
-        person {
-          id
-        }
-      }
-    }
-  }
-  ...AssignmentsInProjectList_ProjectFragment
-  ...projectDetailsButton_ProjectInScenario
-}`}</code>
-                </pre>
-                <div className="mt-4 text-sm">
-                  <p><strong>Type:</strong> ProjectInScenario</p>
-                  <p><strong>Description:</strong> Composite fragment for project card display with assignments and details.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-        </div>
-        
-        <section className="mt-12">
-          <h2 className="text-2xl font-bold mb-4">Using Fragments</h2>
-          <p className="mb-4">
-            To use these fragments in your queries, include them in your GraphQL request and reference them in your query:
-          </p>
-          
-          <pre className="code-block overflow-x-auto mb-6">
-            <code>{`query GetAssignmentRole($id: ID!) {
-  assignmentRole(id: $id) {
-    ...editAssignmentRoleButton_AssignmentRoleFragment
-  }
-}
-
-# Include the fragment definition
-fragment editAssignmentRoleButton_AssignmentRoleFragment on AssignmentRole {
-  id
-  name
-  sortOrder
-  maxNumberOfProjects
-  utilizationProjectionCapInMonths
-  countAsFullyAllocatedAtPercentage
-  countAsOverallocatedAtPercentage
-  useEndDateOfLastAssignmentOverProjectionCap
-}`}</code>
-          </pre>
-          
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
-            <div className="flex">
-              <div className="ml-3">
-                <p className="text-sm text-blue-700">
-                  <strong>Tip:</strong> Fragments can improve query organization and help with code reuse across multiple queries.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </DocsLayout>
-  );
-};
-
-export default Fragments;
+              <section id="personDetailsButtonPerson" className="scroll-mt-16">
+                <Card>
