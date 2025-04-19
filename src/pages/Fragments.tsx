@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import DocsLayout from '@/components/DocsLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Hash, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DocsLayout from "../components/DocsLayout";
 
 const Fragments = () => {
   const { toast } = useToast();
@@ -993,16 +993,117 @@ const Fragments = () => {
 
           <TabsContent value="projects">
             <div className="space-y-8">
-              <section id="projectsRelatedFragments" className="scroll-mt-16">
+              <section id="projectCard" className="scroll-mt-16">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <Hash className="h-5 w-5 text-blue-500" />
-                      <span>Projects Related Fragments</span>
+                      <span>projectCard_ProjectFragment</span>
                     </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('projectCard', 'Project Card Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-600">Project fragments will be listed here.</p>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment projectCard_ProjectFragment on ProjectInScenario {
+  id
+  project {
+    id
+    name
+    startDate
+    endDate
+    address {
+      lineOne
+      city
+      country
+      postalCode
+      state
+      latitude
+      longitude
+    }
+    stage {
+      color
+    }
+    ...editProjectButton_ProjectFragment
+    ...ProjectDateTimeDisplay_ProjectFragment
+  }
+  assignments {
+    edges {
+      node {
+        person {
+          id
+        }
+      }
+    }
+  }
+  ...AssignmentsInProjectList_ProjectFragment
+  ...projectDetailsButton_ProjectInScenario
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> ProjectInScenario</p>
+                      <p><strong>Description:</strong> Contains project details including address, stage, and related assignments.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+
+              <section id="projectStagesTable" className="scroll-mt-16">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Hash className="h-5 w-5 text-blue-500" />
+                      <span>ProjectStagesTable_ProjectStageListFragment</span>
+                    </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('projectStagesTable', 'Project Stages Table Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment ProjectStagesTable_ProjectStageListFragment on Query
+@refetchable(queryName: "ProjectStagesTable_Refetch")
+@argumentDefinitions(
+  first: { type: "Int", defaultValue: 20 }
+  after: { type: "String" }
+  filterByName: { type: "String" }
+) {
+  Project {
+    ProjectStages(first: $first, after: $after, filterByName: $filterByName)
+      @connection(key: "ProjectStagesTable_ProjectStages") {
+      __id
+      pageInfo {
+        endCursor
+        hasPreviousPage
+        hasNextPage
+        startCursor
+      }
+      edges {
+        node {
+          ...ProjectStagesTable_ProjectStageFragment
+        }
+      }
+    }
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Query</p>
+                      <p><strong>Description:</strong> Fragment for querying and displaying project stages with pagination.</p>
+                    </div>
                   </CardContent>
                 </Card>
               </section>
@@ -1011,16 +1112,35 @@ const Fragments = () => {
 
           <TabsContent value="scenarios">
             <div className="space-y-8">
-              <section id="scenariosRelatedFragments" className="scroll-mt-16">
+              <section id="dashboardHeader" className="scroll-mt-16">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <Hash className="h-5 w-5 text-blue-500" />
-                      <span>Scenarios Related Fragments</span>
+                      <span>DashboardHeader_ScenarioFragment</span>
                     </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('dashboardHeader', 'Dashboard Header Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-600">Scenario fragments will be listed here.</p>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment DashboardHeader_ScenarioFragment on Scenario {
+  id
+  ...CurrentScenarioControl_ScenarioFragment
+  ...ScenarioStatistics_ScenarioFragment
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Scenario</p>
+                      <p><strong>Description:</strong> Fragment for the dashboard header containing scenario controls and statistics.</p>
+                    </div>
                   </CardContent>
                 </Card>
               </section>
@@ -1029,16 +1149,47 @@ const Fragments = () => {
 
           <TabsContent value="admin">
             <div className="space-y-8">
-              <section id="adminRelatedFragments" className="scroll-mt-16">
+              <section id="accountsAdminTable" className="scroll-mt-16">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <Hash className="h-5 w-5 text-blue-500" />
-                      <span>Admin Related Fragments</span>
+                      <span>AccountsAdminTable_AccountsListFragment</span>
                     </CardTitle>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleCopyToClipboard('accountsAdminTable', 'Accounts Admin Table Fragment')}
+                      className="flex items-center gap-1"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Copy Link
+                    </Button>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-600">Admin fragments will be listed here.</p>
+                    <pre className="code-block overflow-x-auto">
+                      <code>{`fragment AccountsAdminTable_AccountsListFragment on Query
+@refetchable(queryName: "AccountsTable_Refetch")
+@argumentDefinitions(first: { type: "Int", defaultValue: 20 }, after: { type: "String" }) {
+  Admin {
+    Management {
+      AccountsAdmin(first: $first, after: $after)
+        @connection(key: "AccountsTable_AccountsAdmin") {
+        __id
+        edges {
+          node {
+            ...AccountsAdminTable_AccountInlineFragment
+          }
+        }
+      }
+    }
+  }
+}`}</code>
+                    </pre>
+                    <div className="mt-4 text-sm">
+                      <p><strong>Type:</strong> Query</p>
+                      <p><strong>Description:</strong> Fragment for querying and displaying admin accounts with pagination.</p>
+                    </div>
                   </CardContent>
                 </Card>
               </section>
