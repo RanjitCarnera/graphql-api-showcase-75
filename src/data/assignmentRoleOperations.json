@@ -1,0 +1,31 @@
+
+{
+  "queries": [
+    {
+      "id": "assignmentRoleSelect",
+      "title": "AssignmentRoleSelect_Query",
+      "description": "Fetches a list of assignment roles with basic information for selection purposes.",
+      "code": "query AssignmentRoleSelect_Query($filterByName: String, $alwaysIncludeIds: [ID!]) {\n    Assignments {\n        AssignmentRoles(\n            first: 100\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n        ) {\n            edges {\n                node {\n                    ...AssignmentRoleSelect_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+      "id": "assignmentRolesTable",
+      "title": "assignmentRolesTable_Query",
+      "description": "Fetches detailed assignment role data for tabular display with pagination support.",
+      "code": "query assignmentRolesTable_Query($first: Int, $filterByName: String) {\n    ...assignmentRolesTable_AssignmentRolesQueryFragment\n        @arguments(first: $first, filterByName: $filterByName)\n}"
+    }
+  ],
+  "mutations": [
+    {
+      "id": "createAssignmentRole",
+      "title": "Create Assignment Role",
+      "description": "Creates a new assignment role in the system.",
+      "code": "mutation createAssignmentRoleButton_CreateAssignmentRoleMutation(\n    $input: CreateAssignmentRoleInput!\n    $connectionId: ID!\n) {\n    Assignment {\n        createAssignmentRole(input: $input) {\n            edge @appendEdge(connections: [$connectionId]) {\n                node {\n                    id\n                    ...editAssignmentRoleButton_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+      "id": "deleteAssignmentRole",
+      "title": "Delete Assignment Role",
+      "description": "Removes an assignment role from the system.",
+      "code": "mutation deleteAssignmentRolesButton_DeleteAssignmentRoleMutation(\n    $input: DeleteAssignmentRoleInput!\n    $connections: [ID!]!\n) {\n    Assignment {\n        deleteAssignmentRole(input: $input) {\n            deletedIds @deleteEdge(connections: $connections)\n        }\n    }\n}"
+    }
+  ]
+}
