@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import DocsLayout from '../components/DocsLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -957,3 +958,24 @@ const Fragments = () => {
                 </Button>
               </CardHeader>
               <CardContent>
+                <pre className="code-block overflow-x-auto">
+                  <code>{`fragment personDetailsButton_PersonFragment on Person {
+  id
+  name
+  comment
+}`}</code>
+                </pre>
+                <div className="mt-4 text-sm">
+                  <p><strong>Type:</strong> Person</p>
+                  <p><strong>Description:</strong> Fragment for person details button.</p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        </div>
+      </div>
+    </DocsLayout>
+  );
+};
+
+export default Fragments;
