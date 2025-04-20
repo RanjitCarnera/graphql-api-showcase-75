@@ -1,0 +1,18 @@
+
+{
+  "queries": [
+    {
+      "id": "regionSelect",
+      "title": "RegionSelect_Query",
+      "description": "Fetches regions with filtering and exclusion options.",
+      "code": "query RegionSelect_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {\n  Region {\n    Regions(first: 20, excludeIds: $excludeIds, filterByName: $filterByName, alwaysIncludeIds: $alwaysIncludeIds) {\n      edges {\n        node {\n          ...RegionSelect_RegionFragment\n        }\n      }\n    }\n  }\n}"
+    },
+    {
+      "id": "regionsTable",
+      "title": "RegionsTable_Query",
+      "description": "Retrieves regions for table display with pagination and filtering support.",
+      "code": "query RegionsTable_Query($first: Int, $filterByName: String) {\n  ...RegionsTable_RegionListFragment\n    @arguments(first: $first, filterByName: $filterByName)\n}"
+    }
+  ],
+  "mutations": []
+}

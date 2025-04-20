@@ -1,0 +1,31 @@
+
+{
+  "queries": [
+    {
+      "id": "divisionSelect",
+      "title": "DivisionSelect_Query",
+      "description": "Fetches divisions with filtering and exclusion options.",
+      "code": "query DivisionSelect_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {\n  Division {\n    Divisions(first: 20, excludeIds: $excludeIds, filterByName: $filterByName, alwaysIncludeIds: $alwaysIncludeIds) {\n      edges {\n        node {\n          ...DivisionSelect_DivisionFragment\n        }\n      }\n    }\n  }\n}"
+    },
+    {
+      "id": "divisionsTable",
+      "title": "DivisionsTable_Query",
+      "description": "Retrieves divisions for table display with pagination and filtering support.",
+      "code": "query DivisionsTable_Query($first: Int, $filterByName: String) {\n  ...DivisionsTable_DivisionListFragment\n    @arguments(first: $first, filterByName: $filterByName)\n}"
+    }
+  ],
+  "mutations": [
+    {
+      "id": "createDivision",
+      "title": "Create Division",
+      "description": "Creates a new division with the specified details.",
+      "code": "mutation EditDivisionModal_CreateMutation($input: CreateDivisionInput!, $connections: [ID!]!) {\n  Division {\n    createDivision(input: $input) {\n      edge @appendEdge(connections: $connections) {\n        node {\n          id\n          ...EditDivisionButton_DivisionFragment\n        }\n      }\n    }\n  }\n}"
+    },
+    {
+      "id": "deleteDivision",
+      "title": "Delete Division",
+      "description": "Deletes a division and updates connection edges.",
+      "code": "mutation deleteDivisionButton_DeleteDivisionMutation($input: DeleteDivisionInput!, $connections: [ID!]!) {\n  Division {\n    deleteDivision(input: $input) {\n      deletedIds @deleteEdge(connections: $connections)\n    }\n  }\n}"
+    }
+  ]
+}
