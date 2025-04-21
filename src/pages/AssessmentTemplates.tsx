@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -28,7 +27,7 @@ const AssessmentTemplates = () => {
     if (!fragmentIdArr || fragmentIdArr.length === 0) return;
     // Only scroll to the first one
     const fragId = fragmentIdArr[0];
-    const refKey = fragIdToRefKey(fragId);
+    const refKey = fragmentIdToRefKey(fragId);
     setTimeout(() => {
       const fragmentEl = fragmentRefs.current[refKey];
       if (fragmentEl) {
@@ -97,7 +96,7 @@ const AssessmentTemplates = () => {
           <h2 className="text-2xl font-bold mb-4">Related Fragments</h2>
           <div className="space-y-6">
             {assessmentTemplateOperations.fragments.map((fragment) => {
-              const anchorKey = fragIdToRefKey(
+              const anchorKey = fragmentIdToRefKey(
                 fragment.fragmentId || fragment.title
               );
               return (
