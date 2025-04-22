@@ -2,8 +2,10 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Copy, Hash } from 'lucide-react';
+import { ArrowRight, Copy, Hash } from 'lucide-react';
+import { ToastAction } from "@/components/ui/toast";
 import { useToast } from '@/components/ui/use-toast';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 interface OperationCardProps {
   id: string;
@@ -15,13 +17,12 @@ interface OperationCardProps {
 const OperationCard: React.FC<OperationCardProps> = ({ id, title, description, code }) => {
   const { toast } = useToast();
 
-  const handleCopyToClipboard = () => {
-    const operationUrl = `${window.location.origin}/assignment-roles#${id}`;
-    navigator.clipboard.writeText(operationUrl);
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
     toast({
-      title: "Link copied!",
-      description: `Direct link to ${title} has been copied to clipboard.`,
-      duration: 2000,
+      title: "Copied to clipboard",
+      description: "The code has been copied to your clipboard.",
+      action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
     });
   };
 
@@ -33,23 +34,34 @@ const OperationCard: React.FC<OperationCardProps> = ({ id, title, description, c
             <Hash className="h-5 w-5 text-blue-500" />
             <span>{title}</span>
           </CardTitle>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handleCopyToClipboard}
-            className="flex items-center gap-1"
-          >
-            <Copy className="h-4 w-4" />
-            Copy Link
-          </Button>
+          <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" onClick={() => copyToClipboard(code)}>
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Copy</TooltipContent>
+                </Tooltip>
         </CardHeader>
         <CardContent>
-          <pre className="code-block overflow-x-auto">
-            <code>{code}</code>
+        <p className="mb-4">{description}</p>
+          <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
+           {code}
           </pre>
-          <div className="mt-4 text-sm">
-            <p><strong>Description:</strong> {description}</p>
-          </div>
+
+          <div className="mt-4 flex justify-end">
+                  <Button 
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      window.location.href = '/fragments';
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <span>View Fragment Definition</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
         </CardContent>
       </Card>
     </section>

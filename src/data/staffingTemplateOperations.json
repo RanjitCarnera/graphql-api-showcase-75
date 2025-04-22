@@ -1,0 +1,94 @@
+{
+    "queries": [
+      {
+        "id": "StaffingTemplateSelect",
+        "title": "StaffingTemplateSelect_Query",
+        "description": "Fetches staffing templates with filtering options. Limited to first 20 results. Uses StaffingTemplateSelect_StaffingTemplateFragment.",
+        "code": "query StaffingTemplateSelect_Query {Template {\n        StaffingTemplates(first: 20, filterByName: $filterByName, alwaysIncludeIds: $alwaysIncludeIds) {\n            edges {\n                node {\n                    ...StaffingTemplateSelect_StaffingTemplateFragment\n                }\n            }\n        }\n    }}",
+        "usedFragments": [
+          "StaffingTemplateSelect_StaffingTemplateFragment"
+        ]
+      },
+      {
+        "id": "StaffingTemplatesTable",
+        "title": "StaffingTemplatesTable_Query",
+        "description": "Retrieves staffing templates for table display with pagination and filtering support. Uses StaffingTemplatesTable_StaffingTemplateListFragment.",
+        "code": "query StaffingTemplatesTable_Query {...StaffingTemplatesTable_StaffingTemplateListFragment\n        @arguments(first: $first, filterByName: $filterByName)}",
+        "usedFragments": [
+          "StaffingTemplatesTable_StaffingTemplateListFragment"
+        ]
+      }
+    ],
+    "mutations": [
+      {
+        "id": "DeleteStaffingTemplatesButton",
+        "title": "DeleteStaffingTemplatesButton_DeleteMutation",
+        "description": "Deletes a staffing template and updates connection edges.",
+        "code": "mutation DeleteStaffingTemplatesButton_DeleteMutation {Template {\n        deleteStaffingTemplate(input: $input) {\n            deletedIds @deleteEdge(connections: $connections)\n        }\n    }}",
+        "usedFragments": []
+      },
+      {
+        "id": "EditStaffingTemplateModal",
+        "title": "EditStaffingTemplateModal_CreateMutation",
+        "description": "Creates a new staffing template. Uses EditStaffingTemplateButton_StaffingTemplateFragment.",
+        "code": "mutation EditStaffingTemplateModal_CreateMutation {Template {\n        createStaffingTemplate(input: $input) {\n            edge @appendEdge(connections: $connections) {\n                node {\n                    id\n                    ...EditStaffingTemplateButton_StaffingTemplateFragment\n                }\n            }\n        }\n    }}",
+        "usedFragments": [
+          "EditStaffingTemplateButton_StaffingTemplateFragment"
+        ]
+      },
+      {
+        "id": "EditStaffingTemplateModal",
+        "title": "EditStaffingTemplateModal_EditMutation",
+        "description": "Updates an existing staffing template. Uses EditStaffingTemplateButton_StaffingTemplateFragment.",
+        "code": "mutation EditStaffingTemplateModal_EditMutation {Template {\n        editStaffingTemplate(input: $input) {\n            edge {\n                node {\n                    id\n                    ...EditStaffingTemplateButton_StaffingTemplateFragment\n                }\n            }\n        }\n    }}",
+        "usedFragments": [
+          "EditStaffingTemplateButton_StaffingTemplateFragment"
+        ]
+      },
+      {
+        "id": "ExportStaffingTemplatesButton",
+        "title": "ExportStaffingTemplatesButton_ExportMutation",
+        "description": "Export staffing templates in bulk.",
+        "code": "mutation ExportStaffingTemplatesButton_ExportMutation {Template {\n        exportStaffingTemplates(input: {}) {\n            file {\n                url\n            }\n        }\n    }}",
+        "usedFragments": []
+      },
+      {
+        "id": "ImportStaffingTemplatesButton",
+        "title": "ImportStaffingTemplatesButton_ImportMutation",
+        "description": "Import staffing templates in bulk.",
+        "code": "mutation ImportStaffingTemplatesButton_ImportMutation {Template {\n        importStaffingTemplates(input: $input) {\n            result {\n                editedEntities\n                newEntities\n                issues {\n                    row\n                    issue\n                }\n            }\n        }\n    }}",
+        "usedFragments": []
+      }
+    ],
+    "fragments": [
+      {
+        "id": "StaffingTemplateSelect",
+        "title": "StaffingTemplateSelect_StaffingTemplateFragment",
+        "description": "",
+        "code": "fragment StaffingTemplateSelect_StaffingTemplateFragment on ... {id\n    name}",
+        "fragmentId": "StaffingTemplateSelect_StaffingTemplateFragment"
+      },
+      {
+        "id": "StaffingTemplatesTable",
+        "title": "StaffingTemplatesTable_StaffingTemplateListFragment",
+        "description": "",
+        "code": "fragment StaffingTemplatesTable_StaffingTemplateListFragment on ... {type: \"Int\", defaultValue: 20}",
+        "fragmentId": "StaffingTemplatesTable_StaffingTemplateListFragment"
+      },
+      {
+        "id": "EditStaffingTemplateButton",
+        "title": "EditStaffingTemplateButton_StaffingTemplateFragment",
+        "description": "",
+        "code": "fragment EditStaffingTemplateButton_StaffingTemplateFragment on ... {...EditStaffingTemplateModal_StaffingTemplateFragment}",
+        "fragmentId": "EditStaffingTemplateButton_StaffingTemplateFragment"
+      },
+      {
+        "id": "EditStaffingTemplateModal",
+        "title": "EditStaffingTemplateModal_StaffingTemplateFragment",
+        "description": "",
+        "code": "fragment EditStaffingTemplateModal_StaffingTemplateFragment on ... {id\n    name\n    assignmentRoleAssociations {\n        assignmentRoleRef\n        isExecutive\n    }}",
+        "fragmentId": "EditStaffingTemplateModal_StaffingTemplateFragment"
+      }
+    ]
+  }
+  

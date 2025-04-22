@@ -16,11 +16,6 @@ const PeopleIntroduction: React.FC = () => {
         Each query uses reusable fragments that define the fields returned for each person.
       </p>
       
-      <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
-        <p className="text-sm text-blue-700">
-          <strong>Note:</strong> Many of these queries allow filtering and pagination. See the examples below for usage patterns.
-        </p>
-      </div>
     </>
   );
 };

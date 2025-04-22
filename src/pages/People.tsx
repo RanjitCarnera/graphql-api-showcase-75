@@ -1,17 +1,11 @@
 
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import OperationCard from '@/components/graphql/OperationCard';
+import operationsData from '@/data/peopleOperations.json';
 import PeopleIntroduction from '@/components/people/PeopleIntroduction';
-import PeopleQuerySection from '@/components/people/PeopleQuerySection';
 import RelatedResources from '@/components/people/RelatedResources';
-import { 
-  peopleQueryExamples, 
-  personSelectExamples, 
-  selectUserInAccountExamples, 
-  peopleSelectExamples,
-  peopleTableResponseExample,
-  queryStructures
-} from '@/components/people/QueryData';
 
 const People = () => {
   return (
@@ -19,43 +13,42 @@ const People = () => {
       <div className="max-w-4xl mx-auto">
         <PeopleIntroduction />
         
-        <PeopleQuerySection 
-          id="people-table-query"
-          title="PeopleTable_Query"
-          description="Fetches a paginated list of people with optional name filtering. This query uses the PeopleTable_PeopleListFragment fragment."
-          queryStructure={queryStructures.peopleTable}
-          fragmentLink="/fragments#peopleTableList"
-          codeExamples={peopleQueryExamples}
-          exampleResponse={peopleTableResponseExample}
-        />
-        
-        <PeopleQuerySection 
-          id="person-select-query"
-          title="PersonSelect_Query"
-          description="Query for selecting people with filtering, exclusions, and always-include options. This query uses the PersonSelect_PersonFragment fragment."
-          queryStructure={queryStructures.personSelect}
-          fragmentLink="/fragments#personSelect"
-          codeExamples={personSelectExamples}
-        />
-        
-        <PeopleQuerySection 
-          id="select-user-in-account-query"
-          title="selectUserInAccountField_PeopleQuery"
-          description="Queries people within a specific account context. This query uses the selectUserInAccountField_PersonFragment fragment."
-          queryStructure={queryStructures.selectUserInAccount}
-          fragmentLink="/fragments#selectUserInAccountField"
-          codeExamples={selectUserInAccountExamples}
-        />
-        
-        <PeopleQuerySection 
-          id="people-select-query"
-          title="peopleSelect_Query"
-          description="General-purpose query for selecting multiple people with various filtering options. This query uses the peopleSelect_PersonFragment fragment."
-          queryStructure={queryStructures.peopleSelect}
-          fragmentLink="/fragments#peopleSelect"
-          codeExamples={peopleSelectExamples}
-        />
-
+        <Tabs defaultValue="queries" className="w-full mb-8">
+          <TabsList className="mb-4">
+            <TabsTrigger value="queries">Queries</TabsTrigger>
+            <TabsTrigger value="mutations">Mutations</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="queries" className="space-y-6">
+            <h2 className="text-2xl font-bold mb-4">Queries</h2>
+            <p className="mb-4">Use these queries to fetch information about assignment roles in different formats and contexts.</p>
+            
+            {operationsData.queries.map((query) => (
+              <OperationCard
+                key={query.id}
+                id={query.id}
+                title={query.title}
+                description={query.description}
+                code={query.code}
+              />
+            ))}
+          </TabsContent>
+          
+          <TabsContent value="mutations" className="space-y-6">
+            <h2 className="text-2xl font-bold mb-4">Mutations</h2>
+            <p className="mb-4">Use these mutations to create, update, delete, and manage assignment roles.</p>
+            
+            {operationsData.mutations.map((mutation) => (
+              <OperationCard
+                key={mutation.id}
+                id={mutation.id}
+                title={mutation.title}
+                description={mutation.description}
+                code={mutation.code}
+              />
+            ))}
+          </TabsContent>
+        </Tabs>
         <RelatedResources />
       </div>
     </DocsLayout>
