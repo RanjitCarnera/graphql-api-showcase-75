@@ -32,6 +32,7 @@ import Assignments from './pages/Assignments';
 import AccountUsers from './pages/AccountUsers';
 import AccountPermissionsGroups from './pages/AccountPermissionsGroups';
 import AccountSettings from './pages/AccountSettings';
+import SkillAssessment from './pages/SkillAssessment';
 
 // Define routes
 const router = createBrowserRouter([
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
   {
     path: "/skills",
     element: <Skills />
+  },
+  {
+    path: "/skills-assessment",
+    element: <SkillAssessment />
   },
   {
     path: "/divisions",

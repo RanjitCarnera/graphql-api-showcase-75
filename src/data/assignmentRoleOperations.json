@@ -1,31 +1,142 @@
-
 {
   "queries": [
     {
-      "id": "assignmentRoleSelect",
+      "id": "AssignmentRoleSelect_Query",
       "title": "AssignmentRoleSelect_Query",
-      "description": "Fetches a list of assignment roles with basic information for selection purposes.",
-      "code": "query AssignmentRoleSelect_Query($filterByName: String, $alwaysIncludeIds: [ID!]) {\n    Assignments {\n        AssignmentRoles(\n            first: 100\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n        ) {\n            edges {\n                node {\n                    ...AssignmentRoleSelect_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}"
+      "description": "",
+      "code": "query AssignmentRoleSelect_Query($filterByName: String, $alwaysIncludeIds: [ID!]) {\n    Assignments {\n        AssignmentRoles(\n            first: 100\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n        ) {\n            edges {\n                node {\n                    ...AssignmentRoleSelect_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": [
+        "AssignmentRoleSelect_AssignmentRoleFragment"
+      ]
     },
     {
-      "id": "assignmentRolesTable",
+      "id": "AssignmentRolesSelect_Query",
+      "title": "AssignmentRolesSelect_Query",
+      "description": "",
+      "code": "query AssignmentRolesSelect_Query($filterByName: String, $alwaysIncludeIds: [ID!]) {\n    Assignments {\n        AssignmentRoles(\n            first: 100\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n        ) {\n            edges {\n                node {\n                    ...AssignmentRolesSelect_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": [
+        "AssignmentRolesSelect_AssignmentRoleFragment"
+      ]
+    },
+    {
+      "id": "assignmentRolesTable_Query",
       "title": "assignmentRolesTable_Query",
-      "description": "Fetches detailed assignment role data for tabular display with pagination support.",
-      "code": "query assignmentRolesTable_Query($first: Int, $filterByName: String) {\n    ...assignmentRolesTable_AssignmentRolesQueryFragment\n        @arguments(first: $first, filterByName: $filterByName)\n}"
+      "description": "",
+      "code": "query assignmentRolesTable_Query($first: Int, $filterByName: String) {\n    ...assignmentRolesTable_AssignmentRolesQueryFragment\n        @arguments(first: $first, filterByName: $filterByName)\n}",
+      "usedFragments": [
+        "assignmentRolesTable_AssignmentRolesQueryFragment"
+      ]
     }
   ],
   "mutations": [
     {
-      "id": "createAssignmentRole",
-      "title": "Create Assignment Role",
-      "description": "Creates a new assignment role in the system.",
-      "code": "mutation createAssignmentRoleButton_CreateAssignmentRoleMutation(\n    $input: CreateAssignmentRoleInput!\n    $connectionId: ID!\n) {\n    Assignment {\n        createAssignmentRole(input: $input) {\n            edge @appendEdge(connections: [$connectionId]) {\n                node {\n                    id\n                    ...editAssignmentRoleButton_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}"
+      "id": "createAssignmentRoleButton_CreateAssignmentRoleMutation",
+      "title": "createAssignmentRoleButton_CreateAssignmentRoleMutation",
+      "description": "",
+      "code": "mutation createAssignmentRoleButton_CreateAssignmentRoleMutation(\n    $input: CreateAssignmentRoleInput!\n    $connectionId: ID!\n) {\n    Assignment {\n        createAssignmentRole(input: $input) {\n            edge @appendEdge(connections: [$connectionId]) {\n                node {\n                    id\n                    ...editAssignmentRoleButton_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": [
+        "editAssignmentRoleButton_AssignmentRoleFragment"
+      ]
     },
     {
-      "id": "deleteAssignmentRole",
-      "title": "Delete Assignment Role",
-      "description": "Removes an assignment role from the system.",
-      "code": "mutation deleteAssignmentRolesButton_DeleteAssignmentRoleMutation(\n    $input: DeleteAssignmentRoleInput!\n    $connections: [ID!]!\n) {\n    Assignment {\n        deleteAssignmentRole(input: $input) {\n            deletedIds @deleteEdge(connections: $connections)\n        }\n    }\n}"
+      "id": "deleteAssignmentRolesButton_DeleteAssignmentRoleMutation",
+      "title": "deleteAssignmentRolesButton_DeleteAssignmentRoleMutation",
+      "description": "",
+      "code": "mutation deleteAssignmentRolesButton_DeleteAssignmentRoleMutation(\n    $input: DeleteAssignmentRoleInput!\n    $connections: [ID!]!\n) {\n    Assignment {\n        deleteAssignmentRole(input: $input) {\n            deletedIds @deleteEdge(connections: $connections)\n        }\n    }\n}",
+      "usedFragments": []
+    },
+    {
+      "id": "editAssignmentRoleButton_EditAssignmentRoleMutation",
+      "title": "editAssignmentRoleButton_EditAssignmentRoleMutation",
+      "description": "",
+      "code": "mutation editAssignmentRoleButton_EditAssignmentRoleMutation($input: EditAssignmentRoleInput!) {\n    Assignment {\n        editAssignmentRole(input: $input) {\n            edge {\n                node {\n                    id\n                    ...editAssignmentRoleButton_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": [
+        "editAssignmentRoleButton_AssignmentRoleFragment"
+      ]
+    },
+    {
+      "id": "exportAssignmentRolesButton_ExportAssignmentRolesMutation",
+      "title": "exportAssignmentRolesButton_ExportAssignmentRolesMutation",
+      "description": "",
+      "code": "mutation exportAssignmentRolesButton_ExportAssignmentRolesMutation {\n    Assignment {\n        exportAssignmentRoles(input: {}) {\n            file {\n                url\n            }\n        }\n    }\n}",
+      "usedFragments": []
+    },
+    {
+      "id": "importAssignmentRolesButton_ImportAssignmentRolesMutation",
+      "title": "importAssignmentRolesButton_ImportAssignmentRolesMutation",
+      "description": "",
+      "code": "mutation importAssignmentRolesButton_ImportAssignmentRolesMutation(\n    $input: ImportAssignmentRolesInput!\n) {\n    Assignment {\n        importAssignmentRoles(input: $input) {\n            result {\n                editedEntities\n                newEntities\n                issues {\n                    row\n                    issue\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": []
+    },
+    {
+      "id": "AssignmentRoleSortOrderButtons_IncreaseMutation",
+      "title": "AssignmentRoleSortOrderButtons_IncreaseMutation",
+      "description": "",
+      "code": "mutation AssignmentRoleSortOrderButtons_IncreaseMutation($input: IncreaseAssignmentRoleSortOrderInput!) {\n    Assignment {\n        increaseAssignmentRoleSortOrder(input: $input) {\n            edge {\n                node {\n                    id\n                    sortOrder\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": []
+    },
+    {
+      "id": "AssignmentRoleSortOrderButtons_DecreaseMutation",
+      "title": "AssignmentRoleSortOrderButtons_DecreaseMutation",
+      "description": "",
+      "code": "mutation AssignmentRoleSortOrderButtons_DecreaseMutation($input: DecreaseAssignmentRoleSortOrderInput!) {\n    Assignment {\n        decreaseAssignmentRoleSortOrder(input: $input) {\n            edge {\n                node {\n                    id\n                    sortOrder\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": []
+    },
+    {
+      "id": "assignmentRolesTable_SetAssignmentRoleSortOrderMutation",
+      "title": "assignmentRolesTable_SetAssignmentRoleSortOrderMutation",
+      "description": "",
+      "code": "mutation assignmentRolesTable_SetAssignmentRoleSortOrderMutation(\n    $input: SetAssignmentRoleSortOrdersInput!\n) {\n    Assignment {\n        setAssignmentRoleSortOrders(input: $input) {\n            edges {\n                node {\n                    ...editAssignmentRoleButton_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": [
+        "editAssignmentRoleButton_AssignmentRoleFragment"
+      ]
+    },
+    {
+      "id": "editPersonSkillAssociationsModalContent_DisassociateSkillsByCategoryMutation",
+      "title": "editPersonSkillAssociationsModalContent_DisassociateSkillsByCategoryMutation",
+      "description": "",
+      "code": "mutation editPersonSkillAssociationsModalContent_DisassociateSkillsByCategoryMutation(\n    $input: DisassociateSkillsByCategoryInput!\n    $connections: [ID!]!\n) {\n    Skills {\n        disassociateSkillsByCategory(input: $input) {\n            edge @appendEdge(connections: $connections) {\n                node {\n                    id\n                    name\n                    assignmentRole {\n                        name\n                    }\n                    skills(first: 100) @connection(key: \"Person_skills\") {\n                        edges {\n                            node {\n                                id\n                                data {\n                                    value {\n                                        kind\n                                        ... on BinaryAssessmentValue {\n                                            hasSkill\n                                            kind\n                                        }\n                                        ... on NumericalAssessmentValue {\n                                            number\n                                            kind\n                                        }\n                                    }\n                                    skill {\n                                        name\n                                        dimension {\n                                            kind\n                                            ... on BinaryDimension {\n                                                kind\n                                            }\n                                            ... on NumericalDimension {\n                                                kind\n                                                dimensionExplanations\n                                                dimensionCount\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                    ...EditPersonButton_PersonFragment\n                    ...editPersonSkillAssociationsButton_PersonFragment\n                }\n            }\n        }\n    }\n}",
+      "usedFragments": [
+        "EditPersonButton_PersonFragment",
+        "editPersonSkillAssociationsButton_PersonFragment"
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "id": "AssignmentRoleSelect_AssignmentRoleFragment",
+      "title": "AssignmentRoleSelect_AssignmentRoleFragment",
+      "description": "",
+      "code": "fragment AssignmentRoleSelect_AssignmentRoleFragment on AssignmentRole @inline {\n    id\n    name\n}",
+      "fragmentId": "AssignmentRoleSelect_AssignmentRoleFragment"
+    },
+    {
+      "id": "AssignmentRolesSelect_AssignmentRoleFragment",
+      "title": "AssignmentRolesSelect_AssignmentRoleFragment",
+      "description": "",
+      "code": "fragment AssignmentRolesSelect_AssignmentRoleFragment on AssignmentRole @inline {\n    id\n    name\n}",
+      "fragmentId": "AssignmentRolesSelect_AssignmentRoleFragment"
+    },
+    {
+      "id": "assignmentRolesTable_AssignmentRolesQueryFragment",
+      "title": "assignmentRolesTable_AssignmentRolesQueryFragment",
+      "description": "",
+      "code": "fragment assignmentRolesTable_AssignmentRolesQueryFragment on Query\n@refetchable(queryName: \"assignmentRolesTable_Refetch\")\n@argumentDefinitions(\n    first: { type: \"Int\", defaultValue: 20 }\n    after: { type: \"String\" }\n    filterByName: { type: \"String\" }\n) {\n    Assignments {\n        AssignmentRoles(first: $first, after: $after, filterByName: $filterByName)\n            @connection(key: \"assignmentRolesTable_AssignmentRoles\") {\n            __id\n            pageInfo {\n                endCursor\n                hasPreviousPage\n                hasNextPage\n                startCursor\n            }\n            edges {\n                node {\n                    id\n                    name\n                    sortOrder\n                    maxNumberOfProjects\n                    utilizationProjectionCapInMonths\n                    countAsFullyAllocatedAtPercentage\n                    countAsOverallocatedAtPercentage\n                    ...editAssignmentRoleButton_AssignmentRoleFragment\n                    ...AssignmentRoleSortOrderButtons_AssignmentRoleFragment\n                }\n            }\n        }\n    }\n}",
+      "fragmentId": "assignmentRolesTable_AssignmentRolesQueryFragment"
+    },
+    {
+      "id": "editAssignmentRoleButton_AssignmentRoleFragment",
+      "title": "editAssignmentRoleButton_AssignmentRoleFragment",
+      "description": "",
+      "code": "fragment editAssignmentRoleButton_AssignmentRoleFragment on AssignmentRole {\n    id\n    name\n    sortOrder\n    maxNumberOfProjects\n    utilizationProjectionCapInMonths\n    countAsFullyAllocatedAtPercentage\n    countAsOverallocatedAtPercentage\n    useEndDateOfLastAssignmentOverProjectionCap\n}",
+      "fragmentId": "editAssignmentRoleButton_AssignmentRoleFragment"
+    },
+    {
+      "id": "AssignmentRoleSortOrderButtons_AssignmentRoleFragment",
+      "title": "AssignmentRoleSortOrderButtons_AssignmentRoleFragment",
+      "description": "",
+      "code": "fragment AssignmentRoleSortOrderButtons_AssignmentRoleFragment on AssignmentRole {\n    id\n    sortOrder\n}",
+      "fragmentId": "AssignmentRoleSortOrderButtons_AssignmentRoleFragment"
     }
   ]
 }

@@ -1,23 +1,23 @@
 
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import OperationCard from '@/components/graphql/OperationCard';
-import operationsData from '@/data/accountUserOperations.json';
+import operationsData from '@/data/skillAssessmentOperations.json';
 
-
-const AccountUsers = () => {
+const SkillAssessment = () => {
   return (
     <DocsLayout>
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Account Users API</h1>
+        <h1 className="text-3xl font-bold mb-6">Skill Assessment API</h1>
         
         <section className="mb-8">
           <p className="mb-6">
-            The Account Users API allows you to manage user accounts and their information.
+            The Skill Assessment API allows you to manage and query individual skill assessment in your system.
+            It provides functionality for retrieving skill assessment with filtering and pagination support.
           </p>
         </section>
-        
+
         <Tabs defaultValue="queries" className="w-full mb-8">
           <TabsList className="mb-4">
             <TabsTrigger value="queries">Queries</TabsTrigger>
@@ -26,7 +26,7 @@ const AccountUsers = () => {
           
           <TabsContent value="queries" className="space-y-6">
             <h2 className="text-2xl font-bold mb-4">Queries</h2>
-            <p className="mb-4">Use these queries to fetch information about account users in different formats and contexts.</p>
+            <p className="mb-4">Use these queries to fetch information about Skill Assessment in different formats and contexts.</p>
             
             {operationsData.queries.map((query) => (
               <OperationCard
@@ -59,4 +59,4 @@ const AccountUsers = () => {
   );
 };
 
-export default AccountUsers;
+export default SkillAssessment;

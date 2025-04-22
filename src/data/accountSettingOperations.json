@@ -1,0 +1,37 @@
+{
+    "queries": [
+      {
+        "id": "BaseSettingsScreen",
+        "title": "BaseSettingsScreen_Query",
+        "description": "Query for the base settings screen, using the baseScreen_QueryFragment which includes account extensions and logo.",
+        "code": "query BaseSettingsScreen_Query {\n    ...baseScreen_QueryFragment\n}",
+        "usedFragments": ["baseScreen_QueryFragment"]
+      }
+    ],
+    "mutations": [
+      {
+        "id": "editAccountSettingsForm",
+        "title": "editAccountSettingsForm_SetAccountSettingsMutation",
+        "description": "Mutation to update account settings related to enforcing two-factor authentication for accounts with the TwoFAAccountExtension.",
+        "code": "mutation editAccountSettingsForm_SetAccountSettingsMutation($input: SetForce2FAInput!) {\n    Admin {\n        Auth {\n            setForce2FA(input: $input) {\n                account {\n                    extensions {\n                        ... on TwoFAAccountExtension {\n                            force2FA\n                        }\n                    }\n                }\n                clientMutationId\n            }\n        }\n    }\n}",
+        "usedFragments": []
+      }
+    ],
+    "fragments": [
+      {
+        "id": "baseScreen",
+        "title": "baseScreen_QueryFragment",
+        "description": "Fragment for base screen query showing current account extensions and base logo.",
+        "code": "fragment baseScreen_QueryFragment on Query {\n    Viewer {\n        Auth {\n            currentAccount {\n                extensions {\n                    kind\n                    ... on AccountSettingsAccountExtension {\n                        kind\n                        logo {\n                            ...BaseHeader_LogoFragment\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+        "fragmentId": "baseScreen_QueryFragment"
+      },
+      {
+        "id": "BaseHeader",
+        "title": "BaseHeader_LogoFragment",
+        "description": "Fragment for displaying file-based logo inside the base header.",
+        "code": "fragment BaseHeader_LogoFragment on File {\n    url\n}",
+        "fragmentId": "BaseHeader_LogoFragment"
+      }
+    ]
+  }
+  

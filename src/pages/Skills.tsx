@@ -3,7 +3,7 @@ import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import OperationCard from '@/components/graphql/OperationCard';
-import operationsData from '@/data/skillOperations.json';
+import operationsData from '@/data/skillsOperations.json';
 
 const Skills = () => {
   return (
@@ -18,7 +18,7 @@ const Skills = () => {
           </p>
         </section>
 
-        <Tabs defaultValue="queries" className="w-full">
+        <Tabs defaultValue="queries" className="w-full mb-8">
           <TabsList className="mb-4">
             <TabsTrigger value="queries">Queries</TabsTrigger>
             <TabsTrigger value="mutations">Mutations</TabsTrigger>
@@ -26,7 +26,7 @@ const Skills = () => {
           
           <TabsContent value="queries" className="space-y-6">
             <h2 className="text-2xl font-bold mb-4">Queries</h2>
-            <p className="mb-4">Use these queries to fetch information about skills in different formats and contexts.</p>
+            <p className="mb-4">Use these queries to fetch information about assignment roles in different formats and contexts.</p>
             
             {operationsData.queries.map((query) => (
               <OperationCard
@@ -41,7 +41,7 @@ const Skills = () => {
           
           <TabsContent value="mutations" className="space-y-6">
             <h2 className="text-2xl font-bold mb-4">Mutations</h2>
-            <p className="mb-4">Use these mutations to modify skills data.</p>
+            <p className="mb-4">Use these mutations to create, update, delete, and manage assignment roles.</p>
             
             {operationsData.mutations.map((mutation) => (
               <OperationCard

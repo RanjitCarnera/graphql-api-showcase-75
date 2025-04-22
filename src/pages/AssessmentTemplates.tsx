@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GraphQLCodeCard from "@/components/graphql/GraphQLCodeCard";
-import assessmentTemplateOperations from "@/data/assessmentTemplateOperations.json";
+import assessmentTemplateOperations from "@/data/projectOperations.json";
 
 // Helper: Map from fragmentId (string) to fragment index
 const fragmentIdToRefKey = (fragmentId: string) =>
