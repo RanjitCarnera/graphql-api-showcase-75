@@ -66,7 +66,7 @@ function DocsSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        
+{/*         
         <SidebarGroup>
           <SidebarGroupLabel>Schema</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -105,7 +105,7 @@ function DocsSidebar() {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
         
         <SidebarGroup>
           <SidebarGroupLabel>Resources</SidebarGroupLabel>
