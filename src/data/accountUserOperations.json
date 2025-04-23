@@ -68,20 +68,8 @@
           "preferredViewTypeForm_CurrentUser",
           "twoFactorAuthForm_QueryFragment"
         ]
-      },
-      {
-        "id": "accountSettingsScreen",
-        "title": "accountSettingsScreen_Query",
-        "description": "Fetches account settings-related data including logo, password, 2FA, Azure AD configuration, and numerical dimension explanations.",
-        "code": "query accountSettingsScreen_Query {\n  ...ChangeLogoForm_CurrentUser\n  ...editNumericalDimensionExplanationsForm_QueryFragment\n  ...editAccountSettingsForm_QueryFragment\n  ...editAssessmentPasswordForm_QueryFragment\n  ...editAzureAdSsoConfigurationForm_QueryFragment\n}",
-        "usedFragments": [
-          "ChangeLogoForm_CurrentUser",
-          "editNumericalDimensionExplanationsForm_QueryFragment",
-          "editAccountSettingsForm_QueryFragment",
-          "editAssessmentPasswordForm_QueryFragment",
-          "editAzureAdSsoConfigurationForm_QueryFragment"
-        ]
       }
+      
     ],
     "mutations": [
       {

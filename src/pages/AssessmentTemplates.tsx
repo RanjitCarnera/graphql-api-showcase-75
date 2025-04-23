@@ -1,44 +1,18 @@
 import React, { useRef } from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import GraphQLCodeCard from "@/components/graphql/GraphQLCodeCard";
-import assessmentTemplateOperations from "@/data/projectOperations.json";
-
-// Helper: Map from fragmentId (string) to fragment index
-const fragmentIdToRefKey = (fragmentId: string) =>
-  fragmentId.replace(/[^a-zA-Z0-9]/g, "_");
+import operationsData from "@/data/assessmentTemplateOperations.json";
+import { useFragmentScroll } from '../lib/utils';
+import OperationCard from '@/components/graphql/OperationCard';
 
 const AssessmentTemplates = () => {
-  // Prepare refs for fragment sections
-  const fragmentRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
 
-  // Prepare map of fragment title to ref key for scroling
-  const fragmentKeyMap: Record<string, string> = {};
-  assessmentTemplateOperations.fragments.forEach((fragment, idx) => {
-    const fragId =
-      fragment.fragmentId ||
-      fragment.title.replace(/[^a-zA-Z0-9]/g, "_");
-    fragmentKeyMap[fragment.title] = fragId;
-    fragmentKeyMap[fragId] = fragId; // allow lookup by both
-  });
-
-  // Scroll handler for card button
-  const handleScrollToFragment = (fragmentIdArr?: string[]) => {
-    if (!fragmentIdArr || fragmentIdArr.length === 0) return;
-    // Only scroll to the first one
-    const fragId = fragmentIdArr[0];
-    const refKey = fragmentIdToRefKey(fragId);
-    setTimeout(() => {
-      const fragmentEl = fragmentRefs.current[refKey];
-      if (fragmentEl) {
-        fragmentEl.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-        // Optionally, you could flash the background or use :target highlight here for clarity
-      }
-    }, 50);
-  };
+   const [activeTab, setActiveTab] = React.useState("queries");
+    const {
+      fragmentRefs,
+      scrollToFragment,
+      fragmentIdToRefKey
+    } = useFragmentScroll();
 
   return (
     <DocsLayout>
@@ -51,23 +25,31 @@ const AssessmentTemplates = () => {
           </p>
         </section>
 
-        <Tabs defaultValue="queries" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-8">
           <TabsList className="mb-4">
             <TabsTrigger value="queries">Queries</TabsTrigger>
             <TabsTrigger value="mutations">Mutations</TabsTrigger>
+            <TabsTrigger value="fragments">Fragments</TabsTrigger>
           </TabsList>
 
           <TabsContent value="queries" className="space-y-6">
-            {assessmentTemplateOperations.queries.map((query) => (
-              <GraphQLCodeCard
+            <h2 className="text-2xl font-bold mb-4">Queries</h2>
+            <p className="mb-4">Use these queries to fetch information about assessment templates in different formats and contexts.</p>
+            
+            {operationsData.queries.map((query) => (
+              <OperationCard
                 key={query.id}
+                id={query.id}
                 title={query.title}
                 description={query.description}
                 code={query.code}
                 usedFragments={query.usedFragments}
                 onViewFragment={
                   query.usedFragments && query.usedFragments.length > 0
-                    ? () => handleScrollToFragment(query.usedFragments)
+                    ? () => 
+                      scrollToFragment(query.usedFragments, {
+                      onBeforeScroll: () => setActiveTab("fragments")
+                    })
                     : null
                 }
               />
@@ -75,28 +57,35 @@ const AssessmentTemplates = () => {
           </TabsContent>
 
           <TabsContent value="mutations" className="space-y-6">
-            {assessmentTemplateOperations.mutations.map((mutation) => (
-              <GraphQLCodeCard
+            <h2 className="text-2xl font-bold mb-4">Mutations</h2>
+            <p className="mb-4">Use these mutations to create, update, delete, and manage assessment templates.</p>
+            
+            {operationsData.mutations.map((mutation) => (
+              <OperationCard
                 key={mutation.id}
+                id={mutation.id}
                 title={mutation.title}
                 description={mutation.description}
                 code={mutation.code}
                 usedFragments={mutation.usedFragments}
                 onViewFragment={
                   mutation.usedFragments && mutation.usedFragments.length > 0
-                    ? () => handleScrollToFragment(mutation.usedFragments)
+                    ? () => 
+                      scrollToFragment(mutation.usedFragments, {
+                      onBeforeScroll: () => setActiveTab("fragments")
+                    })
                     : null
                 }
               />
             ))}
           </TabsContent>
-        </Tabs>
-
-        <section className="mt-8 mb-8">
-          <h2 className="text-2xl font-bold mb-4">Related Fragments</h2>
-          <div className="space-y-6">
-            {assessmentTemplateOperations.fragments.map((fragment) => {
-              const anchorKey = fragmentIdToRefKey(
+          <TabsContent value="fragments" className="space-y-6">
+            <h2 className="text-2xl font-bold mb-4">Fragments</h2>
+            <p className="mb-4">
+              These are GraphQL fragments used in Staffing Template queries and mutations.
+            </p>
+            {operationsData.fragments?.map((fragment) => {
+               const anchorKey = fragmentIdToRefKey(
                 fragment.fragmentId || fragment.title
               );
               return (
@@ -107,16 +96,18 @@ const AssessmentTemplates = () => {
                   }}
                   id={anchorKey}
                 >
-                  <GraphQLCodeCard
+                 <OperationCard
+                    key={fragment.id}
+                    id={fragment.id}
                     title={fragment.title}
-                    description={fragment.description}
+                    description={fragment.description || ""}
                     code={fragment.code}
                   />
                 </div>
-              );
+              );              
             })}
-          </div>
-        </section>
+          </TabsContent>
+        </Tabs>
       </div>
     </DocsLayout>
   );

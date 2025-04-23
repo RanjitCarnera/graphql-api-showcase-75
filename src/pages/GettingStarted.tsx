@@ -574,7 +574,7 @@ if ($resp->is_success) {
               </CardHeader>
               <CardContent>
                 <p className="mb-2">All GraphQL requests are sent to a single endpoint:</p>
-                <code className="block bg-gray-100 p-3 rounded-md font-code">
+                <code className="block bg-gray-100 p-3 rounded-md font-code" style={{overflow: 'auto'}}>
                   https://api.constructionintelligence.com/graphql
                 </code>
               </CardContent>
