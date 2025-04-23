@@ -20,6 +20,7 @@ const StaffingTemplates = () => {
           <TabsList className="mb-4">
             <TabsTrigger value="queries">Queries</TabsTrigger>
             <TabsTrigger value="mutations">Mutations</TabsTrigger>
+            <TabsTrigger value="fragments">Fragments</TabsTrigger>
           </TabsList>
           
           <TabsContent value="queries" className="space-y-6">
@@ -51,6 +52,22 @@ const StaffingTemplates = () => {
               />
             ))}
           </TabsContent>
+
+          <TabsContent value="fragments" className="space-y-6">
+            <h2 className="text-2xl font-bold mb-4">Fragments</h2>
+            <p className="mb-4">
+              These are GraphQL fragments used in Staffing Template queries and mutations.
+            </p>
+            {operationsData.fragments?.map((fragment) => (
+              <OperationCard
+                key={fragment.id}
+                id={fragment.id}
+                title={fragment.title}
+                description={fragment.description || ""}
+                code={fragment.code}
+              />
+            ))}
+          </TabsContent>
         </Tabs>
         
       </div>
@@ -59,3 +76,4 @@ const StaffingTemplates = () => {
 };
 
 export default StaffingTemplates;
+
