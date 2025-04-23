@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -123,3 +124,5 @@ const StaffingTemplates = () => {
 };
 
 export default StaffingTemplates;
+
+
