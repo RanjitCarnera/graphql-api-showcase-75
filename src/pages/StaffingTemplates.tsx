@@ -4,8 +4,18 @@ import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import OperationCard from '@/components/graphql/OperationCard';
 import operationsData from '@/data/staffingTemplateOperations.json';
+import { useFragmentScroll } from '../lib/utils';
+
 
 const StaffingTemplates = () => {
+
+  const [activeTab, setActiveTab] = React.useState("queries");
+  const {
+    fragmentRefs,
+    scrollToFragment,
+    fragmentIdToRefKey
+  } = useFragmentScroll();
+
   return (
     <DocsLayout>
       <div className="max-w-4xl mx-auto">
@@ -16,10 +26,11 @@ const StaffingTemplates = () => {
             The Staffing Templates API allows you to manage templates for project staffing models.
           </p>
         </section>
-        <Tabs defaultValue="queries" className="w-full mb-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-8">
           <TabsList className="mb-4">
             <TabsTrigger value="queries">Queries</TabsTrigger>
             <TabsTrigger value="mutations">Mutations</TabsTrigger>
+            <TabsTrigger value="fragments">Fragments</TabsTrigger>
           </TabsList>
           
           <TabsContent value="queries" className="space-y-6">
@@ -33,6 +44,15 @@ const StaffingTemplates = () => {
                 title={query.title}
                 description={query.description}
                 code={query.code}
+                usedFragments={query.usedFragments}
+                onViewFragment={
+                  query.usedFragments && query.usedFragments.length > 0
+                    ? () => 
+                      scrollToFragment(query.usedFragments, {
+                      onBeforeScroll: () => setActiveTab("fragments")
+                    })
+                    : null
+                }
               />
             ))}
           </TabsContent>
@@ -48,8 +68,52 @@ const StaffingTemplates = () => {
                 title={mutation.title}
                 description={mutation.description}
                 code={mutation.code}
+                usedFragments={mutation.usedFragments}
+                onViewFragment={
+                  mutation.usedFragments && mutation.usedFragments.length > 0
+                    ? () => 
+                      scrollToFragment(mutation.usedFragments, {
+                      onBeforeScroll: () => setActiveTab("fragments")
+                    })
+                    : null
+                }
               />
             ))}
+          </TabsContent>
+          <TabsContent value="fragments" className="space-y-6">
+          {operationsData.fragments.length == 0 
+           ?
+              <p className="mb-4">
+              There is no fragments available for this API.
+            </p>
+          : <>
+            <h2 className="text-2xl font-bold mb-4">Fragments</h2>
+              <p className="mb-4">
+                These are GraphQL fragments used in Staffing Template queries and mutations.
+              </p>
+              {operationsData.fragments?.map((fragment) => {
+                const anchorKey = fragmentIdToRefKey(
+                  fragment.fragmentId || fragment.title
+                );
+                return (
+                  <div
+                    key={fragment.id}
+                    ref={(el) => {
+                      fragmentRefs.current[anchorKey] = el;
+                    }}
+                    id={anchorKey}
+                  >
+                  <OperationCard
+                      key={fragment.id}
+                      id={fragment.id}
+                      title={fragment.title}
+                      description={fragment.description || ""}
+                      code={fragment.code}
+                    />
+                  </div>
+              );              
+            })}
+            </>}
           </TabsContent>
         </Tabs>
         

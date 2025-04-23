@@ -357,7 +357,7 @@ int main(void) {
             </CardHeader>
             <CardContent>
               <p>Our GraphQL API is accessible through a single endpoint that handles all requests:</p>
-              <code className="mt-2 block bg-gray-100 p-3 rounded-md font-code">
+              <code className="mt-2 block bg-gray-100 p-3 rounded-md font-code" style={{overflow: 'auto'}}>
                 https://api.constructionintelligence.com/graphql
               </code>
             </CardContent>

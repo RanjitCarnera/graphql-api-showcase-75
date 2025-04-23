@@ -12,9 +12,18 @@ interface OperationCardProps {
   title: string;
   description: string;
   code: string;
+  usedFragments?: string[];
+  onViewFragment?: (() => void) | null;
 }
 
-const OperationCard: React.FC<OperationCardProps> = ({ id, title, description, code }) => {
+const OperationCard: React.FC<OperationCardProps> = ({ 
+  id, 
+  title, 
+  description, 
+  code, 
+  usedFragments,
+  onViewFragment
+ }) => {
   const { toast } = useToast();
 
   const copyToClipboard = (text: string) => {
@@ -29,11 +38,13 @@ const OperationCard: React.FC<OperationCardProps> = ({ id, title, description, c
   return (
     <section id={id} className="scroll-mt-16">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2">
             <Hash className="h-5 w-5 text-blue-500" />
             <span>{title}</span>
+            
           </CardTitle>
+          
           <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="ghost" size="icon" onClick={() => copyToClipboard(code)}>
@@ -43,25 +54,26 @@ const OperationCard: React.FC<OperationCardProps> = ({ id, title, description, c
                   <TooltipContent>Copy</TooltipContent>
                 </Tooltip>
         </CardHeader>
+        <CardDescription className='mb-2 text-left pl-6'>{description}</CardDescription>
         <CardContent>
-        <p className="mb-4">{description}</p>
+        
           <pre className="font-code text-sm p-4 bg-gray-100 rounded-md overflow-auto">
            {code}
           </pre>
 
+          {!!onViewFragment && usedFragments && usedFragments.length > 0 && (
           <div className="mt-4 flex justify-end">
                   <Button 
                     variant="outline"
                     size="sm"
-                    onClick={() => {
-                      window.location.href = '/fragments';
-                    }}
+                    onClick={onViewFragment}
                     className="flex items-center gap-1"
                   >
                     <span>View Fragment Definition</span>
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
+          )}
         </CardContent>
       </Card>
     </section>

@@ -3,7 +3,7 @@
       {
         "id": "projectFromRandSelect",
         "title": "projectFromRandSelect_Query",
-        "description": "",
+        "description": "Project query to fetch projects not yet imported from Rand.",
         "code": "query projectFromRandSelect_Query {\n    Rand {\n        NotYetImportedProjectsFromRand {\n            id\n            name\n            projectIdentifier\n        }\n    }\n}",
         "usedFragments": []
       },

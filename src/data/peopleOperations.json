@@ -3,7 +3,7 @@
       {
         "id": "staffViewPart_Query",
         "title": "staffViewPart_Query",
-        "description": "",
+        "description": "Staff view part query for fetching staff view data based on various filters and parameters.",
         "code": "query staffViewPart_Query(\n    $id: ID!\n    $intervalType: IntervalType!\n    $personFiltersOpt: PersonOnAssignmentFiltersInput\n    $projectFiltersOpt: ProjectWithAssignmentsFiltersInput\n    $showAll: Boolean\n    $sort: StaffViewSort\n    $utilizationWindow: UtilizationWindowInput\n) {\n    node(id: $id) {\n        ... on Scenario {\n            ...staffViewPart_ScenarioFragment\n                @arguments(\n                    scenarioId: $id\n                    intervalType: $intervalType\n                    personFiltersOpt: $personFiltersOpt\n                    projectFiltersOpt: $projectFiltersOpt\n                    showAll: $showAll\n                    sort: $sort\n                    utilizationWindow: $utilizationWindow\n                )\n        }\n    }\n}",
         "usedFragments": [
           "staffViewPart_ScenarioFragment"
