@@ -235,6 +235,7 @@ export default function GraphQLSearch() {
                         key={`query-${op.id}`}
                         value={op.title}
                         onSelect={() => handleSelect(op)}
+                        className="cursor-pointer"
                       >
                         <span>{op.title}</span>
                       </CommandItem>
@@ -253,6 +254,7 @@ export default function GraphQLSearch() {
                         key={`mutation-${op.id}`}
                         value={op.title}
                         onSelect={() => handleSelect(op)}
+                        className="cursor-pointer"
                       >
                         <span>{op.title}</span>
                       </CommandItem>
@@ -271,6 +273,7 @@ export default function GraphQLSearch() {
                         key={`fragment-${op.id}`}
                         value={op.title}
                         onSelect={() => handleSelect(op)}
+                        className="cursor-pointer"
                       >
                         <span>{op.title}</span>
                       </CommandItem>
