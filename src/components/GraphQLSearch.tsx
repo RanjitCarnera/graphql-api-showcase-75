@@ -10,8 +10,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
-  CommandTitle
+  CommandList
 } from '@/components/ui/command';
 
 // Define the structure of our operation items
