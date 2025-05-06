@@ -166,21 +166,26 @@ export default function GraphQLSearch() {
 
   // Handle selecting a search result
   const handleSelect = (operation: OperationItem) => {
+    console.log(`Selected operation: ${operation.title}, navigating to ${operation.page}`);
+    
+    // Close the dialog and reset search term
     setOpen(false);
     setSearchTerm('');
-    
-    console.log(`Selected operation: ${operation.title}, navigating to ${operation.page}`);
     
     // Navigate to the appropriate page
     if (operation.page) {
       // For fragments, we need to append the fragment ID to navigate directly to it
       if (operation.type === 'fragment' && operation.fragmentId) {
-        const fragmentKey = operation.fragmentId.replace(/[^a-zA-Z0-9]/g, "_");
-        navigate(`${operation.page}#${fragmentKey}`);
+        const fragmentId = operation.fragmentId.replace(/[^a-zA-Z0-9]/g, "_");
+        console.log(`Navigating to fragment: ${operation.page}#${fragmentId}`);
+        navigate(`${operation.page}#${fragmentId}`);
       } else {
         // For queries and mutations, just navigate to the page
+        console.log(`Navigating to page: ${operation.page}`);
         navigate(operation.page);
       }
+    } else {
+      console.warn('No page defined for this operation:', operation);
     }
   };
 
