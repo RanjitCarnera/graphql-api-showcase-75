@@ -10,7 +10,8 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
+  CommandTitle
 } from '@/components/ui/command';
 
 // Define the structure of our operation items
@@ -34,6 +35,7 @@ export default function GraphQLSearch() {
   useEffect(() => {
     const loadOperations = async () => {
       try {
+        console.log('Loading operations data...');
         // Import all operation JSON files
         const operationFiles = [
           import('@/data/peopleOperations.json'),
@@ -56,6 +58,7 @@ export default function GraphQLSearch() {
         
         // Wait for all imports to complete
         const results = await Promise.all(operationFiles);
+        console.log('Loaded operation files:', results.length);
         
         const allOperations: OperationItem[] = [];
         
@@ -80,19 +83,21 @@ export default function GraphQLSearch() {
         };
         
         // Process each file's operations
-        results.forEach((fileData, index) => {
+        results.forEach((fileData: any, index) => {
           // Extract the file name from the import path
-          const filePath = Object.keys(operationFiles[index])[0];
-          const fileNameMatch = filePath.match(/\/([^/]+)\.json/);
-          const fileName = fileNameMatch ? fileNameMatch[1] : '';
+          const importPath = Object.keys(operationFiles)[index];
+          const fileNameMatch = importPath.match(/\/([^/]+)Operations\.json/);
+          const fileName = fileNameMatch ? fileNameMatch[1] + 'Operations' : '';
           const pagePath = fileToPageMap[fileName] || '';
+          
+          console.log(`Processing file: ${fileName}, mapped to path: ${pagePath}`);
           
           // Process queries
           if (fileData.queries) {
             fileData.queries.forEach((query: any) => {
               allOperations.push({
-                id: query.id,
-                title: query.title,
+                id: query.id || `query-${Math.random().toString(36).substr(2, 9)}`,
+                title: query.title || 'Untitled Query',
                 type: 'query',
                 description: query.description,
                 page: pagePath
@@ -104,8 +109,8 @@ export default function GraphQLSearch() {
           if (fileData.mutations) {
             fileData.mutations.forEach((mutation: any) => {
               allOperations.push({
-                id: mutation.id,
-                title: mutation.title,
+                id: mutation.id || `mutation-${Math.random().toString(36).substr(2, 9)}`,
+                title: mutation.title || 'Untitled Mutation',
                 type: 'mutation',
                 description: mutation.description,
                 page: pagePath
@@ -117,8 +122,8 @@ export default function GraphQLSearch() {
           if (fileData.fragments) {
             fileData.fragments.forEach((fragment: any) => {
               allOperations.push({
-                id: fragment.id,
-                title: fragment.title,
+                id: fragment.id || `fragment-${Math.random().toString(36).substr(2, 9)}`,
+                title: fragment.title || 'Untitled Fragment',
                 type: 'fragment',
                 description: fragment.description || '',
                 page: pagePath,
@@ -128,6 +133,7 @@ export default function GraphQLSearch() {
           }
         });
         
+        console.log(`Total operations loaded: ${allOperations.length}`);
         setOperations(allOperations);
         
       } catch (error) {
@@ -140,17 +146,22 @@ export default function GraphQLSearch() {
 
   // Filter operations based on search term
   useEffect(() => {
-    if (!searchTerm) {
+    if (!searchTerm || searchTerm.trim() === '') {
       setFilteredOperations([]);
       return;
     }
     
-    const lowercaseSearchTerm = searchTerm.toLowerCase();
-    const filtered = operations.filter(op => 
-      op.title.toLowerCase().includes(lowercaseSearchTerm) ||
-      (op.description && op.description.toLowerCase().includes(lowercaseSearchTerm))
-    );
+    console.log(`Filtering with search term: "${searchTerm}"`);
+    console.log(`Operations to filter: ${operations.length}`);
     
+    const lowercaseSearchTerm = searchTerm.toLowerCase().trim();
+    const filtered = operations.filter(op => {
+      const titleMatch = op.title && op.title.toLowerCase().includes(lowercaseSearchTerm);
+      const descMatch = op.description && op.description.toLowerCase().includes(lowercaseSearchTerm);
+      return titleMatch || descMatch;
+    });
+    
+    console.log(`Filtered results: ${filtered.length}`);
     setFilteredOperations(filtered);
   }, [searchTerm, operations]);
 
@@ -158,6 +169,8 @@ export default function GraphQLSearch() {
   const handleSelect = (operation: OperationItem) => {
     setOpen(false);
     setSearchTerm('');
+    
+    console.log(`Selected operation: ${operation.title}, navigating to ${operation.page}`);
     
     // Navigate to the appropriate page
     if (operation.page) {
