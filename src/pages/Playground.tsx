@@ -2,6 +2,7 @@
 import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import GraphQLPlayground from '@/components/GraphQLPlayground';
+import GraphQLSearch from '@/components/GraphQLSearch';
 
 const Playground = () => {
   return (
@@ -16,6 +17,8 @@ const Playground = () => {
         </div>
         
         <GraphQLPlayground />
+        
+        <GraphQLSearch />
         
         <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-md">
           <h3 className="font-semibold text-blue-800 mb-2">Tips for using the playground</h3>
