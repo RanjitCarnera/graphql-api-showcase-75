@@ -66,28 +66,28 @@
       {
         "id": "StaffingTemplateSelect",
         "title": "StaffingTemplateSelect_StaffingTemplateFragment",
-        "description": "",
+        "description": "Fragment for staffing template selection. Used in StaffingTemplateSelect_Query.",
       "code": "fragment StaffingTemplateSelect_StaffingTemplateFragment on StaffingTemplate @inline{\n  id\n  name\n}",        
         "fragmentId": "StaffingTemplateSelect_StaffingTemplateFragment"
       },
       {
         "id": "StaffingTemplatesTable",
         "title": "StaffingTemplatesTable_StaffingTemplateListFragment",
-        "description": "",
+        "description": "Fragment for staffing template list in table. Used in StaffingTemplatesTable_Query.",
       "code": "fragment StaffingTemplatesTable_StaffingTemplateListFragment on Query\n@refetchable(queryName: \"StaffingTemplatesTable_Refetch\")\n@argumentDefinitions(\n  first: { type: \"Int\", defaultValue: 20 },\n  after: { type: \"String\" },\n  filterByName: { type: \"String\" }\n) {\n  Template {\n    StaffingTemplates(first: $first, after: $after, filterByName: $filterByName)\n      @connection(key: \"StaffingTemplatesTable_StaffingTemplates\") {\n      __id\n      pageInfo {\n        endCursor\n        hasPreviousPage\n        hasNextPage\n        startCursor\n      }\n      edges {\n        node {\n          id\n          name\n          assignmentRoleAssociations {\n            assignmentRole {\n              id\n              name\n            }\n            isExecutive\n          }\n          ...EditStaffingTemplateButton_StaffingTemplateFragment\n        }\n      }\n    }\n  }\n}",
         "fragmentId": "StaffingTemplatesTable_StaffingTemplateListFragment"
       },
       {
         "id": "EditStaffingTemplateButton",
         "title": "EditStaffingTemplateButton_StaffingTemplateFragment",
-        "description": "",
+        "description": "Fragment used to edit staffing templates. Used in EditStaffingTemplateModal_CreateMutation and EditStaffingTemplateModal_EditMutation.",
       "code": "fragment EditStaffingTemplateButton_StaffingTemplateFragment on StaffingTemplate {\n  ...EditStaffingTemplateModal_StaffingTemplateFragment\n}",
         "fragmentId": "EditStaffingTemplateButton_StaffingTemplateFragment"
       },
       {
         "id": "EditStaffingTemplateModal",
         "title": "EditStaffingTemplateModal_StaffingTemplateFragment",
-        "description": "",
+        "description": "Fragment used to edit staffing templates. Used in EditStaffingTemplateModal_CreateMutation and EditStaffingTemplateModal_EditMutation.",
       "code": "fragment EditStaffingTemplateModal_StaffingTemplateFragment on StaffingTemplate {\n  id\n  name\n  assignmentRoleAssociations {\n    assignmentRoleRef\n    isExecutive\n  }\n}",
         "fragmentId": "EditStaffingTemplateModal_StaffingTemplateFragment"
       }
