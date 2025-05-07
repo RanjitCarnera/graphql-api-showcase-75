@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -16,6 +15,7 @@ import Examples from './pages/Examples';
 import SDKs from './pages/SDKs';
 import NotFound from './pages/NotFound';
 import Playground from './pages/Playground';
+import Search from './pages/Search';
 import People from './pages/People';
 import Projects from './pages/Projects';
 import Scenarios from './pages/Scenarios';
@@ -80,6 +80,10 @@ const router = createBrowserRouter([
   {
     path: "/playground",
     element: <Playground />
+  },
+  {
+    path: "/search",
+    element: <Search />
   },
   {
     path: "/people",

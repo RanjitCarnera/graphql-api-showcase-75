@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
-import { Code, BookOpen, FileText, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin, Award, Tag, UserCheck, Settings, Shield, Building, Layout } from "lucide-react";
+import { Code, BookOpen, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin, Award, Tag, UserCheck, Settings, Shield, Building, Layout, Search } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 interface DocsLayoutProps {
@@ -63,10 +62,18 @@ function DocsSidebar() {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/search">
+                    <Search size={18} />
+                    <span>Search Operations</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-{/*         
+        
         <SidebarGroup>
           <SidebarGroupLabel>Schema</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -105,7 +112,7 @@ function DocsSidebar() {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup> */}
+        </SidebarGroup>
         
         <SidebarGroup>
           <SidebarGroupLabel>Resources</SidebarGroupLabel>
