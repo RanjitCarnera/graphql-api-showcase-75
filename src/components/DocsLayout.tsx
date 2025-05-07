@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
-import { Code, BookOpen, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin, Award, Tag, UserCheck, Settings, Shield, Building, Layout, Search } from "lucide-react";
+import { Code, BookOpen, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin, Award, Tag, UserCheck, Settings, Shield, Building, Layout, Search, FileText } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 interface DocsLayoutProps {
