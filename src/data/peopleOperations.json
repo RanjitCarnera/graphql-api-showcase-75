@@ -12,7 +12,7 @@
       {
         "id": "executivesSelect_Query",
         "title": "executivesSelect_Query",
-        "description": "",
+        "description": "Query to fetch a list of executives filtered by name, specific IDs to include, or scenario ID.",
         "code": "query executivesSelect_Query($filterByName: String, $alwaysIncludeIds: [ID!], $scenarioId: ID) {\n    Staff {\n        Executives(\n            first: 20\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n            scenarioId: $scenarioId\n        ) {\n            edges {\n                node {\n                    ...executivesSelect_PersonFragment\n                }\n            }\n        }\n    }\n}",
         "usedFragments": [
           "executivesSelect_PersonFragment"
@@ -21,7 +21,7 @@
       {
         "id": "personDetailsModalContent_Query",
         "title": "personDetailsModalContent_Query",
-        "description": "",
+        "description": "Query to fetch details of a person and their assignments for display in a modal.",
         "code": "query personDetailsModalContent_Query($personId: ID!, $scenarioId: ID!) {\n    node(id: $personId) {\n        ... on Person {\n            ...personDetailsControl_PersonFragment @arguments(scenarioId: $scenarioId)\n        }\n    }\n    ...personDetailsControl_AssignmentListFragment\n        @arguments(filterByPerson: $personId, filterByScenario: $scenarioId)\n}",
         "usedFragments": [
           "personDetailsControl_PersonFragment",
@@ -31,7 +31,7 @@
       {
         "id": "PeopleTable_Query",
         "title": "PeopleTable_Query",
-        "description": "",
+        "description": "Query to fetch a paginated list of people for display in a table view.",
         "code": "query PeopleTable_Query($first: Int, $filterByName: String) {\n    ...PeopleTable_PeopleListFragment @arguments(first: $first, filterByName: $filterByName)\n}",
         "usedFragments": [
           "PeopleTable_PeopleListFragment"
@@ -40,7 +40,7 @@
       {
         "id": "PersonSelect_Query",
         "title": "PersonSelect_Query",
-        "description": "",
+        "description": "Query to fetch a list of people filtered by name, excluded IDs, or specific IDs to include.",
         "code": "query PersonSelect_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {\n    Staff {\n        People(\n            first: 20\n            excludeIds: $excludeIds\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n        ) {\n            edges {\n                node {\n                    ...PersonSelect_PersonFragment\n                }\n            }\n        }\n    }\n}",
         "usedFragments": [
           "PersonSelect_PersonFragment"
@@ -49,7 +49,7 @@
       {
         "id": "peopleSelect_Query",
         "title": "peopleSelect_Query",
-        "description": "",
+        "description": "Query to fetch a list of people filtered by name, excluded IDs, or specific IDs to include, using a different fragment.",
         "code": "query peopleSelect_Query($filterByName: String, $excludeIds: [ID!], $alwaysIncludeIds: [ID!]) {\n    Staff {\n        People(\n            first: 20\n            excludeIds: $excludeIds\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n        ) {\n            edges {\n                node {\n                    ...peopleSelect_PersonFragment\n                }\n            }\n        }\n    }\n}",
         "usedFragments": [
           "peopleSelect_PersonFragment"
@@ -58,7 +58,7 @@
       {
         "id": "selectUserInAccountField_PeopleQuery",
         "title": "selectUserInAccountField_PeopleQuery",
-        "description": "",
+        "description": "Query to fetch people associated with an account, filtered by name, excluded IDs, or specific IDs to include.",
         "code": "query selectUserInAccountField_PeopleQuery(\n    $accountId: ID!\n    $filterByName: String\n    $alwaysIncludeIds: [ID!]\n    $excludeIds: [ID!]\n    $first: Int\n) {\n    Assessment {\n        PeopleInAccount(\n            accountId: $accountId\n            first: $first\n            filterByName: $filterByName\n            alwaysIncludeIds: $alwaysIncludeIds\n            excludeIds: $excludeIds\n        ) {\n            edges {\n                node {\n                    ...selectUserInAccountField_PersonFragment\n                }\n            }\n        }\n    }\n}",
         "usedFragments": [
           "selectUserInAccountField_PersonFragment"
@@ -69,21 +69,21 @@
       {
         "id": "ChangePersonActivationButton_Mutation",
         "title": "ChangePersonActivationButton_Mutation",
-        "description": "",
+        "description": "Mutation to activate or deactivate a person.",
         "code": "mutation ChangePersonActivationButton_Mutation($input: SetPersonActivationInput!) {\n    Staff {\n        setPersonActivation(input: $input) {\n            edge {\n                node {\n                    id\n                    isDeactivated\n                }\n            }\n        }\n    }\n}",
         "usedFragments": []
       },
       {
         "id": "DeletePeopleButton_DeleteMutation",
         "title": "DeletePeopleButton_DeleteMutation",
-        "description": "",
+        "description": "Mutation to delete people and remove them from associated connections.",
         "code": "mutation DeletePeopleButton_DeleteMutation($input: DeletePersonInput!, $connections: [ID!]!) {\n    Staff {\n        deletePerson(input: $input) {\n            deletedIds @deleteEdge(connections: $connections)\n        }\n    }\n\n}",
         "usedFragments": []
       },
       {
         "id": "EditPersonModal_CreateMutation",
         "title": "EditPersonModal_CreateMutation",
-        "description": "",
+        "description": "Mutation to create a new person and append them to a connection.",
         "code": "mutation EditPersonModal_CreateMutation($input: CreatePersonInput!, $connections: [ID!]!) {\n    Staff {\n        createPerson(input: $input) {\n            edge @appendEdge(connections: $connections) {\n                node {\n                    id\n                    ...EditPersonButton_PersonFragment\n                }\n            }\n        }\n    }\n}",
         "usedFragments": [
           "EditPersonButton_PersonFragment"
