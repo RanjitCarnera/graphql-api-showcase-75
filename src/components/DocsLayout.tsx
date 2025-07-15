@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
 import { Code, BookOpen, Play, Database, Lock, Server, Cpu, Globe, Hash, Briefcase, Users, Puzzle, FileStack, MapPin, Award, Tag, UserCheck, Settings, Shield, Building, Layout, Search, FileText } from "lucide-react";
@@ -17,7 +16,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
           <div className="flex items-center justify-between mb-6">
             <SidebarTrigger />
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold">GraphQL API Documentation</h1>
+              <h1 className="text-2xl font-bold">API Documentation</h1>
             </div>
           </div>
           <div className="container mx-auto">{children}</div>
@@ -32,7 +31,7 @@ function DocsSidebar() {
     <Sidebar className="bg-docs-sidebar border-r border-docs-border">
       <div className="p-4 border-b border-docs-border">
         <h2 className="text-xl font-bold text-docs-primary">API Docs</h2>
-        <p className="text-sm text-gray-500">v1.0.0</p>
+        <p className="text-sm text-gray-500">GraphQL & REST v1.0.0</p>
       </div>
       <SidebarContent>
         <SidebarGroup>
@@ -59,7 +58,7 @@ function DocsSidebar() {
                 <SidebarMenuButton asChild>
                   <Link to="/playground">
                     <Code size={18} />
-                    <span>Playground</span>
+                    <span>API Playground</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -76,7 +75,7 @@ function DocsSidebar() {
         </SidebarGroup>
         
         <SidebarGroup>
-          <SidebarGroupLabel>Schema</SidebarGroupLabel>
+          <SidebarGroupLabel>GraphQL Schema</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
