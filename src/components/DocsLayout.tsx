@@ -75,14 +75,22 @@ function DocsSidebar() {
         </SidebarGroup>
         
         <SidebarGroup>
-          <SidebarGroupLabel>GraphQL Schema</SidebarGroupLabel>
+          <SidebarGroupLabel>API References</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <Link to="/rest-api">
+                    <Globe size={18} />
+                    <span>REST API</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <Link to="/queries">
                     <Database size={18} />
-                    <span>Queries</span>
+                    <span>GraphQL Queries</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -90,7 +98,7 @@ function DocsSidebar() {
                 <SidebarMenuButton asChild>
                   <Link to="/fragments">
                     <Puzzle size={18} />
-                    <span>Fragments</span>
+                    <span>GraphQL Fragments</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -98,7 +106,7 @@ function DocsSidebar() {
                 <SidebarMenuButton asChild>
                   <Link to="/mutations">
                     <FileText size={18} />
-                    <span>Mutations</span>
+                    <span>GraphQL Mutations</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -106,7 +114,7 @@ function DocsSidebar() {
                 <SidebarMenuButton asChild>
                   <Link to="/types">
                     <Hash size={18} />
-                    <span>Types</span>
+                    <span>GraphQL Types</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

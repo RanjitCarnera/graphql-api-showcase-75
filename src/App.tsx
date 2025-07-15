@@ -1,163 +1,75 @@
 import React from 'react';
-import './App.css';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Index from '@/pages/Index';
+import GettingStarted from '@/pages/GettingStarted';
+import Playground from '@/pages/Playground';
+import RestAPI from '@/pages/RestAPI';
+import Queries from '@/pages/Queries';
+import Mutations from '@/pages/Mutations';
+import Types from '@/pages/Types';
+import Auth from '@/pages/Auth';
+import Examples from '@/pages/Examples';
+import SDKs from '@/pages/SDKs';
+import CORS from '@/pages/CORS';
+import Projects from '@/pages/Projects';
+import People from '@/pages/People';
+import Scenarios from '@/pages/Scenarios';
+import AssignmentRoles from '@/pages/AssignmentRoles';
+import SkillCategories from '@/pages/SkillCategories';
+import Skills from '@/pages/Skills';
+import Divisions from '@/pages/Divisions';
+import Regions from '@/pages/Regions';
+import Assessments from '@/pages/Assessments';
+import AssessmentTemplates from '@/pages/AssessmentTemplates';
+import StaffingTemplates from '@/pages/StaffingTemplates';
+import Tags from '@/pages/Tags';
+import Assignments from '@/pages/Assignments';
+import AccountUsers from '@/pages/AccountUsers';
+import AccountPermissionsGroups from '@/pages/AccountPermissionsGroups';
+import AccountSettings from '@/pages/AccountSettings';
+import Fragments from '@/pages/Fragments';
+import SearchPage from '@/pages/Search';
 
-// Import pages
-import Index from './pages/Index';
-import GettingStarted from './pages/GettingStarted';
-import Queries from './pages/Queries';
-import Mutations from './pages/Mutations';
-import Fragments from './pages/Fragments';
-import Types from './pages/Types';
-import Auth from './pages/Auth';
-import CORS from './pages/CORS';
-import Examples from './pages/Examples';
-import SDKs from './pages/SDKs';
-import NotFound from './pages/NotFound';
-import Playground from './pages/Playground';
-import Search from './pages/Search';
-import People from './pages/People';
-import Projects from './pages/Projects';
-import Scenarios from './pages/Scenarios';
-import AssignmentRoles from './pages/AssignmentRoles';
-import SkillCategories from './pages/SkillCategories';
-import Skills from './pages/Skills';
-import Divisions from './pages/Divisions';
-import Regions from './pages/Regions';
-import Assessments from './pages/Assessments';
-import AssessmentTemplates from './pages/AssessmentTemplates';
-import StaffingTemplates from './pages/StaffingTemplates';
-import Tags from './pages/Tags';
-import Assignments from './pages/Assignments';
-import AccountUsers from './pages/AccountUsers';
-import AccountPermissionsGroups from './pages/AccountPermissionsGroups';
-import AccountSettings from './pages/AccountSettings';
-import SkillAssessment from './pages/SkillAssessment';
-
-// Define routes
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Index />,
-    errorElement: <NotFound />
-  },
-  {
-    path: "/getting-started",
-    element: <GettingStarted />
-  },
-  {
-    path: "/queries",
-    element: <Queries />
-  },
-  {
-    path: "/mutations",
-    element: <Mutations />
-  },
-  {
-    path: "/fragments",
-    element: <Fragments />
-  },
-  {
-    path: "/types",
-    element: <Types />
-  },
-  {
-    path: "/auth",
-    element: <Auth />
-  },
-  {
-    path: "/cors",
-    element: <CORS />
-  },
-  {
-    path: "/examples",
-    element: <Examples />
-  },
-  {
-    path: "/sdks",
-    element: <SDKs />
-  },
-  {
-    path: "/playground",
-    element: <Playground />
-  },
-  {
-    path: "/search",
-    element: <Search />
-  },
-  {
-    path: "/people",
-    element: <People />
-  },
-  {
-    path: "/projects",
-    element: <Projects />
-  },
-  {
-    path: "/scenarios",
-    element: <Scenarios />
-  },
-  {
-    path: "/assignment-roles",
-    element: <AssignmentRoles />
-  },
-  {
-    path: "/skill-categories",
-    element: <SkillCategories />
-  },
-  {
-    path: "/skills",
-    element: <Skills />
-  },
-  {
-    path: "/skills-assessment",
-    element: <SkillAssessment />
-  },
-  {
-    path: "/divisions",
-    element: <Divisions />
-  },
-  {
-    path: "/regions",
-    element: <Regions />
-  },
-  {
-    path: "/assessments",
-    element: <Assessments />
-  },
-  {
-    path: "/assessment-templates",
-    element: <AssessmentTemplates />
-  },
-  {
-    path: "/staffing-templates",
-    element: <StaffingTemplates />
-  },
-  {
-    path: "/tags",
-    element: <Tags />
-  },
-  {
-    path: "/assignments",
-    element: <Assignments />
-  },
-  {
-    path: "/account-users",
-    element: <AccountUsers />
-  },
-  {
-    path: "/account-permissions-groups",
-    element: <AccountPermissionsGroups />
-  },
-  {
-    path: "/account-settings",
-    element: <AccountSettings />
-  }
-]);
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/getting-started" element={<GettingStarted />} />
+          <Route path="/playground" element={<Playground />} />
+          <Route path="/rest-api" element={<RestAPI />} />
+          <Route path="/queries" element={<Queries />} />
+          <Route path="/mutations" element={<Mutations />} />
+          <Route path="/types" element={<Types />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/examples" element={<Examples />} />
+          <Route path="/sdks" element={<SDKs />} />
+          <Route path="/cors" element={<CORS />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/people" element={<People />} />
+          <Route path="/scenarios" element={<Scenarios />} />
+          <Route path="/assignment-roles" element={<AssignmentRoles />} />
+          <Route path="/skill-categories" element={<SkillCategories />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/divisions" element={<Divisions />} />
+          <Route path="/regions" element={<Regions />} />
+          <Route path="/assessments" element={<Assessments />} />
+          <Route path="/assessment-templates" element={<AssessmentTemplates />} />
+          <Route path="/staffing-templates" element={<StaffingTemplates />} />
+          <Route path="/tags" element={<Tags />} />
+          <Route path="/assignments" element={<Assignments />} />
+          <Route path="/account-users" element={<AccountUsers />} />
+          <Route path="/account-permissions-groups" element={<AccountPermissionsGroups />} />
+          <Route path="/account-settings" element={<AccountSettings />} />
+          <Route path="/fragments" element={<Fragments />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
