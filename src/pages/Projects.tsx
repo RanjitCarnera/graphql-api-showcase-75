@@ -2,17 +2,50 @@ import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import OperationCard from '@/components/graphql/OperationCard';
+import RestApiCard from '@/components/RestApiCard';
 import operationsData from '@/data/projectOperations.json';
 import { useFragmentScroll } from '../lib/utils';
 
 const Projects = () => {
-
   const [activeTab, setActiveTab] = React.useState("queries");
   const {
     fragmentRefs,
     scrollToFragment,
     fragmentIdToRefKey
   } = useFragmentScroll();
+
+  const restApiEndpoints = [
+    {
+      id: "create-project",
+      title: "Create Project",
+      description: "Create a new project record.",
+      method: "POST" as const,
+      url: "http://localhost:9000/api/projects",
+      headers: {
+        "content-type": "application/json",
+        "Authorization": " "
+      },
+      body: {
+        "name": "New Construction Project",
+        "description": "A sample project"
+      }
+    },
+    {
+      id: "list-projects",
+      title: "Get Projects List",
+      description: "Retrieve a list of projects with optional filtering.",
+      method: "POST" as const,
+      url: "http://localhost:9000/api/projects/list",
+      headers: {
+        "content-type": "application/json",
+        "Authorization": " "
+      },
+      body: {
+        "first": 20,
+        "filterByName": "Construction"
+      }
+    }
+  ];
 
   return (
     <DocsLayout>
@@ -27,10 +60,11 @@ const Projects = () => {
         
          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-8">
            <TabsList className="mb-4">
-             <TabsTrigger value="queries">Queries</TabsTrigger>
-             <TabsTrigger value="mutations">Mutations</TabsTrigger>
-             <TabsTrigger value="fragments">Fragments</TabsTrigger>
-           </TabsList>
+              <TabsTrigger value="queries">Queries</TabsTrigger>
+              <TabsTrigger value="mutations">Mutations</TabsTrigger>
+              <TabsTrigger value="fragments">Fragments</TabsTrigger>
+              <TabsTrigger value="rest-api">REST API</TabsTrigger>
+            </TabsList>
           
           <TabsContent value="queries" className="space-y-6">
             <h2 className="text-2xl font-bold mb-4">Queries</h2>
@@ -113,6 +147,17 @@ const Projects = () => {
               );              
             })}
             </>}
+          </TabsContent>
+          
+          <TabsContent value="rest-api" className="space-y-6">
+            <h2 className="text-2xl font-bold mb-4">REST API</h2>
+            <p className="mb-4">
+              Use these REST API endpoints to interact with projects programmatically.
+            </p>
+            
+            {restApiEndpoints.map((endpoint) => (
+              <RestApiCard key={endpoint.id} endpoint={endpoint} />
+            ))}
           </TabsContent>
         </Tabs>
 

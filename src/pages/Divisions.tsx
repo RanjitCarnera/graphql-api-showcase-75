@@ -31,6 +31,7 @@ const Divisions = () => {
             <TabsTrigger value="queries">Queries</TabsTrigger>
             <TabsTrigger value="mutations">Mutations</TabsTrigger>
             <TabsTrigger value="fragments">Fragments</TabsTrigger>
+            <TabsTrigger value="rest-api">REST API</TabsTrigger>
           </TabsList>
           
           <TabsContent value="queries" className="space-y-6">

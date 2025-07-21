@@ -3,6 +3,7 @@ import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import OperationCard from '@/components/graphql/OperationCard';
+import RestApiCard from '@/components/RestApiCard';
 import operationsData from '@/data/skillsOperations.json';
 import { useFragmentScroll } from '../lib/utils';
 
@@ -29,6 +30,7 @@ const Skills = () => {
             <TabsTrigger value="queries">Queries</TabsTrigger>
             <TabsTrigger value="mutations">Mutations</TabsTrigger>
             <TabsTrigger value="fragments">Fragments</TabsTrigger>
+            <TabsTrigger value="rest-api">REST API</TabsTrigger>
           </TabsList>
           
           <TabsContent value="queries" className="space-y-6">
@@ -112,6 +114,20 @@ const Skills = () => {
               );              
             })}
             </>}
+          </TabsContent>
+          
+          <TabsContent value="rest-api" className="space-y-6">
+            <h2 className="text-2xl font-bold mb-4">REST API</h2>
+            <p className="mb-4">Use these REST API endpoints to interact with skills programmatically.</p>
+            <RestApiCard endpoint={{
+              id: "list-skills",
+              title: "Get Skills List", 
+              description: "Retrieve skills with filtering.",
+              method: "POST" as const,
+              url: "http://localhost:9000/api/skills/list",
+              headers: { "content-type": "application/json", "Authorization": " " },
+              body: { "first": 20, "filterByName": "JavaScript" }
+            }} />
           </TabsContent>
         </Tabs>
       </div>

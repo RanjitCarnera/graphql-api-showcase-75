@@ -3,19 +3,52 @@ import React from 'react';
 import DocsLayout from '@/components/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import OperationCard from '@/components/graphql/OperationCard';
+import RestApiCard from '@/components/RestApiCard';
 import operationsData from '@/data/peopleOperations.json';
 import PeopleIntroduction from '@/components/people/PeopleIntroduction';
 import RelatedResources from '@/components/people/RelatedResources';
 import { useFragmentScroll } from '../lib/utils';
 
 const People = () => {
-
     const [activeTab, setActiveTab] = React.useState("queries");
     const {
       fragmentRefs,
       scrollToFragment,
       fragmentIdToRefKey
     } = useFragmentScroll();
+
+    const restApiEndpoints = [
+      {
+        id: "create-person",
+        title: "Create Person",
+        description: "Create a new person record.",
+        method: "POST" as const,
+        url: "http://localhost:9000/api/people",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": " "
+        },
+        body: {
+          "name": "John Doe",
+          "email": "john@example.com"
+        }
+      },
+      {
+        id: "list-people",
+        title: "Get People List",
+        description: "Retrieve a list of people with optional filtering.",
+        method: "POST" as const,
+        url: "http://localhost:9000/api/people/list",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": " "
+        },
+        body: {
+          "first": 20,
+          "filterByName": "John"
+        }
+      }
+    ];
 
   return (
     <DocsLayout>
@@ -27,6 +60,7 @@ const People = () => {
             <TabsTrigger value="queries">Queries</TabsTrigger>
             <TabsTrigger value="mutations">Mutations</TabsTrigger>
             <TabsTrigger value="fragments">Fragments</TabsTrigger>
+            <TabsTrigger value="rest-api">REST API</TabsTrigger>
           </TabsList>
           
           <TabsContent value="queries" className="space-y-6">
@@ -110,6 +144,17 @@ const People = () => {
               );              
             })}
             </>}
+          </TabsContent>
+          
+          <TabsContent value="rest-api" className="space-y-6">
+            <h2 className="text-2xl font-bold mb-4">REST API</h2>
+            <p className="mb-4">
+              Use these REST API endpoints to interact with people programmatically.
+            </p>
+            
+            {restApiEndpoints.map((endpoint) => (
+              <RestApiCard key={endpoint.id} endpoint={endpoint} />
+            ))}
           </TabsContent>
         </Tabs>
       </div>
