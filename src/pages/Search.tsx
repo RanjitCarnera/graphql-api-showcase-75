@@ -6,7 +6,7 @@ import GraphQLSearch from '@/components/GraphQLSearch';
 const Search = () => {
   return (
     <DocsLayout>
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto text-center">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-4">GraphQL Operation Search</h1>
           <p className="text-gray-600">

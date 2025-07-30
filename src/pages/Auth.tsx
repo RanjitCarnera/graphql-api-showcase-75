@@ -147,7 +147,7 @@ fetch('https://your-api.example/graphql', {
 
   return (
     <DocsLayout>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-3xl font-bold mb-6">Authentication</h1>
         
         <section className="docs-section">
