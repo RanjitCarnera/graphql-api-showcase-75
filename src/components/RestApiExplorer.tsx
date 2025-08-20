@@ -5,8 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Trash2, Send, Copy } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Plus, Trash2, Send, Copy, Clock, Check, X, Code } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 interface Header {
@@ -163,186 +163,230 @@ const RestApiExplorer = () => {
     }
   };
 
+  const getMethodBadgeColor = (method: string) => {
+    switch (method) {
+      case 'GET': return 'bg-blue-100 text-blue-800 hover:bg-blue-200';
+      case 'POST': return 'bg-green-100 text-green-800 hover:bg-green-200';
+      case 'PUT': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200';
+      case 'PATCH': return 'bg-purple-100 text-purple-800 hover:bg-purple-200';
+      case 'DELETE': return 'bg-red-100 text-red-800 hover:bg-red-200';
+      default: return 'bg-gray-100 text-gray-800 hover:bg-gray-200';
+    }
+  };
+
+  const getStatusIcon = () => {
+    if (loading) return <Clock className="w-4 h-4 animate-spin" />;
+    if (!response) return <Send className="w-4 h-4" />;
+    return response.status >= 200 && response.status < 300 ? 
+      <Check className="w-4 h-4 text-green-600" /> : 
+      <X className="w-4 h-4 text-red-600" />;
+  };
+
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Send className="w-5 h-5" />
-            REST API Explorer
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Quick Examples */}
-          <div className="flex gap-2 mb-4">
+    <div className="space-y-6 max-w-6xl mx-auto">
+      {/* Quick Examples */}
+      <Card className="border-dashed">
+        <CardContent className="pt-6">
+          <div className="text-center mb-4">
+            <h3 className="text-lg font-semibold mb-2">Quick Start Examples</h3>
+            <p className="text-muted-foreground text-sm">Choose a template to get started quickly</p>
+          </div>
+          <div className="flex justify-center gap-3 flex-wrap">
             <Button 
               variant="outline" 
-              size="sm" 
               onClick={() => loadExample('graphql')}
+              className="flex items-center gap-2"
             >
-              GraphQL Example
+              <Code className="w-4 h-4" />
+              GraphQL Query
             </Button>
             <Button 
               variant="outline" 
-              size="sm" 
               onClick={() => loadExample('rest-get')}
+              className="flex items-center gap-2"
             >
-              REST GET
+              <Badge className={getMethodBadgeColor('GET')}>GET</Badge>
+              REST API
             </Button>
             <Button 
               variant="outline" 
-              size="sm" 
               onClick={() => loadExample('rest-post')}
+              className="flex items-center gap-2"
             >
-              REST POST
+              <Badge className={getMethodBadgeColor('POST')}>POST</Badge>
+              Create Data
             </Button>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Method and URL */}
-          <div className="flex gap-2">
-            <Select value={method} onValueChange={setMethod}>
-              <SelectTrigger className="w-32">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="GET">GET</SelectItem>
-                <SelectItem value="POST">POST</SelectItem>
-                <SelectItem value="PUT">PUT</SelectItem>
-                <SelectItem value="PATCH">PATCH</SelectItem>
-                <SelectItem value="DELETE">DELETE</SelectItem>
-                <SelectItem value="HEAD">HEAD</SelectItem>
-                <SelectItem value="OPTIONS">OPTIONS</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input
-              placeholder="Enter API endpoint URL"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              className="flex-1"
-            />
-            <Button 
-              onClick={sendRequest} 
-              disabled={loading || !url}
-              className="w-24"
-            >
-              {loading ? 'Sending...' : 'Send'}
-            </Button>
-          </div>
+      {/* Main API Explorer */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Request Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Send className="w-5 h-5" />
+              Request Configuration
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Method and URL */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">API Endpoint</Label>
+              <div className="flex gap-2">
+                <Select value={method} onValueChange={setMethod}>
+                  <SelectTrigger className="w-28">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].map(m => (
+                      <SelectItem key={m} value={m}>
+                        <Badge className={getMethodBadgeColor(m)}>{m}</Badge>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input
+                  placeholder="https://api.example.com/endpoint"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  className="flex-1"
+                />
+              </div>
+            </div>
 
-          <Tabs defaultValue="headers" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="headers">Headers</TabsTrigger>
-              <TabsTrigger value="body">Body</TabsTrigger>
-              <TabsTrigger value="response">Response</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="headers" className="space-y-4">
+            {/* Headers */}
+            <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <Label className="text-sm font-medium">Request Headers</Label>
-                <Button variant="outline" size="sm" onClick={addHeader}>
+                <Label className="text-sm font-medium">Headers</Label>
+                <Button variant="ghost" size="sm" onClick={addHeader}>
                   <Plus className="w-4 h-4 mr-1" />
-                  Add Header
+                  Add
                 </Button>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-40 overflow-y-auto">
                 {headers.map((header, index) => (
                   <div key={index} className="flex gap-2 items-center">
                     <Input
-                      placeholder="Header name"
+                      placeholder="Key"
                       value={header.key}
                       onChange={(e) => updateHeader(index, 'key', e.target.value)}
-                      className="flex-1"
+                      className="flex-1 text-sm"
                     />
                     <Input
-                      placeholder="Header value"
+                      placeholder="Value"
                       value={header.value}
                       onChange={(e) => updateHeader(index, 'value', e.target.value)}
-                      className="flex-1"
+                      className="flex-1 text-sm"
                     />
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       size="sm"
                       onClick={() => removeHeader(index)}
+                      className="p-1 h-8 w-8"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
                 ))}
               </div>
-            </TabsContent>
+            </div>
 
-            <TabsContent value="body" className="space-y-4">
+            {/* Request Body */}
+            <div className="space-y-3">
               <Label className="text-sm font-medium">Request Body</Label>
               <Textarea
-                placeholder="Enter request body (JSON, XML, etc.)"
+                placeholder={method === 'GET' || method === 'HEAD' ? 
+                  'Request body not applicable for this method' : 
+                  '{\n  "key": "value"\n}'
+                }
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
-                className="min-h-32 font-mono text-sm"
+                className="min-h-32 font-mono text-sm resize-none"
                 disabled={method === 'GET' || method === 'HEAD'}
               />
-              {(method === 'GET' || method === 'HEAD') && (
-                <p className="text-sm text-muted-foreground">
-                  Request body is not applicable for {method} requests
-                </p>
-              )}
-            </TabsContent>
+            </div>
 
-            <TabsContent value="response" className="space-y-4">
-              {response ? (
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-4">
-                      <Label className="text-sm font-medium">Response</Label>
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                        response.status >= 200 && response.status < 300 
-                          ? 'bg-green-100 text-green-800' 
-                          : response.status >= 400 
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {response.status} {response.statusText}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {response.duration}ms
-                      </span>
-                    </div>
-                    <Button variant="outline" size="sm" onClick={copyResponse}>
-                      <Copy className="w-4 h-4 mr-1" />
-                      Copy
-                    </Button>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <Label className="text-sm font-medium mb-2 block">Response Body</Label>
-                      <pre className="bg-muted p-4 rounded-md overflow-auto max-h-64 text-sm">
-                        <code>
-                          {typeof response.data === 'string' 
-                            ? response.data 
-                            : JSON.stringify(response.data, null, 2)
-                          }
-                        </code>
-                      </pre>
-                    </div>
-                    
-                    <div>
-                      <Label className="text-sm font-medium mb-2 block">Response Headers</Label>
-                      <pre className="bg-muted p-4 rounded-md overflow-auto max-h-32 text-sm">
-                        <code>{JSON.stringify(response.headers, null, 2)}</code>
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Send className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>Send a request to see the response here</p>
+            {/* Send Button */}
+            <Button 
+              onClick={sendRequest} 
+              disabled={loading || !url}
+              className="w-full flex items-center gap-2"
+              size="lg"
+            >
+              {getStatusIcon()}
+              {loading ? 'Sending Request...' : 'Send Request'}
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Response Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Code className="w-5 h-5" />
+                Response
+              </div>
+              {response && (
+                <div className="flex items-center gap-3">
+                  <Badge className={`${
+                    response.status >= 200 && response.status < 300 
+                      ? 'bg-green-100 text-green-800' 
+                      : response.status >= 400 
+                      ? 'bg-red-100 text-red-800'
+                      : 'bg-yellow-100 text-yellow-800'
+                  }`}>
+                    {response.status} {response.statusText}
+                  </Badge>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    {response.duration}ms
+                  </span>
+                  <Button variant="ghost" size="sm" onClick={copyResponse}>
+                    <Copy className="w-4 h-4" />
+                  </Button>
                 </div>
               )}
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {response ? (
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium mb-2 block">Response Body</Label>
+                  <div className="bg-muted rounded-lg p-4 max-h-80 overflow-auto">
+                    <pre className="text-sm">
+                      <code>
+                        {typeof response.data === 'string' 
+                          ? response.data 
+                          : JSON.stringify(response.data, null, 2)
+                        }
+                      </code>
+                    </pre>
+                  </div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium mb-2 block">Response Headers</Label>
+                  <div className="bg-muted rounded-lg p-4 max-h-32 overflow-auto">
+                    <pre className="text-sm">
+                      <code>{JSON.stringify(response.headers, null, 2)}</code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-12 text-muted-foreground">
+                <Send className="w-16 h-16 mx-auto mb-4 opacity-30" />
+                <h3 className="text-lg font-medium mb-2">No Response Yet</h3>
+                <p className="text-sm">Configure your request and click "Send Request" to see the response here</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
